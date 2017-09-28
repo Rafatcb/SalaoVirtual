@@ -18,26 +18,23 @@ O sistema contará com funções como: agendamento, gerenciamento de fornecedore
 ***
 ### Definição das Primeiras Classes
 * **Funcionário**
-  * **Atributos:** CPF, Nome, Telefone, Salário, Cargo.
+  * **Atributos:** Login, Senha, Nome, CPF, Telefone, Endereço (Rua, Número, Complemento, Cidade, Estado).
   * **Descrição:** Funcionário do salão de beleza.
 * **Cliente**
-  * **Atributos:** CPF, Nome, Telefone, E-mail, Data de nascimento.
+  * **Atributos:** Código, Nome, Data de Nascimento, CPF, E-mail, Telefone.
   * **Descrição:** Cliente do salão de beleza.
 * **Fornecedor**
-  * **Atributos:** CNPJ, Nome, Telefone, E-mail, Tipo de Produto, Marca.
-  * **Descrição:** Fornecedor de produtos para o salão de beleza (para consumo e para venda). O atributo Tipo de Produto representa o que é fornecido (produtos para cabelo, maquiagem, esmalte etc.). O atributo Marca é para o caso do Fornecedor representar uma marca de produto em específico.
+  * **Atributos:** Código, Nome, CNPJ, Telefone, E-mail, Endereço (Rua, Número, Complemento, Cidade, Estado).
+  * **Descrição:** Fornecedor de produtos para o salão de beleza.
 * **Serviço**
-  * **Atributos:** Nome, Preço Base, Descrição.
-  * **Descrição:** Serviço oferecido pelo salão de beleza. O atributo Nome representa o serviço em si (corte, depilação, manicure etc.), o Preço Base possui esse nome pois o valor pode ser alterado conforme as necessidades do cliente, e a Descrição é um campo opcional para descrever os detalhes do serviço, se necessário.
+  * **Atributos:** Código, Nome, Valor, Data, Estado {Agendado, Realizado, Cancelado}.
+  * **Descrição:** Serviço oferecido pelo salão de beleza. O atributo Nome representa o serviço em si (corte, depilação, manicure etc.), o Estado serve para possuir um melhor controle sobre a quantidade de serviços Cancelados vs Realizados em um relatório, por exemplo.
 * **Produto**
-  * **Atributos:** Nome, Marca, Preço, Descrição, Quantidade em Estoque.
-  * **Descrição:** Produto utilizado pelo salão de beleza em um serviço ou vendido à um cliente. O atributo Descrição é um campo opcional que contém detalhes do produto, caso necessário.
+  * **Atributos:** Código, Nome, Marca, Unidade, Quantidade Unitária, Valor, Quantidade em Estoque, Quantidade Mínima de Estoque.
+  * **Descrição:** Produto utilizado pelo salão de beleza em um serviço ou vendido à um cliente. O atributo Quantidade Unitária serve para indicar a quantidade que uma unidade pode fornecer. Por exemplo, um Shampoo possui como Unidade ml (mililitros) e como Quantidade Unitária 750, pois em uma unidade vem 750ml.
 * **Venda**
-  * **Atributos:** Cliente, Funcionário, Serviço, Produto, Data, Preço Total, Forma de Pagamento.
-  * **Descrição:** Venda realizada pelo salão de beleza à um cliente. Possui como atributos o Cliente, Funcionário(s), Serviço(s) e/ou Produto(s) relacionados à venda. Além disso, possui a Data em que a venda foi realizada.
+  * **Atributos:** Código, Cliente, Funcionário, Serviço, Produto, Data, Forma de Pagamento.
+  * **Descrição:** Venda realizada pelo salão de beleza à um cliente. Possui como atributos o Cliente, Funcionário(s), Serviço(s) e/ou Produto(s) relacionados à venda. Além disso, possui a Data em que a venda foi realizada. O valor total será calculado através de uma operação.
 * **Compra**
-  * **Atributos:** Fornecedor, Produto, Data, Preço Total, Forma de Pagamento.
+  * **Atributos:** Código, Fornecedor, Produto, Data, Quantidade, Valor.
   * **Descrição:** Compra realizada pelo salão de beleza em relação à um fornecedor. Contém o Fornecedor e o(s) respectivo(s) Produto(s) comprados, além da Data da compra.
-* **Agenda**
-  * **Atributos:** Data, Horário, Cliente, Serviço, Funcionário.
-  * **Descrição:** Agendamento de um serviço destinado à um cliente. Possui a Data e Horário do atendimento, além de, opcionalmente, o Funcionário responsável pelo serviço.
