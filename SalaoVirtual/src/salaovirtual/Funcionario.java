@@ -12,20 +12,26 @@ package salaovirtual;
 public class Funcionario {
     private final String login;
     private String senha;
-    private final String cpf;
+    private String cpf;
     private String nome;
     private String telefone;
     private String rua;
     private int numero;
+    private String complemento;
     private String cidade;
     private String estado;
 
-    public Funcionario(String l, String s, String c, String n, String t) {
-        this.login = l;
-        this.cpf = c;
-        this.setSenha(s);
-        this.setNome(n);
-        this.setTelefone(telefone);
+    public void validarLoginSenha(String login, String senha) throws FuncionarioInvalidoException {
+        if ((!this.login.equals(login)) || (!this.senha.equals(Criptografar.criptografarMD5(senha)))) { // Se inválido
+            throw new FuncionarioInvalidoException();
+        }
+    }
+    
+    /* Métodos Construtores + Getters & Setters */
+    public Funcionario(String login, String senha, String cpf, String ome, String t) {
+        this.login = login;
+        this.setSenha(senha);
+        this.setNome(nome);
     }
 
     public String getLogin() {
@@ -41,7 +47,7 @@ public class Funcionario {
     }
 
     public void setSenha(String senha) {
-        this.senha = senha;
+        this.senha = Criptografar.criptografarMD5(senha);
     }
 
     public String getNome() {
@@ -91,7 +97,12 @@ public class Funcionario {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-    
-    
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
 }

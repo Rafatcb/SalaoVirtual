@@ -9,29 +9,42 @@ package salaovirtual;
  *
  * @author r176257
  */
-public class Cartao {
-    private String tipo; // Crédito ou débito
-    private double valorParcela;
-    private int qtdParcelas;
+public class Cartao extends FormaDePagamento {
+    private String tipo; // Crédito ou Débito
+    private static final double taxaDebito = 2.4;
+    private static final double taxaCredito = 3.2;
+    private int qtdParcelas = 1;
 
+    /* Métodos Construtores + Getters & Setters */
+    public Cartao(int codigo, double valorVenda, int id) {
+        super(codigo, valorVenda, id);
+    }
+    
     public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setTipo(String tipo) throws TipoDeCartaoInvalidoException {
+        if (tipo.equals("Crédito") || tipo.equals("Débito")) {
+            this.tipo = tipo;
+        }
+        else
+            throw new TipoDeCartaoInvalidoException();
     }
 
-    public double getValorParcela() {
-        return valorParcela;
-    }
-
-    public void setValorParcela(double valorParcela) {
-        this.valorParcela = valorParcela;
+    public double getTaxa() throws TipoDeCartaoInvalidoException {
+        switch (tipo) {
+            case "Crédito":
+                return Cartao.taxaCredito;
+            case "Débito":
+                return Cartao.taxaDebito;
+            default:            
+                throw new TipoDeCartaoInvalidoException();
+        }
     }
 
     public int getQtdParcelas() {
-        return qtdParcelas;
+        return this.qtdParcelas;
     }
 
     public void setQtdParcelas(int qtdParcelas) {

@@ -10,7 +10,7 @@ package salaovirtual;
  * @author r176257
  */
 public class Fornecedor {
-    // private int codigo; Depois precisará colocar o código por causa do banco de dados
+    private final int codigo; 
     private final String cnpj;
     private String nome;
     private String telefone;
@@ -19,12 +19,24 @@ public class Fornecedor {
     private int numero;
     private String cidade;
     private String estado;
+    private String complemento;
     // Aqui precisará ter uma lista de produtos que este fornecedor fornece
 
-    public Fornecedor(String c, String n, String t) {
-        this.cnpj = c;
-        this.setNome(n);
-        this.setTelefone(t);
+    public Fornecedor(int codigo, String cnpj) {
+        this.codigo = codigo;
+        this.cnpj = cnpj;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
+    public int getCodigo() {
+        return codigo;
     }
 
     public String getCnpj() {

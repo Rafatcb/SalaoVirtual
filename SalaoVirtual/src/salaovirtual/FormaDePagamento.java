@@ -11,30 +11,26 @@ package salaovirtual;
  * @author faad2
  */
 public class FormaDePagamento {
-    // private int codigo; Depois precisará colocar o código por causa do banco de dados
-    private double valorTotal;
-    private int identificador;
+    private final int codigo;
+    private double valorTotal;  // Arrumar valor monetário
+    private final int identificador;  // 0 - Cartão; 1 - Dinheiro
 
-    public FormaDePagamento(double valor, int id){
+    /* Métodos Construtores + Getters & Setters */
+    public FormaDePagamento(int codigo, double valor, int id){
         this.identificador = id;
-        this.valorTotal = valor;
+        setValorTotal(valor);
+        this.codigo = codigo;
     }
     
     public double getValorTotal() {
         return valorTotal;
     }
 
-    public void setValorTotal(int valorTotal) {
+    public void setValorTotal(double valorTotal) {
         this.valorTotal = valorTotal;
     }
 
     public int getIdentificador() {
         return identificador;
     }
-
-    public void setIdentificador(int identificador) {
-        this.identificador = identificador;
-    }
-    
-    
 }

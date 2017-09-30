@@ -11,27 +11,14 @@ package salaovirtual;
  * @author faad2
  */
 public class Dinheiro extends FormaDePagamento{
-    private double valorRecebido;
-    private double troco;
+    private final double valorRecebido;
 
-    public Dinheiro(double valor, int id) {
-        super(valor, id);
-    }
-    
-    public void Dinheiro(double valorRecebido){
+    public Dinheiro(int codigo, double valorVenda, int id, double valorRecebido) {
+        super(codigo, valorVenda, id);
         this.valorRecebido = valorRecebido;
-        calcularTroco(valorRecebido, troco);
     }
     
-    public void calcularTroco(double valorRecebido, double troco){
-        this.setTroco(valorRecebido - this.getValorTotal());
-    }
-
-    public double getTroco() {
-        return troco;
-    }
-    
-    private void setTroco(double t) {
-        this.troco = t;
+    public double calcularTroco(double valorRecebido){
+        return (valorRecebido - this.getValorTotal());
     }
 }
