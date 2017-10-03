@@ -4,12 +4,14 @@
  * and open the template in the editor.
  */
 package salaovirtual;
-
+import java.util.ArrayList;
 /**
  *
  * @author r176257
  */
 public class Funcionario {
+    ArrayList<Funcionario> funcionarios = new ArrayList(); 
+    
     private final String login;
     private String senha;
     private final String cpf;

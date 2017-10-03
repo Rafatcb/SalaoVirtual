@@ -4,12 +4,14 @@
  * and open the template in the editor.
  */
 package salaovirtual;
+import java.util.ArrayList;
 
 /**
  *
  * @author r176257
  */
 public class Fornecedor {
+    ArrayList<Fornecedor> fornecedor = new ArrayList();
     // private int codigo; Depois precisará colocar o código por causa do banco de dados
     private final String cnpj;
     private String nome;
