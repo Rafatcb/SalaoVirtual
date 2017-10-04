@@ -28,7 +28,7 @@ public class Funcionario {
     }
     
     /* Métodos Construtores + Getters & Setters */
-    public Funcionario(String login, String senha, String cpf, String ome, String t) {
+    public Funcionario(String login, String senha, String nome) {
         this.login = login;
         this.setSenha(senha);
         this.setNome(nome);
