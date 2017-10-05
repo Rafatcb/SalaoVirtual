@@ -6,6 +6,8 @@
 package salaovirtual;
 
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,6 +24,12 @@ public class Cliente {
     public Cliente(int codigo, String nome) {
         this.setNome(nome);
         this.codigo = codigo;
+        try {
+            ConjuntoClientes.inserirCliente(this);
+        } catch (ObjetoJaCadastradoException ex) {
+            // Aqui foi erro do programador, pois o código será calculado internamente no programa
+            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public int getCodigo() {

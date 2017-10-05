@@ -9,9 +9,9 @@ package salaovirtual;
  *
  * @author rafae
  */
-public class FuncionarioInvalidoException extends MinhaException {
-
-    public FuncionarioInvalidoException() {
-        super("Login e/ou senha incorretos.");
+public class LoginOuSenhaInvalidosException extends MinhaException {
+  
+    public LoginOuSenhaInvalidosException() {
+        super("Login e/ou senha inválidos.");
     }
 }

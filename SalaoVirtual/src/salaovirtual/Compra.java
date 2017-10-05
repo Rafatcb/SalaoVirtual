@@ -6,6 +6,8 @@
 package salaovirtual;
 
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,8 +27,18 @@ public class Compra {
     /* Métodos Construtores, Getters & Setters */
     public Compra(int codigo) {
         this.codigo = codigo;
+        try {
+            ConjuntoCompras.inserirCompra(this);
+        } catch (ObjetoJaCadastradoException ex) {
+            // Aqui foi erro do programador, pois o código será calculado internamente no programa
+            // Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
+    public int getCodigo() {
+        return codigo;
+    }
+    
     public int getQuantidade() {
         return quantidade;
     }

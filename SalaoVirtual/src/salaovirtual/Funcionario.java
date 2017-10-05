@@ -20,20 +20,25 @@ public class Funcionario {
     private String complemento;
     private String cidade;
     private String estado;
-
-    public void validarLoginSenha(String login, String senha) throws FuncionarioInvalidoException {
-        if ((!this.login.equals(login)) || (!this.senha.equals(Criptografar.criptografarMD5(senha)))) { // Se inválido
-            throw new FuncionarioInvalidoException();
-        }
-    }
     
     /* Métodos Construtores + Getters & Setters */
-    public Funcionario(String login, String senha, String nome) {
-        this.login = login;
-        this.setSenha(senha);
-        this.setNome(nome);
+    public Funcionario(String login, String senha, String nome) throws ChaveNulaException, ObjetoJaCadastradoException {
+        if (login != null) {
+            this.login = login;
+            this.setSenha(senha);
+            this.setNome(nome);
+            ConjuntoFuncionarios.inserirFuncionario(this);
+        }
+        else {
+            throw new ChaveNulaException();
+        }
     }
 
+    @Override
+    public String toString() { // Apenas para testes
+        return "Funcionario{" + "login=" + login + ", senha=" + senha + ", nome=" + nome + '}';
+    }
+    
     public String getLogin() {
         return login;
     }
@@ -42,7 +47,7 @@ public class Funcionario {
         return cpf;
     }
 
-    private String getSenha() {
+    public String getSenha() {
         return senha;
     }
 

@@ -22,11 +22,17 @@ public class Produto {
     public void encomendar() {
         
     }
+
+    @Override
+    public String toString() {
+        return "Produto{" + "codigo=" + codigo + ", nome=" + nome + '}';
+    }
     
     /* Construtores, Getters & Setters */
-    public Produto(String nome, int codigo) {
+    public Produto(String nome, int codigo) throws ObjetoJaCadastradoException {
         this.nome = nome;
         this.codigo = codigo;
+        ConjuntoProdutos.inserirProduto(this);
     }
 
     public String getMarca() {

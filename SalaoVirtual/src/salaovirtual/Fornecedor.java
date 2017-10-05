@@ -22,9 +22,10 @@ public class Fornecedor {
     private String complemento;
     // Aqui precisará ter uma lista de produtos que este fornecedor fornece
 
-    public Fornecedor(int codigo, String cnpj) {
+    public Fornecedor(int codigo, String cnpj) throws ObjetoJaCadastradoException {
         this.codigo = codigo;
         this.cnpj = cnpj;
+        ConjuntoFornecedores.inserirProduto(this);                
     }
 
     public String getComplemento() {
