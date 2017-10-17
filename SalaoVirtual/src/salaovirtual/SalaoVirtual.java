@@ -8,6 +8,7 @@ package salaovirtual;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,30 +22,7 @@ public class SalaoVirtual {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        try {
-            Funcionario f1 = new Funcionario("login1", "senha1", "Rafael");
-        } catch (ChaveNulaException ex) {
-            //Logger.getLogger(SalaoVirtual.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ObjetoJaCadastradoException ex) {
-            //Logger.getLogger(SalaoVirtual.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            Funcionario f2 = new Funcionario("login2", "senha2", "João");
-        } catch (ChaveNulaException ex) {
-            //Logger.getLogger(SalaoVirtual.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ObjetoJaCadastradoException ex) {
-            //Logger.getLogger(SalaoVirtual.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            Funcionario f3 = new Funcionario("login3", "senha3", "Fábio");
-        } catch (ChaveNulaException ex) {
-            //Logger.getLogger(SalaoVirtual.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ObjetoJaCadastradoException ex) {
-            //Logger.getLogger(SalaoVirtual.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+    public static void main(String[] args) {        
         //System.out.println("\n\n\n");
         /* ROTEIRO DE TESTE DO CSV (neste caso, para Cliente, basta adaptar para outros casos) */
         /*Cliente c = new Cliente();
@@ -61,6 +39,7 @@ public class SalaoVirtual {
         System.out.println(c1.toString());
         c1.gravarCliente();
         System.out.println("Gravou!");*/
+        
         /*System.out.println("----------------");
         c = c.encontrarCliente(1);
         System.out.println(c.toString());

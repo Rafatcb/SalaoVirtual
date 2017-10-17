@@ -76,9 +76,13 @@ public class Produto {
                     p.setValor(parseFloat(valor[5]));
                     p.setQtdEstoque(parseInt(valor[6]));
                     p.setQtdEstoqueMin(parseInt(valor[7]));
+                    arq.close();
+                    entrada.close();
                     return p;
                 }
             } while (linha != null);
+            arq.close();
+            entrada.close();
         } catch (FileNotFoundException ex) {
             try {
                 FileWriter arq = new FileWriter("Produto.csv");
@@ -118,6 +122,8 @@ public class Produto {
                 }
                 linha = entrada.readLine();
             } while (linha != null);
+            arq.close();
+            entrada.close();
             return produtos;
         } catch (FileNotFoundException e) {
             //log de erro
@@ -151,6 +157,8 @@ public class Produto {
                 }
                 linha = entrada.readLine();
             } while (linha != null);
+            arq.close();
+            entrada.close();
             return produtos;
         } catch (FileNotFoundException e) {
             //log de erro
@@ -171,6 +179,8 @@ public class Produto {
                 cod++;
                 linha = entrada.readLine();
             }
+            arq.close();
+            entrada.close();
         } catch (FileNotFoundException ex) {
             try {
                 FileWriter arq = new FileWriter("Produto.csv");

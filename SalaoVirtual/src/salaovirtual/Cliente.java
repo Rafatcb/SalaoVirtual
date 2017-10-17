@@ -38,7 +38,6 @@ public class Cliente implements java.io.Serializable {
     @Override
     public String toString() {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        Date data = new Date();
         if (this.dataAniversario == null)
             return this.codigo + ";" + this.cpf + ";" + this.nome + ";" + this.telefone + ";" + this.email + ";" + this.dataAniversario;
         else{
@@ -82,20 +81,17 @@ public class Cliente implements java.io.Serializable {
                     else {
                         c.setDataAniversario(null);
                     }
+                    entrada.close();
+                    arq.close();
                     return c;
                 }
             } while (linha != null);
+            entrada.close();
+            arq.close();
         } catch (FileNotFoundException ex) {
-            try {
-                FileWriter arq = new FileWriter("Cliente.csv");
-                BufferedWriter saida = new BufferedWriter(arq);
-                saida.close();
-                arq.close();
-            } catch (IOException ex1) {
-                //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex1);
-            }
+            return null;
         } catch (IOException ex2) {
-            // log
+            return null;
         } catch (ParseException ex) {
             //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -130,11 +126,13 @@ public class Cliente implements java.io.Serializable {
                 }
                 linha = entrada.readLine();
             } while (linha != null);
+            entrada.close();
+            arq.close();
             return clientes;
         } catch (FileNotFoundException e) {
-            //log de erro
+            return null;
         } catch (IOException ex2) {
-            // log
+            return null;
         } catch (ParseException ex) {
             //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -152,6 +150,8 @@ public class Cliente implements java.io.Serializable {
                 cod++;
                 linha = entrada.readLine();
             }
+            entrada.close();
+            arq.close();
         } catch (FileNotFoundException ex) {
             try {
                 FileWriter arq = new FileWriter("Cliente.csv");
