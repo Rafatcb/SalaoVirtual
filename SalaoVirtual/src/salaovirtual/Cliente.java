@@ -76,10 +76,12 @@ public class Cliente implements java.io.Serializable {
                     c.setNome(valor[2]);
                     c.setTelefone(valor[3]);
                     c.setEmail(valor[4]);
-                    if (!valor[5].equals("null"))
+                    if (!valor[5].equals("null")) {
                         c.setDataAniversario(formato.parse(valor[5]));
-                    else
+                    }
+                    else {
                         c.setDataAniversario(null);
+                    }
                     return c;
                 }
             } while (linha != null);
@@ -105,7 +107,7 @@ public class Cliente implements java.io.Serializable {
             List<Cliente> clientes = new ArrayList();
             FileReader arq = new FileReader("Cliente.csv");
             BufferedReader entrada = new BufferedReader(arq);
-            String linha = null;
+            String linha;
             
             linha = entrada.readLine();
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
@@ -120,7 +122,8 @@ public class Cliente implements java.io.Serializable {
                     c.setEmail(valor[4]);
                     if (!valor[5].equals("null")){
                         c.setDataAniversario(formato.parse(valor[5]));
-                    }else{
+                    }
+                    else {
                         c.setDataAniversario(null);
                     }
                     clientes.add(c);
@@ -172,7 +175,7 @@ public class Cliente implements java.io.Serializable {
     public Cliente() {
     }
     
-    public void setCodigo(Integer codigo) {
+    private void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
 

@@ -45,10 +45,10 @@ public class SalaoVirtual {
             //Logger.getLogger(SalaoVirtual.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        System.out.println("\n\n\n");
-        Cliente c = new Cliente();
-        
-        /*Cliente c1 = new Cliente("Rafael");
+        //System.out.println("\n\n\n");
+        /* ROTEIRO DE TESTE DO CSV (neste caso, para Cliente, basta adaptar para outros casos) */
+        /*Cliente c = new Cliente();
+        Cliente c1 = new Cliente("Rafael");
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         try {
             c1.setDataAniversario(formato.parse("23/02/1997"));
