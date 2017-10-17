@@ -5,6 +5,13 @@
  */
 package salaovirtual;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author r176257
@@ -39,20 +46,46 @@ public class SalaoVirtual {
         }
         
         System.out.println("\n\n\n");
+        Cliente c = new Cliente();
         
-        // TODO code application logic here
-        Cliente c1 = new Cliente(1, "Rafael");
-        Cliente c2 = new Cliente(2, "João");
-        Cliente c3 = new Cliente(3, "Fábio");
-        Cliente c4 = new Cliente(4, "Fabiano");
-        Cliente c5 = new Cliente(5, "Murilo");
-        c2.setEmail("olokobixo@tapegandofogo.com");
-        Cliente c6 = new Cliente(6, "Olocoooooooo");
-        
-        System.out.println("\n" + c1.toString());
+        /*Cliente c1 = new Cliente("Rafael");
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            c1.setDataAniversario(formato.parse("23/02/1997"));
+        } catch (ParseException ex) {
+           // Logger.getLogger(SalaoVirtual.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        c1.setEmail("rafa@unicamp.br");
+        c1.setCpf("4444");
+        c1.setTelefone("(13) 9234-5678");
+        System.out.println(c1.toString());
         c1.gravarCliente();
-        System.out.println(c2.toString());
-        c2.gravarCliente();
-        System.out.println(c2.getProxCodigo());
+        System.out.println("Gravou!");*/
+        /*System.out.println("----------------");
+        c = c.encontrarCliente(1);
+        System.out.println(c.toString());
+        System.out.println("----------------");
+        c = c.encontrarCliente(2);
+        System.out.println(c.toString());
+        System.out.println("----------------");
+        c = c.encontrarCliente(3);
+        System.out.println(c.toString());
+        System.out.println("----------------");
+        try {
+            c = c.encontrarCliente(5);   // Quando for buscar por cliente, precisa do NullPointerException pra saber se o cliente foi ou não encontrado
+            System.out.println(c.toString());
+        }
+        catch (NullPointerException e) {
+            System.out.println("Cliente não encontrado");
+        }
+        System.out.println("----------------");
+        c = c.encontrarCliente(2);
+        System.out.println(c.toString());
+        System.out.println("----------------");
+        List<Cliente> clientes = c.encontrarCliente("Rafael");
+        System.out.println("TODOS RAFAELSSSSS");
+        for (Cliente item : clientes) {
+            System.out.println(item.toString());
+        }*/
     }         
 }

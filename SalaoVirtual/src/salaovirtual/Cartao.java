@@ -11,8 +11,8 @@ package salaovirtual;
  */
 public class Cartao extends FormaDePagamento {
     private String tipo; // Crédito ou Débito
-    private static final double taxaDebito = 2.4;
-    private static final double taxaCredito = 3.2;
+    private static final double TAXA_DEBITO = 2.4;
+    private static final double TAXA_CREDITO = 3.2;
     private int qtdParcelas = 1;
 
     /* Métodos Construtores + Getters & Setters */
@@ -35,9 +35,9 @@ public class Cartao extends FormaDePagamento {
     public double getTaxa() throws TipoDeCartaoInvalidoException {
         switch (tipo) {
             case "Crédito":
-                return Cartao.taxaCredito;
+                return Cartao.TAXA_CREDITO;
             case "Débito":
-                return Cartao.taxaDebito;
+                return Cartao.TAXA_DEBITO;
             default:            
                 throw new TipoDeCartaoInvalidoException();
         }

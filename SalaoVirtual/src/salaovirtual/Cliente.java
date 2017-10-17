@@ -5,105 +5,173 @@
  */
 package salaovirtual;
 
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import static java.lang.Integer.parseInt;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author r176257
  */
 public class Cliente implements java.io.Serializable {
-    private Integer codigo;
+    private int codigo;
     private String cpf;
     private String nome;
     private String telefone;
     private String email;
     private Date dataAniversario;
 
+    // Criar método para listar clientes que fazem aniversário em tal mês
+    
+    
     @Override
     public String toString() {
-        return "Cliente{" + "codigo=" + codigo + ", cpf=" + cpf + ", nome=" + nome + ", telefone=" + telefone + ", email=" + email + ", dataAniversario=" + dataAniversario + '}';
-    }
-    
-    private void serializar() {
-        try {
-            FileOutputStream arq = new FileOutputStream("Cliente.dat", true);
-            ObjectOutputStream saida = new ObjectOutputStream(arq);
-            saida.writeObject(this);
-            saida.close();
-            arq.close();
-        }
-        catch(IOException i) {
-            i.printStackTrace();
-        }
-    }
-
-    private void deserializar() {
-        try {
-            Cliente c;
-            FileInputStream arq = new FileInputStream("Cliente.dat");
-            ObjectInputStream entrada = new ObjectInputStream(arq);
-            c = (Cliente) entrada.readObject();
-            
-            this.setCodigo(c.getCodigo());
-            this.setCpf(c.getCpf());
-            this.setDataAniversario(c.getDataAniversario());
-            this.setEmail(c.getEmail());
-            this.setNome(c.getNome());
-            this.setTelefone(c.getTelefone());
-            
-            entrada.close();
-            arq.close();
-        }
-        catch(IOException i) {
-            i.printStackTrace();
-            return;
-        }
-        catch(ClassNotFoundException ce) {
-            // Classe não encontrada
-            ce.printStackTrace();
-            return;
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = new Date();
+        if (this.dataAniversario == null)
+            return this.codigo + ";" + this.cpf + ";" + this.nome + ";" + this.telefone + ";" + this.email + ";" + this.dataAniversario;
+        else{
+            return this.codigo + ";" + this.cpf + ";" + this.nome + ";" + this.telefone + ";" + this.email + ";" + formato.format(this.dataAniversario);
         }
     }
     
     public void gravarCliente() {
-        //this.setCodigo(this.getProxCodigo());
-        this.serializar();
+        try {
+            FileWriter arq = new FileWriter("Cliente.csv", true);
+            BufferedWriter saida = new BufferedWriter(arq);
+            this.setCodigo(this.getProxCodigo());
+            saida.write(this.toString());
+            saida.newLine();
+            saida.close();
+            arq.close();
+        } catch (IOException e) {
+            //
+        }
+    }
+    
+    public Cliente encontrarCliente(int codigo) {
+        try {
+            FileReader arq = new FileReader("Cliente.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            Cliente c = new Cliente();
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            do {
+                linha = entrada.readLine();
+                String[] valor = linha.split(";");
+                if (parseInt(valor[0]) == codigo) {
+                    c.setCodigo(parseInt(valor[0]));
+                    c.setCpf(valor[1]);
+                    c.setNome(valor[2]);
+                    c.setTelefone(valor[3]);
+                    c.setEmail(valor[4]);
+                    if (!valor[5].equals("null"))
+                        c.setDataAniversario(formato.parse(valor[5]));
+                    else
+                        c.setDataAniversario(null);
+                    return c;
+                }
+            } while (linha != null);
+        } catch (FileNotFoundException ex) {
+            try {
+                FileWriter arq = new FileWriter("Cliente.csv");
+                BufferedWriter saida = new BufferedWriter(arq);
+                saida.close();
+                arq.close();
+            } catch (IOException ex1) {
+                //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        } catch (IOException ex2) {
+            // log
+        } catch (ParseException ex) {
+            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public List<Cliente> encontrarCliente(String nome) {
+        try {
+            List<Cliente> clientes = new ArrayList();
+            FileReader arq = new FileReader("Cliente.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha = null;
+            
+            linha = entrada.readLine();
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            do {
+                Cliente c = new Cliente();
+                String[] valor = linha.split(";");
+                if (valor[2].equals(nome)) {
+                    c.setCodigo(parseInt(valor[0]));
+                    c.setCpf(valor[1]);
+                    c.setNome(valor[2]);
+                    c.setTelefone(valor[3]);
+                    c.setEmail(valor[4]);
+                    if (!valor[5].equals("null")){
+                        c.setDataAniversario(formato.parse(valor[5]));
+                    }else{
+                        c.setDataAniversario(null);
+                    }
+                    clientes.add(c);
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            return clientes;
+        } catch (FileNotFoundException e) {
+            //log de erro
+        } catch (IOException ex2) {
+            // log
+        } catch (ParseException ex) {
+            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     public int getProxCodigo() {
-        int cod = 0;
+        int cod = 1;
         try {
-            FileInputStream arq = new FileInputStream("Cliente.dat");
-            ObjectInputStream entrada = new ObjectInputStream(arq);
-            while (true) {
-                try {
-                    Cliente c = (Cliente) entrada.readObject();
-                    cod = c.getCodigo();
-                } catch (EOFException e) {
-                    break;
-                }
+            FileReader arq = new FileReader("Cliente.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            linha = entrada.readLine();
+            while (linha != null) {
+                cod++;
+                linha = entrada.readLine();
             }
-            entrada.close();
-            arq.close();
-        } catch (Exception e) {
-            e.printStackTrace(); // handle this appropriately
+        } catch (FileNotFoundException ex) {
+            try {
+                FileWriter arq = new FileWriter("Cliente.csv");
+                BufferedWriter saida = new BufferedWriter(arq);
+                saida.close();
+                arq.close();
+            } catch (IOException ex1) {
+                //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        } catch (IOException ex2) {
+            // log
         }
-        return (cod+1);
+        return cod;
     }
     
     /* Métodos Construtores, Setters & Getters */
-    public Cliente(Integer Codigo, String nome) {
+    public Cliente(String nome) {
         this.setNome(nome);
-        this.codigo = Codigo;
     }
 
+    public Cliente() {
+    }
+    
     public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }

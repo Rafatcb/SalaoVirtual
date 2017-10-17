@@ -6,6 +6,7 @@
 package salaovirtual;
 
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,9 +17,9 @@ import java.util.logging.Logger;
 public class Compra {
     private final int codigo;
     private int quantidade;
-    // Colocar valor monetário
+    private float valor;
     private Date data;
-    // Aqui precisará ter uma lista de produtos que foram comprados
+    private List<Produto> produtos;
     
     public void adicionarProduto() {
         
