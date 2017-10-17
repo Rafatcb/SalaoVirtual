@@ -32,7 +32,6 @@ public class Produto {
     public Produto(String nome, int codigo) throws ObjetoJaCadastradoException {
         this.nome = nome;
         this.codigo = codigo;
-        ConjuntoProdutos.inserirProduto(this);
     }
 
     public String getMarca() {

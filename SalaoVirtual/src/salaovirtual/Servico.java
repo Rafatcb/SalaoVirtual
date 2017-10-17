@@ -6,8 +6,6 @@
 package salaovirtual;
 
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**
@@ -29,12 +27,6 @@ public class Servico {
         Date agora = new Date();
         if (data.after(agora)) {   // Se for depois de agora, então é um agendamento válido
             this.setData(data);
-            try {
-                ConjuntoServicos.inserirServico(this);
-            } catch (ObjetoJaCadastradoException ex) {
-                // Aqui foi erro do programador, pois o código será calculado internamente no programa
-                // Logger.getLogger(Servico.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
         else {
             throw new DataInvalidaException();

@@ -27,7 +27,6 @@ public class Funcionario {
             this.login = login;
             this.setSenha(senha);
             this.setNome(nome);
-            ConjuntoFuncionarios.inserirFuncionario(this);
         }
         else {
             throw new ChaveNulaException();

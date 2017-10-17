@@ -24,8 +24,7 @@ public class Fornecedor {
 
     public Fornecedor(int codigo, String cnpj) throws ObjetoJaCadastradoException {
         this.codigo = codigo;
-        this.cnpj = cnpj;
-        ConjuntoFornecedores.inserirProduto(this);                
+        this.cnpj = cnpj;            
     }
 
     public String getComplemento() {

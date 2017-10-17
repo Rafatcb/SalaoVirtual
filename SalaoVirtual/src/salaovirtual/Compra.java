@@ -27,12 +27,7 @@ public class Compra {
     /* Métodos Construtores, Getters & Setters */
     public Compra(int codigo) {
         this.codigo = codigo;
-        try {
-            ConjuntoCompras.inserirCompra(this);
-        } catch (ObjetoJaCadastradoException ex) {
-            // Aqui foi erro do programador, pois o código será calculado internamente no programa
-            // Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
 
     public int getCodigo() {

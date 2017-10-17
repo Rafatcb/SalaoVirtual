@@ -5,9 +5,9 @@
  */
 package salaovirtual;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 
 /**
  *
@@ -19,22 +19,27 @@ public class Venda {
     private Cliente cliente;
     private Funcionario funcionario;
     private FormaDePagamento formaPagamento;
-    // Aqui precisará ter uma lista de produtos que foram comprados pelo cliente nesta compra
-    // Aqui precisará ter uma lista de serviços que foram realizados pelo cliente nesta compra
+    private List<Produto> produtos;
+    private List<Servico> servicos;
 
+    public void addProduto(Produto p) {
+        // Falta verificar se é um produto válido baseado no arquivo de produtos
+        this.produtos.add(p);
+    }
+    
+    public void addServico(Servico s) {
+        // Falta verificar se é um servico válido baseado no arquivo de servicos
+        this.servicos.add(s);
+    }
     
     /* Métodos Construtores, Getters & Setters */
     public Venda(int codigo, Cliente cliente, Funcionario funcionario) {
+        this.produtos = new ArrayList<Produto>();
+        this.servicos = new ArrayList<Servico>();
         this.codigo = codigo;
         this.cliente = cliente;
         this.funcionario = funcionario;
         this.setData();
-        try {
-            ConjuntoVendas.inserirProduto(this);
-        } catch (ObjetoJaCadastradoException ex) {
-            // Aqui foi erro do programador, pois o código será calculado internamente no programa
-            // Logger.getLogger(Venda.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public int getCodigo() {

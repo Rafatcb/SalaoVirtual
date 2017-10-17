@@ -5,33 +5,113 @@
  */
 package salaovirtual;
 
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 
 /**
  *
  * @author r176257
  */
-public class Cliente {
-    private final int codigo;
+public class Cliente implements java.io.Serializable {
+    private Integer codigo;
     private String cpf;
     private String nome;
     private String telefone;
     private String email;
     private Date dataAniversario;
 
-    public Cliente(int codigo, String nome) {
-        this.setNome(nome);
-        this.codigo = codigo;
+    @Override
+    public String toString() {
+        return "Cliente{" + "codigo=" + codigo + ", cpf=" + cpf + ", nome=" + nome + ", telefone=" + telefone + ", email=" + email + ", dataAniversario=" + dataAniversario + '}';
+    }
+    
+    private void serializar() {
         try {
-            ConjuntoClientes.inserirCliente(this);
-        } catch (ObjetoJaCadastradoException ex) {
-            // Aqui foi erro do programador, pois o código será calculado internamente no programa
-            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            FileOutputStream arq = new FileOutputStream("Cliente.dat", true);
+            ObjectOutputStream saida = new ObjectOutputStream(arq);
+            saida.writeObject(this);
+            saida.close();
+            arq.close();
+        }
+        catch(IOException i) {
+            i.printStackTrace();
         }
     }
 
+    private void deserializar() {
+        try {
+            Cliente c;
+            FileInputStream arq = new FileInputStream("Cliente.dat");
+            ObjectInputStream entrada = new ObjectInputStream(arq);
+            c = (Cliente) entrada.readObject();
+            
+            this.setCodigo(c.getCodigo());
+            this.setCpf(c.getCpf());
+            this.setDataAniversario(c.getDataAniversario());
+            this.setEmail(c.getEmail());
+            this.setNome(c.getNome());
+            this.setTelefone(c.getTelefone());
+            
+            entrada.close();
+            arq.close();
+        }
+        catch(IOException i) {
+            i.printStackTrace();
+            return;
+        }
+        catch(ClassNotFoundException ce) {
+            // Classe não encontrada
+            ce.printStackTrace();
+            return;
+        }
+    }
+    
+    public void gravarCliente() {
+        //this.setCodigo(this.getProxCodigo());
+        this.serializar();
+    }
+    
+    public int getProxCodigo() {
+        int cod = 0;
+        try {
+            FileInputStream arq = new FileInputStream("Cliente.dat");
+            ObjectInputStream entrada = new ObjectInputStream(arq);
+            while (true) {
+                try {
+                    Cliente c = (Cliente) entrada.readObject();
+                    cod = c.getCodigo();
+                } catch (EOFException e) {
+                    break;
+                }
+            }
+            entrada.close();
+            arq.close();
+        } catch (Exception e) {
+            e.printStackTrace(); // handle this appropriately
+        }
+        return (cod+1);
+    }
+    
+    /* Métodos Construtores, Setters & Getters */
+    public Cliente(Integer Codigo, String nome) {
+        this.setNome(nome);
+        this.codigo = Codigo;
+    }
+
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+    
     public int getCodigo() {
         return codigo;
     }
