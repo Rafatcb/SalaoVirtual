@@ -17,23 +17,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Classe referente à consulta de objetos em arquivo
  * @author Rafael Tavares
  */
-public class Consulta {
-    // Criar método para listar clientes que fazem aniversário em tal mês   
-    // Criar método que encontra o fornecedor com base no código de um produto fornecido
-    // Criar método para listar produtos por faixa de valor
-    // Criar método para listar produtos com estoque crítico
-    // Criar método para listar todos os serviços de um mês
-    // Criar método para listar todos os serviços de um ano
-    // Criar método para listar todos os serviços que um cliente fez
-    // Criar método para listar todos os serviços que um funcionário fez
-    
-    
-    
+public class Consulta {  
     /**
      * Retorna o código do próximo objeto a ser inserido. O Objeto é identificado através do nome do arquivo
      * CSV passado como parâmetro
@@ -78,9 +69,9 @@ public class Consulta {
             FileReader arq = new FileReader("Fornecedor.csv");
             BufferedReader entrada = new BufferedReader(arq);
             String linha;
+            linha = entrada.readLine();
             Fornecedor f = new Fornecedor();
             do {
-                linha = entrada.readLine();
                 String[] valor = linha.split(";");
                 if (parseInt(valor[0]) == codigo) {
                     f.setCodigo(parseInt(valor[0]));
@@ -98,6 +89,7 @@ public class Consulta {
                     entrada.close();
                     return f;
                 }
+                linha = entrada.readLine();
             } while (linha != null);
             arq.close();
             entrada.close();
@@ -194,7 +186,7 @@ public class Consulta {
     }
     
     /**
-     * Adiciona ao atributo "produtos" do fornecedor que hcamou esta função um Map dos produtos
+     * Adiciona ao atributo "produtos" do fornecedor que chamou esta função um Map dos produtos
      * cadastrados que ele fornece, com base no arquivo CSV
      * @param f 
      */
@@ -233,10 +225,10 @@ public class Consulta {
             FileReader arq = new FileReader("Cliente.csv");
             BufferedReader entrada = new BufferedReader(arq);
             String linha;
+            linha = entrada.readLine();
             Cliente c = new Cliente();
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             do {
-                linha = entrada.readLine();
                 String[] valor = linha.split(";");
                 if (parseInt(valor[0]) == codigo) {
                     c.setCodigo(parseInt(valor[0]));
@@ -254,6 +246,7 @@ public class Consulta {
                     arq.close();
                     return c;
                 }
+                linha = entrada.readLine();
             } while (linha != null);
             entrada.close();
             arq.close();
@@ -324,9 +317,9 @@ public class Consulta {
             FileReader arq = new FileReader("Funcionario.csv");
             BufferedReader entrada = new BufferedReader(arq);
             String linha;
+            linha = entrada.readLine();
             Funcionario f = new Funcionario();
             do {
-                linha = entrada.readLine();
                 String[] valor = linha.split(";");
                 if (valor[0].equals(login)) {
                     f.setLogin(valor[0]);
@@ -344,6 +337,7 @@ public class Consulta {
                     arq.close();
                     return f;
                 }
+                linha = entrada.readLine();
             } while (linha != null);
             entrada.close();
             arq.close();
@@ -406,9 +400,9 @@ public class Consulta {
             FileReader arq = new FileReader("Funcionario.csv");
             BufferedReader entrada = new BufferedReader(arq);
             String linha;
+            linha = entrada.readLine();
             Funcionario f = new Funcionario();
             do {
-                linha = entrada.readLine();
                 String[] valor = linha.split(";");
                 if (valor[2].equals(cpf)) {
                     f.setLogin(valor[0]);
@@ -425,6 +419,7 @@ public class Consulta {
                     arq.close();
                     return f;
                 }
+                linha = entrada.readLine();
             } while (linha != null);
             entrada.close();
             arq.close();
@@ -446,9 +441,9 @@ public class Consulta {
             FileReader arq = new FileReader("Produto.csv");
             BufferedReader entrada = new BufferedReader(arq);
             String linha;
+            linha = entrada.readLine();
             Produto p = new Produto();
             do {
-                linha = entrada.readLine();
                 String[] valor = linha.split(";");
                 if (parseInt(valor[0]) == codigo) {
                     p.setCodigo(parseInt(valor[0]));
@@ -463,6 +458,7 @@ public class Consulta {
                     entrada.close();
                     return p;
                 }
+                linha = entrada.readLine();
             } while (linha != null);
             arq.close();
             entrada.close();
@@ -564,10 +560,10 @@ public class Consulta {
             FileReader arq = new FileReader("Servico.csv");
             BufferedReader entrada = new BufferedReader(arq);
             String linha;
+            linha = entrada.readLine();
             Servico s = new Servico();
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             do {
-                linha = entrada.readLine();
                 String[] valor = linha.split(";");
                 if (parseInt(valor[0]) == codigo) {
                     s.setCodigo(parseInt(valor[0]));
@@ -588,6 +584,7 @@ public class Consulta {
                     arq.close();
                     return s;
                 }
+                linha = entrada.readLine();
             } while (linha != null);
             entrada.close();
             arq.close();
@@ -704,5 +701,281 @@ public class Consulta {
             //Logger.getLogger(Servico.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    /**
+     * Retorna a compra identificada pelo código passado por parâmetro
+     * @param codigo
+     * @return Compra
+     */   
+    public Compra encontrarCompra(int codigo) {
+        try {
+            FileReader arq = new FileReader("Compra.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            linha = entrada.readLine();
+            Compra c = new Compra();
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            do {
+                String[] valor = linha.split(";");
+                if (parseInt(valor[0]) == codigo) {
+                    c.setCodigo(parseInt(valor[0]));
+                    c.setValor(parseFloat(valor[1]));
+                    c.setData(formato.parse(valor[2]));
+                    
+                    try {
+                        c.setFornecedor(this.encontrarFornecedor(parseInt(valor[3])));
+                    } catch (ChaveNulaException ex) {
+                        Logger.getLogger(Consulta.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    this.encontrarCompraProdutos(c);
+                    
+                    arq.close();
+                    entrada.close();
+                    return c;
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            arq.close();
+            entrada.close();
+        } catch (FileNotFoundException ex) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        } catch (ParseException ex3) {
+            return null;
+        }
+        return null;
+    }
+    
+    /**
+     * Adiciona ao atributo "produtos" da compra que foi passado como parâmetro um Map dos produtos
+     * cadastrados que foram comprados, junto do valor e quantidade, com base no arquivo CSV
+     * @param s 
+     */
+    private void encontrarCompraProdutos(Compra c) {
+        try {
+            FileReader arq = new FileReader("CompraProdutos.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            linha = entrada.readLine();
+            Map mapa = new HashMap<>();
+            List lista = new ArrayList<>();
+            do {
+                String[] valor = linha.split(";");
+                if (valor[0].equals(Integer.toString(c.getCodigo()))) {
+                    mapa.put(parseInt(valor[1]), parseFloat(valor[2]));
+                    lista.add(parseInt(valor[3]));
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            c.setProdutos(mapa);
+            c.setQuantidade(lista);
+            arq.close();
+            entrada.close();
+        } catch (FileNotFoundException ex) {
+            //
+        }catch (IOException ex2) {
+            //
+        }
+    }
+    
+    /**
+     * Retorna o cartao identificado pelo código passado por parâmetro
+     * @param codigo
+     * @return Cartao
+     */   
+    public Cartao encontrarFormaDePagamentoCartao(int codigo) {
+        try {
+            FileReader arq = new FileReader("FormaDePagamento.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            linha = entrada.readLine();
+            Cartao c = new Cartao();
+            do {
+                String[] valor = linha.split(";");
+                if (parseInt(valor[0]) == codigo) {
+                    if(!"0".equals(valor[2])) {
+                        return null;
+                    }
+                    c.setCodigo(parseInt(valor[0]));
+                    c.setValorTotal(parseFloat(valor[1]));
+                    c.setIdentificador(parseInt(valor[2]));
+                    c.setTipo(valor[3]);
+                    c.setQtdParcelas(parseInt(valor[4]));
+                    
+                    arq.close();
+                    entrada.close();
+                    return c;
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            arq.close();
+            entrada.close();
+        } catch (FileNotFoundException ex) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        } catch (TipoDeCartaoInvalidoException ex3) {
+            return null;
+        }
+        return null;
+    }
+    
+    /**
+     * Retorna o dinheiro identificado pelo código passado por parâmetro
+     * @param codigo
+     * @return Dinheiro
+     */   
+    public Dinheiro encontrarFormaDePagamentoDinheiro(int codigo) {
+        try {
+            FileReader arq = new FileReader("FormaDePagamento.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            linha = entrada.readLine();
+            Dinheiro d = new Dinheiro();
+            do {
+                String[] valor = linha.split(";");
+                if (parseInt(valor[0]) == codigo) {
+                    if(!"1".equals(valor[2])) {
+                        return null;
+                    }
+                    d.setCodigo(parseInt(valor[0]));
+                    d.setValorTotal(parseFloat(valor[1]));
+                    d.setIdentificador(parseInt(valor[2]));
+                    d.setValorRecebido(parseFloat(valor[3]));
+                    
+                    arq.close();
+                    entrada.close();
+                    return d;
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            arq.close();
+            entrada.close();
+        } catch (FileNotFoundException ex) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        }
+        return null;
+    }    
+    
+    /**
+     * Retorna uma lista de todos os pagamentos feitos em cartão
+     * @return Lista de Cartão
+     */   
+    public List<Cartao> encontrarFormasDePagamentoCartao() {
+        try {
+            FileReader arq = new FileReader("FormaDePagamento.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            List<Cartao> pagamentos = new ArrayList();
+            String linha;
+            linha = entrada.readLine();
+            do {
+                String[] valor = linha.split(";");
+                if("0".equals(valor[2])) {
+                    Cartao c = new Cartao();
+                    c.setCodigo(parseInt(valor[0]));
+                    c.setValorTotal(parseFloat(valor[1]));
+                    c.setIdentificador(parseInt(valor[2]));
+                    c.setTipo(valor[3]);
+                    c.setQtdParcelas(parseInt(valor[4]));
+
+                    pagamentos.add(c);
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            arq.close();
+            entrada.close();
+            return pagamentos;
+        } catch (FileNotFoundException ex) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        } catch (TipoDeCartaoInvalidoException ex) {
+            return null;
+        }
+    }
+    
+    /**
+     * Retorna uma lista de todos os pagamentos feitos em dinheiro
+     * @return Lista de Dinheiro
+     */   
+    public List<Dinheiro> encontrarFormasDePagamentoDinheiro() {
+        try {
+            FileReader arq = new FileReader("FormaDePagamento.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            List<Dinheiro> pagamentos = new ArrayList();
+            String linha;
+            linha = entrada.readLine();
+            do {
+                String[] valor = linha.split(";");
+                if("1".equals(valor[2])) {
+                    Dinheiro d = new Dinheiro();
+                    d.setCodigo(parseInt(valor[0]));
+                    d.setValorTotal(parseFloat(valor[1]));
+                    d.setIdentificador(parseInt(valor[2]));
+                    d.setValorRecebido(parseFloat(valor[3]));
+
+                    pagamentos.add(d);
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            arq.close();
+            entrada.close();
+            return pagamentos;
+        } catch (FileNotFoundException ex) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        }
+    }
+    
+    /**
+     * Retorna duas listsa de todos os pagamentos feitos em dinheiro e cartão, as listas são
+     * recebidas como parâmetros
+     * @param dinheiro
+     * @param cartao
+     */   
+    public void encontrarFormasDePagamento(List<Dinheiro> dinheiro, List<Cartao> cartao) {
+        try {
+            FileReader arq = new FileReader("FormaDePagamento.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            linha = entrada.readLine();
+            do {
+                String[] valor = linha.split(";");
+                if("1".equals(valor[2])) {
+                    Dinheiro d = new Dinheiro();
+                    d.setCodigo(parseInt(valor[0]));
+                    d.setValorTotal(parseFloat(valor[1]));
+                    d.setIdentificador(parseInt(valor[2]));
+                    d.setValorRecebido(parseFloat(valor[3]));
+
+                    dinheiro.add(d);
+                } 
+                else if("0".equals(valor[2])) {
+                    Cartao c = new Cartao();
+                    c.setCodigo(parseInt(valor[0]));
+                    c.setValorTotal(parseFloat(valor[1]));
+                    c.setIdentificador(parseInt(valor[2]));
+                    c.setTipo(valor[3]);
+                    c.setQtdParcelas(parseInt(valor[4]));
+
+                    cartao.add(c);
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            arq.close();
+            entrada.close();
+        } catch (FileNotFoundException ex) {
+            //
+        } catch (IOException ex2) {
+            //
+        } catch (TipoDeCartaoInvalidoException ex) {
+            //
+        }
     }
 }

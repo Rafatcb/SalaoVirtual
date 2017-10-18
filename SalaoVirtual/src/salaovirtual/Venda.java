@@ -14,7 +14,7 @@ import java.util.List;
  * @author r176257
  */
 public class Venda {
-    private final int codigo;
+    private int codigo;
     private Date data;
     private Cliente cliente;
     private Funcionario funcionario;
@@ -50,7 +50,7 @@ public class Venda {
         return data;
     }
 
-    private void setData() {
+    public void setData() {
         this.data = new Date();
     }
 

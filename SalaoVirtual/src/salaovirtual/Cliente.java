@@ -28,8 +28,9 @@ public class Cliente implements java.io.Serializable {
     @Override
     public String toString() {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        if (this.dataAniversario == null)
+        if (this.dataAniversario == null) {
             return this.codigo + ";" + this.cpf + ";" + this.nome + ";" + this.telefone + ";" + this.email + ";" + this.dataAniversario;
+        }
         else{
             return this.codigo + ";" + this.cpf + ";" + this.nome + ";" + this.telefone + ";" + this.email + ";" + formato.format(this.dataAniversario);
         }

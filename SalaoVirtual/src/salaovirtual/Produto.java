@@ -7,11 +7,11 @@ package salaovirtual;
 /**
  * Classe referente ao produto
  * 
- * Atributos que merecem destaque para explicação:
- * unidade: é a unidade do produto (como por exemplo ml, litro, kg)
- * qtdUnitaria: é o quanto o produto possui
- * qtdEstoque: é a quantidade atual do produto em estoque
- * qtdEstoqueMin: é a quantidade mínima do produto que deve existir em estoque
+ * <p>Atributos que merecem destaque para explicação:
+ * <p>unidade: é a unidade do produto (como por exemplo ml, litro, kg)
+ * <p>qtdUnitaria: é o quanto o produto possui
+ * <p>qtdEstoque: é a quantidade atual do produto em estoque
+ * <p>qtdEstoqueMin: é a quantidade mínima do produto que deve existir em estoque
  * 
  * @author Rafael Tavares
  */
@@ -24,8 +24,6 @@ public class Produto {
     private float valor;
     private int qtdEstoque;
     private int qtdEstoqueMin;
-
-    // Fazer o método encomendar()
     
     public void encomendar(Fornecedor f) {
         

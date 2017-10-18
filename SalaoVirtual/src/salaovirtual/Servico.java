@@ -10,8 +10,8 @@ import java.util.Date;
 /**
  * Classe referente ao fornecedor
  * 
- * Atributos que merecem destaque para explicação:
- * estado: É o estado do serviço, podendo ser apenas "Agendado", "Cancelado" ou "Realizado"
+ * <p>Atributos que merecem destaque para explicação:
+ * <p>estado: É o estado do serviço, podendo ser apenas "Agendado", "Cancelado" ou "Realizado"
  * 
  * @author Rafael Tavares
  */
@@ -23,8 +23,6 @@ public class Servico {
     private String estado;
     private Funcionario funcionario;
     private Cliente cliente;
-    
-    // A data está armazenando apena dd/MM/yyyy , precisa fazer armazenar horário também!
     
     /**
      * Agenda o serviço que chamou este método para (respectivamente aos parâmetros) um cliente e 

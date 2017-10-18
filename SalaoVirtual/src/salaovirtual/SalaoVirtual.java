@@ -24,7 +24,7 @@ public class SalaoVirtual {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {        
+    public static void main(String[] args) throws ChaveNulaException, TipoDeCartaoInvalidoException {        
         //System.out.println("\n\n\n");
         /* ROTEIRO DE TESTE DO CSV (neste caso, para Cliente, basta adaptar para outros casos) */
         /*Cliente c = new Cliente();
@@ -95,6 +95,6 @@ public class SalaoVirtual {
             for (Map.Entry<Integer, Float> pair : item.getProdutos().entrySet()){
                 System.out.println(item.getCodigo() + ";" + pair.getKey() + ";" + pair.getValue());
             }
-        }*/
+        }*/       
     }
 }

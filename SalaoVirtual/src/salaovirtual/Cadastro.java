@@ -9,18 +9,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
  * @author Rafael Tavares
  */
-public class Cadastro {
-    // Tornar o cadastro do Fornecedor mais restrito em relação à repetição de CNPJ
-        // É possível se apoiar no cadastro do Funcionário para fazer algo assim
-    // O mesmo para cadastro do Cliente em relação ao CPF
-    
-    
-    
+public class Cadastro {    
     /**
      * Método para gravar o fornecedor passado como parâmetro em um arquivo CSV
      * @param f
@@ -164,13 +160,102 @@ public class Cadastro {
      * Método para gravar o serviço passado como parâmetro em um arquivo CSV
      * @param s
      */
-    private void gravarServico(Servico s) {
+    private void gravarServico(Servico s) throws ChaveNulaException {
         try {
+            if (s.getFuncionario() == null) {
+                throw new ChaveNulaException();
+            }
             Consulta consulta = new Consulta();
             FileWriter arq = new FileWriter("Servico.csv", true);
             BufferedWriter saida = new BufferedWriter(arq);
             s.setCodigo(consulta.getProxCodigo("Servico.csv"));
             saida.write(s.toString());
+            saida.newLine();
+            saida.close();
+            arq.close();
+        } catch (IOException e) {
+            //
+        }
+    }
+    
+    /**
+     * Método para gravar a compra passada como parâmetro em um arquivo CSV
+     * @param c
+     */
+    public void gravarCompra(Compra c) throws ChaveNulaException {
+        try {
+            if (c.getFornecedor() == null) {
+                throw new ChaveNulaException();
+            }
+            Consulta consulta = new Consulta();
+            FileWriter arq = new FileWriter("Compra.csv", true);
+            BufferedWriter saida = new BufferedWriter(arq);
+            c.setCodigo(consulta.getProxCodigo("Compra.csv"));
+            saida.write(c.toString());
+            saida.newLine();
+            this.gravarCompraProdutos(c);
+            saida.close();
+            arq.close();
+        } catch (IOException e) {
+            //
+        }
+    }
+    
+    /**
+     * Método para gravar o mapa de produtos fornecidos pelo fornecedor passado como parâmetro em um arquivo CSV
+     * @param c
+     */
+    private void gravarCompraProdutos(Compra c) {
+        try {
+            FileWriter arq = new FileWriter("CompraProdutos.csv", true);
+            BufferedWriter saida = new BufferedWriter(arq);
+            List<Integer> quantidade = new ArrayList<>();
+            int pos = 0;
+            quantidade = c.getQuantidade();
+            for (Map.Entry<Integer, Float> pair : c.getProdutos().entrySet()){
+                saida.write(c.getCodigo() + ";" + pair.getKey() + ";" + pair.getValue() + ";" + quantidade.get(pos));
+                pos++;
+                saida.newLine();
+            }
+            saida.close();
+            arq.close();
+        } catch (IOException e) {
+            //
+        }
+    }
+    
+    /**
+     * Método para gravar a forma de pagamento do cartão passado como parâmetro em um arquivo CSV
+     * Polimorfismo: Sobrecarga
+     * @param c
+     */
+    public void gravarFormaDePagamento(Cartao c) {
+        try {
+            Consulta consulta = new Consulta();
+            FileWriter arq = new FileWriter("FormaDePagamento.csv", true);
+            BufferedWriter saida = new BufferedWriter(arq);
+            c.setCodigo(consulta.getProxCodigo("FormaDePagamento.csv"));
+            saida.write(c.toString());
+            saida.newLine();
+            saida.close();
+            arq.close();
+        } catch (IOException e) {
+            //
+        }
+    }
+    
+    /**
+     * Método para gravar a forma de pagamento do dinheiro passado como parâmetro em um arquivo CSV
+     * Polimorfismo: Sobrecarga
+     * @param d
+     */
+    public void gravarFormaDePagamento(Dinheiro d) {
+        try {
+            Consulta consulta = new Consulta();
+            FileWriter arq = new FileWriter("FormaDePagamento.csv", true);
+            BufferedWriter saida = new BufferedWriter(arq);
+            d.setCodigo(consulta.getProxCodigo("FormaDePagamento.csv"));
+            saida.write(d.toString());
             saida.newLine();
             saida.close();
             arq.close();

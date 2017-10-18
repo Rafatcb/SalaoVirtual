@@ -7,6 +7,10 @@ import java.util.Map;
 
 /**
  * Classe referente ao fornecedor
+ * 
+ * <p>Atributos que merecem destaque para explicação:
+ * <p>produtos: É um map onde a Key é o código, e Value é seu valor (preço)
+ * 
  * @author Rafael Tavares
  */
 public class Fornecedor {
