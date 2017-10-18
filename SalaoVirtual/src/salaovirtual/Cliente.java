@@ -1,28 +1,16 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Classe referente ao cliente
  */
 package salaovirtual;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import static java.lang.Integer.parseInt;
-import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
- *
- * @author r176257
+ * Classe referente ao cliente
+ * @author Rafael Tavares
  */
 public class Cliente implements java.io.Serializable {
     private int codigo;
@@ -31,10 +19,12 @@ public class Cliente implements java.io.Serializable {
     private String telefone;
     private String email;
     private Date dataAniversario;
-
-    // Criar método para listar clientes que fazem aniversário em tal mês
-    
-    
+ 
+    /**
+     * Método para facilitar a escrita do objeto em um arquivo CSV
+     * Polimorfismo: Sobrescrita
+     * @return Atributos do objeto separados por ;
+     */
     @Override
     public String toString() {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
@@ -45,180 +35,114 @@ public class Cliente implements java.io.Serializable {
         }
     }
     
-    public void gravarCliente() {
-        try {
-            FileWriter arq = new FileWriter("Cliente.csv", true);
-            BufferedWriter saida = new BufferedWriter(arq);
-            this.setCodigo(this.getProxCodigo());
-            saida.write(this.toString());
-            saida.newLine();
-            saida.close();
-            arq.close();
-        } catch (IOException e) {
-            //
-        }
-    }
-    
-    public Cliente encontrarCliente(int codigo) {
-        try {
-            FileReader arq = new FileReader("Cliente.csv");
-            BufferedReader entrada = new BufferedReader(arq);
-            String linha;
-            Cliente c = new Cliente();
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-            do {
-                linha = entrada.readLine();
-                String[] valor = linha.split(";");
-                if (parseInt(valor[0]) == codigo) {
-                    c.setCodigo(parseInt(valor[0]));
-                    c.setCpf(valor[1]);
-                    c.setNome(valor[2]);
-                    c.setTelefone(valor[3]);
-                    c.setEmail(valor[4]);
-                    if (!valor[5].equals("null")) {
-                        c.setDataAniversario(formato.parse(valor[5]));
-                    }
-                    else {
-                        c.setDataAniversario(null);
-                    }
-                    entrada.close();
-                    arq.close();
-                    return c;
-                }
-            } while (linha != null);
-            entrada.close();
-            arq.close();
-        } catch (FileNotFoundException ex) {
-            return null;
-        } catch (IOException ex2) {
-            return null;
-        } catch (ParseException ex) {
-            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-    
-    public List<Cliente> encontrarCliente(String nome) {
-        try {
-            List<Cliente> clientes = new ArrayList();
-            FileReader arq = new FileReader("Cliente.csv");
-            BufferedReader entrada = new BufferedReader(arq);
-            String linha;
-            
-            linha = entrada.readLine();
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-            do {
-                Cliente c = new Cliente();
-                String[] valor = linha.split(";");
-                if (valor[2].equals(nome)) {
-                    c.setCodigo(parseInt(valor[0]));
-                    c.setCpf(valor[1]);
-                    c.setNome(valor[2]);
-                    c.setTelefone(valor[3]);
-                    c.setEmail(valor[4]);
-                    if (!valor[5].equals("null")){
-                        c.setDataAniversario(formato.parse(valor[5]));
-                    }
-                    else {
-                        c.setDataAniversario(null);
-                    }
-                    clientes.add(c);
-                }
-                linha = entrada.readLine();
-            } while (linha != null);
-            entrada.close();
-            arq.close();
-            return clientes;
-        } catch (FileNotFoundException e) {
-            return null;
-        } catch (IOException ex2) {
-            return null;
-        } catch (ParseException ex) {
-            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-    
-    public int getProxCodigo() {
-        int cod = 1;
-        try {
-            FileReader arq = new FileReader("Cliente.csv");
-            BufferedReader entrada = new BufferedReader(arq);
-            String linha;
-            linha = entrada.readLine();
-            while (linha != null) {
-                cod++;
-                linha = entrada.readLine();
-            }
-            entrada.close();
-            arq.close();
-        } catch (FileNotFoundException ex) {
-            try {
-                FileWriter arq = new FileWriter("Cliente.csv");
-                BufferedWriter saida = new BufferedWriter(arq);
-                saida.close();
-                arq.close();
-            } catch (IOException ex1) {
-                //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-        } catch (IOException ex2) {
-            // log
-        }
-        return cod;
-    }
-    
     /* Métodos Construtores, Setters & Getters */
+    /**
+     * Método construtor para facilitar a criação de um objeto que será cadastrado no sistema
+     * @param nome 
+     */
     public Cliente(String nome) {
         this.setNome(nome);
     }
 
+    /**
+     * Método construtor para facilitar a criação de um objeto que será utilizado para consulta ao invés
+     * de cadastro
+     */
     public Cliente() {
     }
     
-    private void setCodigo(Integer codigo) {
+    /**
+     * Define o código do cliente
+     * @param codigo 
+     */
+    public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
 
+    /**
+     * Define o CPF do cliente
+     * @param cpf 
+     */
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
     
+    /**
+     * Retorna o código do cliente
+     * @return Código
+     */
     public int getCodigo() {
         return codigo;
     }
 
+    /**
+     * Retorna a data de aniversário do cliente
+     * @return Data de Aniversário
+     */
     public Date getDataAniversario() {
         return dataAniversario;
     }
 
+    /**
+     * Define a data de aniversário do cliente
+     * @param dataAniversario 
+     */
     public void setDataAniversario(Date dataAniversario) {
         this.dataAniversario = dataAniversario;
     }
 
+    /**
+     * Retorna o CPF do cliente
+     * @return CPF
+     */
     public String getCpf() {
         return cpf;
     }
     
+    /**
+     * Retorna o noe do cliente
+     * @return Nome
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     * Define o nome do cliente
+     * @param nome 
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /**
+     * Retorna o telefone do cliente
+     * @return 
+     */
     public String getTelefone() {
         return telefone;
     }
 
+    /**
+     * Define o telefone do cliente
+     * @param telefone 
+     */
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
+    /**
+     * Retorna o e-mail do cliente
+     * @return E-mail
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Define o e-mail do cliente
+     * @param email 
+     */
     public void setEmail(String email) {
         this.email = email;
     }

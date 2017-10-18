@@ -1,24 +1,19 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Classe referente ao produto
  */
 package salaovirtual;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import static java.lang.Float.parseFloat;
-import static java.lang.Integer.parseInt;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- *
- * @author r176257
+ * Classe referente ao produto
+ * 
+ * Atributos que merecem destaque para explicação:
+ * unidade: é a unidade do produto (como por exemplo ml, litro, kg)
+ * qtdUnitaria: é o quanto o produto possui
+ * qtdEstoque: é a quantidade atual do produto em estoque
+ * qtdEstoqueMin: é a quantidade mínima do produto que deve existir em estoque
+ * 
+ * @author Rafael Tavares
  */
 public class Produto {
     private int codigo;
@@ -30,241 +25,166 @@ public class Produto {
     private int qtdEstoque;
     private int qtdEstoqueMin;
 
-    // Criar método para listar produtos por faixa de valor
-    // Criar método para listar produtos com estoque crítico
     // Fazer o método encomendar()
     
-    public void encomendar() {
+    public void encomendar(Fornecedor f) {
         
     }
-    
+
+    /**
+     * Método para facilitar a escrita do objeto em um arquivo CSV
+     * Polimorfismo: Sobrescrita
+     * @return Atributos do objeto separados por ;
+     */
     @Override
     public String toString() {
         return this.codigo + ";" + this.nome + ";" + this.marca + ";" + this.unidade + ";" + 
                 this.qtdUnitaria + ";" + this.valor + ";" + this.qtdEstoque + ";" + this.qtdEstoqueMin;
     }
     
-    public void gravarProduto() {
-        try {
-            FileWriter arq = new FileWriter("Produto.csv", true);
-            BufferedWriter saida = new BufferedWriter(arq);
-            this.setCodigo(this.getProxCodigo());
-            saida.write(this.toString());
-            saida.newLine();
-            saida.close();
-            arq.close();
-        } catch (IOException e) {
-            //
-        }
-    }
-    
-    public Produto encontrarProduto(int codigo) {
-        try {
-            FileReader arq = new FileReader("Produto.csv");
-            BufferedReader entrada = new BufferedReader(arq);
-            String linha;
-            Produto p = new Produto();
-            do {
-                linha = entrada.readLine();
-                String[] valor = linha.split(";");
-                if (parseInt(valor[0]) == codigo) {
-                    p.setCodigo(parseInt(valor[0]));
-                    p.setNome(valor[1]);
-                    p.setMarca(valor[2]);
-                    p.setUnidade(valor[3]);
-                    p.setQtdUnitaria(parseFloat(valor[4]));
-                    p.setValor(parseFloat(valor[5]));
-                    p.setQtdEstoque(parseInt(valor[6]));
-                    p.setQtdEstoqueMin(parseInt(valor[7]));
-                    arq.close();
-                    entrada.close();
-                    return p;
-                }
-            } while (linha != null);
-            arq.close();
-            entrada.close();
-        } catch (FileNotFoundException ex) {
-            try {
-                FileWriter arq = new FileWriter("Produto.csv");
-                BufferedWriter saida = new BufferedWriter(arq);
-                saida.close();
-                arq.close();
-            } catch (IOException ex1) {
-                //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-        }catch (IOException ex2) {
-            // log
-        }
-        return null;
-    }
-    
-    public List<Produto> encontrarProdutoNome(String nome) {
-        try {
-            List<Produto> produtos = new ArrayList();
-            FileReader arq = new FileReader("Produto.csv");
-            BufferedReader entrada = new BufferedReader(arq);
-            String linha;
-            
-            linha = entrada.readLine();
-            do {
-                Produto p = new Produto();
-                String[] valor = linha.split(";");
-                if (valor[1].equals(nome)) {
-                    p.setCodigo(parseInt(valor[0]));
-                    p.setNome(valor[1]);
-                    p.setMarca(valor[2]);
-                    p.setUnidade(valor[3]);
-                    p.setQtdUnitaria(parseFloat(valor[4]));
-                    p.setValor(parseFloat(valor[5]));
-                    p.setQtdEstoque(parseInt(valor[6]));
-                    p.setQtdEstoqueMin(parseInt(valor[7]));
-                    produtos.add(p);
-                }
-                linha = entrada.readLine();
-            } while (linha != null);
-            arq.close();
-            entrada.close();
-            return produtos;
-        } catch (FileNotFoundException e) {
-            //log de erro
-        } catch (IOException ex2) {
-            // log
-        } 
-        return null;
-    }
-    
-    public List<Produto> encontrarProdutoMarca(String marca) {
-        try {
-            List<Produto> produtos = new ArrayList();
-            FileReader arq = new FileReader("Produto.csv");
-            BufferedReader entrada = new BufferedReader(arq);
-            String linha;
-            
-            linha = entrada.readLine();
-            do {
-                Produto p = new Produto();
-                String[] valor = linha.split(";");
-                if (valor[2].equals(marca)) {
-                    p.setCodigo(parseInt(valor[0]));
-                    p.setNome(valor[1]);
-                    p.setMarca(valor[2]);
-                    p.setUnidade(valor[3]);
-                    p.setQtdUnitaria(parseFloat(valor[4]));
-                    p.setValor(parseFloat(valor[5]));
-                    p.setQtdEstoque(parseInt(valor[6]));
-                    p.setQtdEstoqueMin(parseInt(valor[7]));
-                    produtos.add(p);
-                }
-                linha = entrada.readLine();
-            } while (linha != null);
-            arq.close();
-            entrada.close();
-            return produtos;
-        } catch (FileNotFoundException e) {
-            //log de erro
-        } catch (IOException ex2) {
-            // log
-        } 
-        return null;
-    }
-    
-    public int getProxCodigo() {
-        int cod = 1;
-        try {
-            FileReader arq = new FileReader("Produto.csv");
-            BufferedReader entrada = new BufferedReader(arq);
-            String linha;
-            linha = entrada.readLine();
-            while (linha != null) {
-                cod++;
-                linha = entrada.readLine();
-            }
-            arq.close();
-            entrada.close();
-        } catch (FileNotFoundException ex) {
-            try {
-                FileWriter arq = new FileWriter("Produto.csv");
-                BufferedWriter saida = new BufferedWriter(arq);
-                saida.close();
-                arq.close();
-            } catch (IOException ex1) {
-                //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-        } catch (IOException ex2) {
-            // log
-        }
-        return cod;
-    }
-    
-    /* Construtores, Getters & Setters */
+    /* Métodos Construtores, Getters & Setters */
+    /**
+     * Método construtor para facilitar a criação de um objeto que será cadastrado no sistema
+     * @param nome 
+     */
     public Produto(String nome) {
         this.nome = nome;
     }
 
+    /**
+     * Método construtor para facilitar a criação de um objeto que será utilizado para consulta ao invés
+     * de cadastro
+     */
     public Produto() {
         
     }
 
+    /**
+     * Retorna o valor do produto
+     * @return Valor
+     */
     public float getValor() {
         return valor;
     }
 
+    /**
+     * Define o valor do produto
+     * @param valor 
+     */
     public void setValor(float valor) {
         this.valor = valor;
     }
     
+    /**
+     * Retorna a marca do produto
+     * @return Marca
+     */
     public String getMarca() {
         return marca;
     }
 
+    /**
+     * Retorna o código do produto
+     * @return Código
+     */
     public int getCodigo() {
         return codigo;
     }
 
-    private void setCodigo(int codigo) {
+    /**
+     * Define o código do produto
+     * @param codigo 
+     */
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
+    /**
+     * Define a marca do produto
+     * @param marca 
+     */
     public void setMarca(String marca) {
         this.marca = marca;
     }
 
+    /**
+     * Retorna a unidade do produto. Por exemplo: ml, litros, kg
+     * @return Unidade
+     */
     public String getUnidade() {
         return unidade;
     }
 
+    /**
+     * Define a unidade do produto. Por exemplo: ml, litro, kg
+     * @param unidade 
+     */
     public void setUnidade(String unidade) {
         this.unidade = unidade;
     }
 
+    /**
+     * Retorna a quantidade unitária do produto. Por exemplo: se ele possui 500 ml, sua quantidade unitária
+     * é 500
+     * @return Quantidade unitária
+     */
     public float getQtdUnitaria() {
         return qtdUnitaria;
     }
 
+    /**
+     * Define a quantidade unitária do produto. Por exemplo: se ele possui 500 ml, sua quantidade unitária
+     * é 500
+     * @param qtdUnitaria 
+     */
     public void setQtdUnitaria(float qtdUnitaria) {
         this.qtdUnitaria = qtdUnitaria;
     }
 
+    /**
+     * Retorna o nome do produto
+     * @return Nome
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     * Define o nome do produto
+     * @param nome 
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /**
+     * Retorna a quantidade atual em estoque do produto
+     * @return Quantidade em estoque
+     */
     public int getQtdEstoque() {
         return qtdEstoque;
     }
 
+    /**
+     * Define a quantidade atual em estoque do produto
+     * @param qtdEstoque 
+     */
     public void setQtdEstoque(int qtdEstoque) {
         this.qtdEstoque = qtdEstoque;
     }
 
+    /**
+     * Retorna a quantidade mínima que o produto deve possuir em estoque
+     * @return Quantidade mínima de estoque
+     */
     public int getQtdEstoqueMin() {
         return qtdEstoqueMin;
     }
 
+    /**
+     * Define a quantidade mínima que o produto deve possuir em estoque
+     * @param qtdEstoqueMin 
+     */
     public void setQtdEstoqueMin(int qtdEstoqueMin) {
         this.qtdEstoqueMin = qtdEstoqueMin;
     }

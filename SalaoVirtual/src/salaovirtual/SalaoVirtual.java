@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Trabalho realizado para a disciplina de POO II da Faculdade de Tecnologia - UNICAMP
+ * O projeto visa a criação de um sistema para salão de beleza
  */
 package salaovirtual;
 
@@ -9,13 +8,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author r176257
+ * @author Fábio Augusto
+ * @author João Gabriel
+ * @author Rafael Tavares
  */
 public class SalaoVirtual {
 
@@ -66,5 +68,33 @@ public class SalaoVirtual {
         for (Cliente item : clientes) {
             System.out.println(item.toString());
         }*/
-    }         
+        
+        /*Cadastro cad = new Cadastro();
+        Consulta con = new Consulta();
+        Fornecedor f = new Fornecedor();
+        f.setCidade("Limeira");
+        f.setCnpj("111111");
+        f.setComplemento("A");
+        f.setEmail("forn@ecedor.com");
+        f.setEstado("São Paulo");
+        f.setNome("Padrão");
+        f.setNumero(10);
+        f.setRua("Avenida Dr. Fabrício Vampré");
+        f.setTelefone("(19) 1020-3040");
+        Map<Integer, Float> mapa = new HashMap<>();
+        mapa.put(1, 10.3f);
+        mapa.put(2, 15.0f);
+        f.setProdutos(mapa);
+        System.out.println(f.toString());
+        cad.gravarFornecedor(f);
+        System.out.println("Gravou!");
+        List<Fornecedor> fornecedores = new ArrayList<>();
+        fornecedores = con.encontrarFornecedorNome("Padrão");
+        for (Fornecedor item : fornecedores) {
+            System.out.println(item.toString());
+            for (Map.Entry<Integer, Float> pair : item.getProdutos().entrySet()){
+                System.out.println(item.getCodigo() + ";" + pair.getKey() + ";" + pair.getValue());
+            }
+        }*/
+    }
 }
