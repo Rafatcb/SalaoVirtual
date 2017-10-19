@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author r176257
  */
-public class Venda {
+public class Venda implements Adicionar{
     private int codigo;
     private Date data;
     private Cliente cliente;
@@ -22,11 +22,21 @@ public class Venda {
     private List<Produto> produtos;
     private List<Servico> servicos;
 
+    /**
+     *Adiciona produto a venda
+     * @param p
+     */
+    @Override
     public void addProduto(Produto p) {
         // Falta verificar se é um produto válido baseado no arquivo de produtos
         this.produtos.add(p);
     }
     
+    /**
+     *Adiciona serviço a venda
+     * @param s
+     */
+    @Override
     public void addServico(Servico s) {
         // Falta verificar se é um servico válido baseado no arquivo de servicos
         this.servicos.add(s);

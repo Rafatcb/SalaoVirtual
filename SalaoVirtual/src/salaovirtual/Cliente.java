@@ -12,7 +12,7 @@ import java.util.Date;
  * Classe referente ao cliente
  * @author Rafael Tavares
  */
-public class Cliente implements java.io.Serializable {
+public class Cliente implements java.io.Serializable, InformacaoPessoa {
     private int codigo;
     private String cpf;
     private String nome;
@@ -96,6 +96,7 @@ public class Cliente implements java.io.Serializable {
      * Retorna o CPF do cliente
      * @return CPF
      */
+    @Override
     public String getCpf() {
         return cpf;
     }
@@ -104,6 +105,7 @@ public class Cliente implements java.io.Serializable {
      * Retorna o noe do cliente
      * @return Nome
      */
+    @Override
     public String getNome() {
         return nome;
     }
@@ -120,6 +122,7 @@ public class Cliente implements java.io.Serializable {
      * Retorna o telefone do cliente
      * @return 
      */
+    @Override
     public String getTelefone() {
         return telefone;
     }

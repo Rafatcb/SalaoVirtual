@@ -8,7 +8,7 @@ package salaovirtual;
  * Classe referente ao funcionário
  * @author Rafael Tavares
  */
-public class Funcionario {
+public class Funcionario implements InformacaoPessoa{
     private String login;
     private String senha;
     private String cpf;
@@ -80,6 +80,7 @@ public class Funcionario {
      * Retorna o CPF do funcionário
      * @return 
      */
+    @Override
     public String getCpf() {
         return cpf;
     }
@@ -104,6 +105,7 @@ public class Funcionario {
      * Retorna o nome do funcionário
      * @return Nome
      */
+    @Override
     public String getNome() {
         return nome;
     }
@@ -120,6 +122,7 @@ public class Funcionario {
      * Retorna o telefone do funcionário
      * @return Telefone
      */
+    @Override
     public String getTelefone() {
         return telefone;
     }
