@@ -1,40 +1,88 @@
+/*
+ * Classe referente à forma de pagamento
+ */
+
 package salaovirtual;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
- * @author faad2
+ * Classe referente à forma de pagamento
+ * 
+ * <p>Atributos que merecem destaque para explicação:
+ * <p>id: identificador da forma de pagamento: 0 = Cartao, 1 = Dinheiro
+ * 
+ * @author Rafael Tavares
+ * @author Fábio Augusto
+ * 
  */
-public class FormaDePagamento {
-    // private int codigo; Depois precisará colocar o código por causa do banco de dados
-    private double valorTotal;
-    private int identificador;
+public class  FormaDePagamento {
+    private int codigo;
+    private float valorTotal;  // Arrumar valor monetário
+    private int identificador;  // 0 - Cartão; 1 - Dinheiro
 
-    public FormaDePagamento(double valor, int id){
+    /* Métodos Construtores, Setters & Getters */
+    /**
+     * Método construtor para facilitar a criação de um objeto que será cadastrado no sistema
+     * @param valor
+     * @param id
+     */
+    protected FormaDePagamento(float valor, int id) {
         this.identificador = id;
-        this.valorTotal = valor;
+        setValorTotal(valor);
     }
     
-    public double getValorTotal() {
-        return valorTotal;
+    /**
+     * Método construtor para facilitar a criação de um objeto que será utilizado para consulta ao invés
+     * de cadastro
+     */
+    protected FormaDePagamento() {
+        
     }
 
-    public void setValorTotal(int valorTotal) {
-        this.valorTotal = valorTotal;
+    /**
+     * Define o código da forma de pagamento
+     * @param codigo 
+     */
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
-    public int getIdentificador() {
-        return identificador;
-    }
-
+    /**
+     * Define o identificador da forma de pagamento
+     * @param identificador 
+     */
     public void setIdentificador(int identificador) {
         this.identificador = identificador;
     }
     
+    /**
+     * Retorna o código da forma de pagamento
+     * @return Código
+     */
+    public int getCodigo() {
+        return codigo;
+    }
     
+    /**
+     * Retorna o valor total da forma de pagamento
+     * @return Valor Total
+     */
+    public float getValorTotal() {
+        return valorTotal;
+    }
+
+    /**
+     * Define o valor total da forma de pagamento
+     * @param valorTotal 
+     */
+    public void setValorTotal(float valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    /**
+     * Retorna o identificador da forma de pagamento
+     * @return 
+     */
+    public int getIdentificador() {
+        return identificador;
+    }
 }
