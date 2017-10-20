@@ -44,7 +44,8 @@ public class Compra {
     
     /* Métodos Construtores, Setters & Getters */
     /**
-     * Método construtor
+     * Método construtor para facilitar a criação de um objeto que será utilizado para consulta ao invés
+     * de cadastro
      */
     public Compra() {
                
@@ -126,10 +127,19 @@ public class Compra {
 
     /**
      * Define a data da compra
+     * Polimorfismo: Sobrecarga
      * @param data 
      */
     public void setData(Date data) {
         this.data = data;
+    }
+
+    /**
+     * Define a data da compra caso tenha sido no dia em que foi criada a classe
+     * Polimorfismo: Sobrecarga
+     */
+    public void setData() {
+        this.data = new Date();
     }
     
     /**

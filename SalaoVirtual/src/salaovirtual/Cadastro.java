@@ -263,4 +263,66 @@ public class Cadastro {
             //
         }
     }
+    
+    /**
+     * Método para gravar a compra passada como parâmetro em um arquivo CSV
+     * @param v
+     */
+    public void gravarVenda(Venda v) throws ChaveNulaException {
+        try {
+            if (v.getFuncionario()== null) {
+                throw new ChaveNulaException();
+            }
+            Consulta consulta = new Consulta();
+            FileWriter arq = new FileWriter("Venda.csv", true);
+            BufferedWriter saida = new BufferedWriter(arq);
+            v.setCodigo(consulta.getProxCodigo("Venda.csv"));
+            saida.write(v.toString());
+            saida.newLine();
+            this.gravarVendaProdutos(v);
+            this.gravarVendaServicos(v);
+            saida.close();
+            arq.close();
+        } catch (IOException e) {
+            //
+        }
+    }
+    
+    /**
+     * Método para gravar o mapa de produtos vendidos (Código do produto, Quantidade) passado como parâmetro em um arquivo CSV
+     * @param v
+     */
+    private void gravarVendaProdutos(Venda v) {
+        try {
+            FileWriter arq = new FileWriter("VendaProdutos.csv", true);
+            BufferedWriter saida = new BufferedWriter(arq);
+            for (Map.Entry<Integer, Integer> pair : v.getProdutos().entrySet()){
+                saida.write(v.getCodigo() + ";" + pair.getKey() + ";" + pair.getValue());
+                saida.newLine();
+            }
+            saida.close();
+            arq.close();
+        } catch (IOException e) {
+            //
+        }
+    }
+    
+    /**
+     * Método para gravar o mapa de serviços vendidos (Código do serviço, Quantidade) passado como parâmetro em um arquivo CSV
+     * @param v
+     */
+    private void gravarVendaServicos(Venda v) {
+        try {
+            FileWriter arq = new FileWriter("VendaServicos.csv", true);
+            BufferedWriter saida = new BufferedWriter(arq);
+            for (Map.Entry<Integer, Integer> pair : v.getServicos().entrySet()){
+                saida.write(v.getCodigo() + ";" + pair.getKey() + ";" + pair.getValue());
+                saida.newLine();
+            }
+            saida.close();
+            arq.close();
+        } catch (IOException e) {
+            //
+        }
+    }
 }

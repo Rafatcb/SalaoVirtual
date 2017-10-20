@@ -752,7 +752,7 @@ public class Consulta {
     /**
      * Adiciona ao atributo "produtos" da compra que foi passado como parâmetro um Map dos produtos
      * cadastrados que foram comprados, junto do valor e quantidade, com base no arquivo CSV
-     * @param s 
+     * @param c
      */
     private void encontrarCompraProdutos(Compra c) {
         try {
@@ -780,6 +780,44 @@ public class Consulta {
             //
         }
     }
+    
+    /**
+     * Retorna a forma de pagamento identificado pelo código passado por parâmetro
+     * @param codigo
+     * @return Forma de Pagamento
+     */   
+    public FormaDePagamento encontrarFormaDePagamento(int codigo) {
+        try {
+            FileReader arq = new FileReader("FormaDePagamento.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            linha = entrada.readLine();
+            FormaDePagamento f = new FormaDePagamento();
+            do {
+                String[] valor = linha.split(";");
+                if (parseInt(valor[0]) == codigo) {
+                    if(!"1".equals(valor[2])) {
+                        return null;
+                    }
+                    f.setCodigo(parseInt(valor[0]));
+                    f.setValorTotal(parseFloat(valor[1]));
+                    f.setIdentificador(parseInt(valor[2]));
+                    
+                    arq.close();
+                    entrada.close();
+                    return f;
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            arq.close();
+            entrada.close();
+        } catch (FileNotFoundException ex) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        }
+        return null;
+    }    
     
     /**
      * Retorna o cartao identificado pelo código passado por parâmetro
@@ -975,6 +1013,102 @@ public class Consulta {
         } catch (IOException ex2) {
             //
         } catch (TipoDeCartaoInvalidoException ex) {
+            //
+        }
+    }
+    
+    /**
+     * Retorna a venda identificada pelo código passado por parâmetro
+     * @param codigo
+     * @return Venda
+     */   
+    public Venda encontrarVenda(int codigo) {
+        try {
+            FileReader arq = new FileReader("Venda.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            linha = entrada.readLine();
+            Venda v = new Venda();
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            do {
+                String[] valor = linha.split(";");
+                if (parseInt(valor[0]) == codigo) {
+                    v.setCodigo(parseInt(valor[0]));
+                    v.setData(formato.parse(valor[1]));
+                    v.setCliente(this.encontrarCliente(parseInt(valor[2])));
+                    v.setFuncionario(this.encontrarFuncionarioLogin(valor[3]));
+                    v.setFormaPagamento(this.encontrarFormaDePagamento(parseInt(valor[4])));
+                    this.encontrarVendaProdutos(v);
+                    this.encontrarVendaServicos(v);
+                    
+                    arq.close();
+                    entrada.close();
+                    return v;
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            arq.close();
+            entrada.close();
+        } catch (FileNotFoundException ex) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        } catch (ParseException ex3) {
+            return null;
+        }
+        return null;
+    }
+    
+    /**
+     * Adiciona ao atributo "produtos" da venda que foi passado como parâmetro um Map dos produtos
+     * cadastrados que foram vendidos, com base no arquivo CSV
+     * @param v 
+     */
+    private void encontrarVendaProdutos(Venda v) {
+        try {
+            FileReader arq = new FileReader("VendaProdutos.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            linha = entrada.readLine();
+            do {
+                String[] valor = linha.split(";");
+                if (valor[0].equals(Integer.toString(v.getCodigo()))) {
+                    v.addProduto(parseInt(valor[1]), parseInt(valor[2]));
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            arq.close();
+            entrada.close();
+        } catch (FileNotFoundException ex) {
+            //
+        }catch (IOException ex2) {
+            //
+        }
+    }
+    
+    /**
+     * Adiciona ao atributo "servicos" da venda que foi passado como parâmetro um Map dos servicos
+     * cadastrados que foram vendidos, com base no arquivo CSV
+     * @param v 
+     */
+    private void encontrarVendaServicos(Venda v) {
+        try {
+            FileReader arq = new FileReader("VendaServicos.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            linha = entrada.readLine();
+            do {
+                String[] valor = linha.split(";");
+                if (valor[0].equals(Integer.toString(v.getCodigo()))) {
+                    v.addServico(parseInt(valor[1]), parseInt(valor[2]));
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            arq.close();
+            entrada.close();
+        } catch (FileNotFoundException ex) {
+            //
+        }catch (IOException ex2) {
             //
         }
     }

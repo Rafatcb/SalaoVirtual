@@ -1,16 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Exception Checked referente à um estado inválido de um serviço
  */
 package salaovirtual;
 
-/**
+/*
+ * Exception Checked referente à um estado inválido de um serviço
  *
- * @author rafae
+ * @author Rafael Tavares
  */
 public class EstadoServicoInvalidoException extends MinhaException {
 
+    /**
+     * Construtor que envia como mensagem "Estado inválido. O estado do serviço deve ser 'Agendado', 'Realizado' ou 'Cancelado'."
+     */
     public EstadoServicoInvalidoException() {
         super("Estado inválido. O estado do serviço deve ser 'Agendado', 'Realizado' ou 'Cancelado'.");
     }

@@ -27,20 +27,7 @@ public class SalaoVirtual {
     public static void main(String[] args) throws ChaveNulaException, TipoDeCartaoInvalidoException {        
         //System.out.println("\n\n\n");
         /* ROTEIRO DE TESTE DO CSV (neste caso, para Cliente, basta adaptar para outros casos) */
-        /*Cliente c = new Cliente();
-        Cliente c1 = new Cliente("Rafael");
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            c1.setDataAniversario(formato.parse("23/02/1997"));
-        } catch (ParseException ex) {
-           // Logger.getLogger(SalaoVirtual.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        c1.setEmail("rafa@unicamp.br");
-        c1.setCpf("4444");
-        c1.setTelefone("(13) 9234-5678");
-        System.out.println(c1.toString());
-        c1.gravarCliente();
-        System.out.println("Gravou!");*/
+        
         
         /*System.out.println("----------------");
         c = c.encontrarCliente(1);
@@ -96,5 +83,53 @@ public class SalaoVirtual {
                 System.out.println(item.getCodigo() + ";" + pair.getKey() + ";" + pair.getValue());
             }
         }*/       
+        
+        Cadastro cad = new Cadastro();
+        Consulta con = new Consulta();
+        Venda v = new Venda();
+        /*Cliente c = con.encontrarCliente(1);
+        Dinheiro d = con.encontrarFormaDePagamentoDinheiro(5);
+        Funcionario f = con.encontrarFuncionarioLogin("rafatcb");
+        
+        v.setCliente(c);
+        v.setData();
+        v.setFormaPagamento(d);
+        v.setFuncionario(f);
+        v.addProduto(1, 1);
+        v.addProduto(2, 2);
+        v.addServico(1, 1);
+        v.addServico(2, 1);
+        
+        
+        System.out.println(v.toString());
+        cad.gravarVenda(v);
+        System.out.println("Gravou!");
+        
+        
+        c = con.encontrarCliente(2);
+        d = con.encontrarFormaDePagamentoDinheiro(2);
+        f = con.encontrarFuncionarioLogin("leonidas");
+        v = new Venda();
+        v.setCliente(c);
+        v.setData();
+        v.setFormaPagamento(d);
+        v.setFuncionario(f);
+        v.addProduto(3, 1);
+        v.addServico(3, 1);
+        
+        
+        System.out.println(v.toString());
+        cad.gravarVenda(v);
+        System.out.println("Gravou!");*/
+        v = con.encontrarVenda(2);
+        System.out.println(v.toString());
+        System.out.println("Vendas");
+        for (Map.Entry<Integer, Integer> pair : v.getProdutos().entrySet()){
+            System.out.println(v.getCodigo() + ";" + pair.getKey() + ";" + pair.getValue());
+        }
+        System.out.println("Serviços");
+        for (Map.Entry<Integer, Integer> pair : v.getServicos().entrySet()){
+            System.out.println(v.getCodigo() + ";" + pair.getKey() + ";" + pair.getValue());
+        }
     }
 }

@@ -1,15 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Interface referente à adição de produtos e serviços
  */
 package salaovirtual;
 
 /**
- *
- * @author faad2
+ * Interface referente à adição de produtos e serviços
+ * 
+ * @author Fábio Augusto
  */
 public interface Adicionar {
-    public void addProduto(Produto p);
-    public void addServico(Servico s);
+    public void addProduto(Produto p, int quantidade);
+    public void addServico(Servico s, int quantidade);
 }

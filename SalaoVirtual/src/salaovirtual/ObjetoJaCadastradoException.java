@@ -1,16 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Exception Checked referente à um objeto já cadastrado
  */
 package salaovirtual;
 
-/**
+/*
+ * Exception Checked referente à um objeto já cadastrado
  *
- * @author rafae
+ * @author Rafael Tavares
  */
 public class ObjetoJaCadastradoException extends MinhaException {
     
+    /**
+     * Construtor que envia como mensagem "O Objeto com a Key indicada já está cadastrado no sistema."
+     */
     public ObjetoJaCadastradoException() {
         super("O Objeto com a Key indicada já está cadastrado no sistema.");
     }

@@ -1,24 +1,28 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Classe referente à criptografia de senhas no padrão MD5
  */
 package salaovirtual;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/**
- *
- * @author rafae
+/*
+ * Classe referente à criptografia de senhas no padrão MD5
+ * 
+ * @author Rafael Tavares
  */
 public class Criptografar {
     private static MessageDigest md;
 
-    public static String criptografarMD5(String pass){
+    /**
+     * Método para criptografar a senha
+     * @param senha
+     * @return Senha criptografada (MD5)
+     */
+    public static String criptografarMD5(String senha){
         try {
             md = MessageDigest.getInstance("MD5");
-            byte[] passBytes = pass.getBytes();
+            byte[] passBytes = senha.getBytes();
             md.reset();
             byte[] digested = md.digest(passBytes);
             StringBuilder sb = new StringBuilder();
