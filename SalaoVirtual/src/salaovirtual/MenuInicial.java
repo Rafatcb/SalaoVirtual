@@ -19,6 +19,7 @@ public class MenuInicial extends javax.swing.JFrame {
      */
     public MenuInicial() {
         initComponents();
+        pnlSubMenu.setVisible(false);
     }
 
     /**
@@ -30,317 +31,514 @@ public class MenuInicial extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblServicos = new javax.swing.JLabel();
-        lblClientes = new javax.swing.JLabel();
-        lblFornecedor = new javax.swing.JLabel();
-        lblFornecimento = new javax.swing.JLabel();
-        lblProduto = new javax.swing.JLabel();
-        lblVenda = new javax.swing.JLabel();
-        lblFuncionario = new javax.swing.JLabel();
+        btnMenuAgenda = new javax.swing.JButton();
+        btnMenuServico = new javax.swing.JButton();
+        btnMenuVenda = new javax.swing.JButton();
+        btnMenuCadastro = new javax.swing.JButton();
+        btnMenuConsulta = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        pnlSubMenu = new javax.swing.JPanel();
+        btnMenuFornecedor = new javax.swing.JButton();
+        btnMenuFuncionario = new javax.swing.JButton();
+        btnMenuFornecimento = new javax.swing.JButton();
+        btnMenuProduto = new javax.swing.JButton();
+        btnMenuCliente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblServicos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/botaoServico.png"))); // NOI18N
-        lblServicos.setMaximumSize(new java.awt.Dimension(121, 64));
-        lblServicos.setMinimumSize(new java.awt.Dimension(121, 64));
-        lblServicos.setPreferredSize(new java.awt.Dimension(121, 64));
-        lblServicos.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnMenuAgenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuAgenda.png"))); // NOI18N
+        btnMenuAgenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMenuAgenda.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblServicosMouseEntered(evt);
+                btnMenuAgendaMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblServicosMouseExited(evt);
+                btnMenuAgendaMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                lblServicosMousePressed(evt);
+                btnMenuAgendaMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lblServicosMouseReleased(evt);
+                btnMenuAgendaMouseReleased(evt);
+            }
+        });
+        btnMenuAgenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuAgendaActionPerformed(evt);
             }
         });
 
-        lblClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/botaoCliente.png"))); // NOI18N
-        lblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnMenuServico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuServico.png"))); // NOI18N
+        btnMenuServico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMenuServico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblClientesMouseEntered(evt);
+                btnMenuServicoMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblClientesMouseExited(evt);
+                btnMenuServicoMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                lblClientesMousePressed(evt);
+                btnMenuServicoMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lblClientesMouseReleased(evt);
+                btnMenuServicoMouseReleased(evt);
+            }
+        });
+        btnMenuServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuServicoActionPerformed(evt);
             }
         });
 
-        lblFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/botaoFornecedor.png"))); // NOI18N
-        lblFornecedor.setMaximumSize(new java.awt.Dimension(137, 64));
-        lblFornecedor.setMinimumSize(new java.awt.Dimension(137, 64));
-        lblFornecedor.setName(""); // NOI18N
-        lblFornecedor.setPreferredSize(new java.awt.Dimension(137, 64));
-        lblFornecedor.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnMenuVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuVenda.png"))); // NOI18N
+        btnMenuVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMenuVenda.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblFornecedorMouseEntered(evt);
+                btnMenuVendaMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblFornecedorMouseExited(evt);
+                btnMenuVendaMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                lblFornecedorMousePressed(evt);
+                btnMenuVendaMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lblFornecedorMouseReleased(evt);
+                btnMenuVendaMouseReleased(evt);
+            }
+        });
+        btnMenuVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuVendaActionPerformed(evt);
             }
         });
 
-        lblFornecimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/botaoFornecimento.png"))); // NOI18N
-        lblFornecimento.setMaximumSize(new java.awt.Dimension(155, 64));
-        lblFornecimento.setMinimumSize(new java.awt.Dimension(155, 64));
-        lblFornecimento.setPreferredSize(new java.awt.Dimension(155, 64));
-        lblFornecimento.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnMenuCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuCadastro.png"))); // NOI18N
+        btnMenuCadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMenuCadastro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblFornecimentoMouseEntered(evt);
+                btnMenuCadastroMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblFornecimentoMouseExited(evt);
+                btnMenuCadastroMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                lblFornecimentoMousePressed(evt);
+                btnMenuCadastroMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lblFornecimentoMouseReleased(evt);
+                btnMenuCadastroMouseReleased(evt);
+            }
+        });
+        btnMenuCadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuCadastroActionPerformed(evt);
             }
         });
 
-        lblProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/botaoProduto.png"))); // NOI18N
-        lblProduto.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnMenuConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuConsulta.png"))); // NOI18N
+        btnMenuConsulta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMenuConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblProdutoMouseEntered(evt);
+                btnMenuConsultaMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblProdutoMouseExited(evt);
+                btnMenuConsultaMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                lblProdutoMousePressed(evt);
+                btnMenuConsultaMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lblProdutoMouseReleased(evt);
+                btnMenuConsultaMouseReleased(evt);
+            }
+        });
+        btnMenuConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuConsultaActionPerformed(evt);
             }
         });
 
-        lblVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/botaoVenda.png"))); // NOI18N
-        lblVenda.addMouseListener(new java.awt.event.MouseAdapter() {
+        jSeparator1.setToolTipText("");
+
+        btnMenuFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFornecedor.png"))); // NOI18N
+        btnMenuFornecedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMenuFornecedor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblVendaMouseEntered(evt);
+                btnMenuFornecedorMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblVendaMouseExited(evt);
+                btnMenuFornecedorMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                lblVendaMousePressed(evt);
+                btnMenuFornecedorMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lblVendaMouseReleased(evt);
+                btnMenuFornecedorMouseReleased(evt);
             }
         });
 
-        lblFuncionario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/botaoFuncionario.png"))); // NOI18N
-        lblFuncionario.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnMenuFuncionario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFuncionario.png"))); // NOI18N
+        btnMenuFuncionario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMenuFuncionario.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblFuncionarioMouseEntered(evt);
+                btnMenuFuncionarioMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblFuncionarioMouseExited(evt);
+                btnMenuFuncionarioMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                lblFuncionarioMousePressed(evt);
+                btnMenuFuncionarioMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lblFuncionarioMouseReleased(evt);
+                btnMenuFuncionarioMouseReleased(evt);
             }
         });
+
+        btnMenuFornecimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFornecimento.png"))); // NOI18N
+        btnMenuFornecimento.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMenuFornecimento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnMenuFornecimentoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnMenuFornecimentoMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnMenuFornecimentoMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnMenuFornecimentoMouseReleased(evt);
+            }
+        });
+
+        btnMenuProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuProduto.png"))); // NOI18N
+        btnMenuProduto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMenuProduto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnMenuProdutoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnMenuProdutoMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnMenuProdutoMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnMenuProdutoMouseReleased(evt);
+            }
+        });
+
+        btnMenuCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuCliente.png"))); // NOI18N
+        btnMenuCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMenuCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnMenuClienteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnMenuClienteMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnMenuClienteMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnMenuClienteMouseReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlSubMenuLayout = new javax.swing.GroupLayout(pnlSubMenu);
+        pnlSubMenu.setLayout(pnlSubMenuLayout);
+        pnlSubMenuLayout.setHorizontalGroup(
+            pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSubMenuLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addGroup(pnlSubMenuLayout.createSequentialGroup()
+                        .addComponent(btnMenuProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
+                        .addComponent(btnMenuFornecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlSubMenuLayout.createSequentialGroup()
+                        .addComponent(btnMenuCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(btnMenuFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnMenuFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlSubMenuLayout.setVerticalGroup(
+            pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSubMenuLayout.createSequentialGroup()
+                .addContainerGap(159, Short.MAX_VALUE)
+                .addGroup(pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnMenuFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMenuFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMenuCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnMenuFornecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMenuProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(159, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(196, 196, 196)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblServicos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblClientes)
-                    .addComponent(lblFornecimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblProduto)
-                            .addComponent(lblFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblFuncionario)
-                            .addComponent(lblVenda))))
-                .addContainerGap(385, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnMenuAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnMenuServico, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnMenuVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnMenuCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnMenuConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jSeparator1)
+                    .addComponent(pnlSubMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(lblServicos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblClientes)
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblProduto)
-                    .addComponent(lblVenda))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFuncionario))
-                .addGap(18, 18, 18)
-                .addComponent(lblFornecimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(95, Short.MAX_VALUE))
+                    .addComponent(btnMenuConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMenuCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMenuVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMenuServico, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMenuAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlSubMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lblServicosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblServicosMouseEntered
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoServico_Hover.png"));
-        this.lblServicos.setIcon(i);
-    }//GEN-LAST:event_lblServicosMouseEntered
+    private void btnMenuAgendaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuAgendaMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuAgenda_Hover.png"));
+        btnMenuAgenda.setIcon(i);
+    }//GEN-LAST:event_btnMenuAgendaMouseEntered
 
-    private void lblServicosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblServicosMouseExited
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoServico.png"));
-        this.lblServicos.setIcon(i);
-    }//GEN-LAST:event_lblServicosMouseExited
+    private void btnMenuAgendaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuAgendaMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuAgenda.png"));
+        btnMenuAgenda.setIcon(i);
+    }//GEN-LAST:event_btnMenuAgendaMouseExited
 
-    private void lblServicosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblServicosMousePressed
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoServico_Pressed.png"));
-        this.lblServicos.setIcon(i);
-    }//GEN-LAST:event_lblServicosMousePressed
+    private void btnMenuAgendaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuAgendaMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuAgenda_Pressed.png"));
+        btnMenuAgenda.setIcon(i);
+    }//GEN-LAST:event_btnMenuAgendaMousePressed
 
-    private void lblServicosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblServicosMouseReleased
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoServico_Hover.png"));
-        this.lblServicos.setIcon(i);
-    }//GEN-LAST:event_lblServicosMouseReleased
+    private void btnMenuAgendaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuAgendaMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuAgenda_Hover.png"));
+        btnMenuAgenda.setIcon(i);
+    }//GEN-LAST:event_btnMenuAgendaMouseReleased
 
-    private void lblClientesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblClientesMouseEntered
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoCliente_Hover.png"));
-        this.lblClientes.setIcon(i);
-    }//GEN-LAST:event_lblClientesMouseEntered
+    private void btnMenuServicoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuServicoMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuServico_Hover.png"));
+        btnMenuServico.setIcon(i);
+    }//GEN-LAST:event_btnMenuServicoMouseEntered
 
-    private void lblClientesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblClientesMouseExited
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoCliente.png"));
-        this.lblClientes.setIcon(i);
-    }//GEN-LAST:event_lblClientesMouseExited
+    private void btnMenuServicoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuServicoMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuServico.png"));
+        btnMenuServico.setIcon(i);
+    }//GEN-LAST:event_btnMenuServicoMouseExited
 
-    private void lblClientesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblClientesMousePressed
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoCliente_Pressed.png"));
-        this.lblClientes.setIcon(i);
-    }//GEN-LAST:event_lblClientesMousePressed
+    private void btnMenuServicoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuServicoMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuServico_Pressed.png"));
+        btnMenuServico.setIcon(i);
+    }//GEN-LAST:event_btnMenuServicoMousePressed
 
-    private void lblClientesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblClientesMouseReleased
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoCliente_Hover.png"));
-        this.lblClientes.setIcon(i);
-    }//GEN-LAST:event_lblClientesMouseReleased
+    private void btnMenuServicoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuServicoMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuServico_Hover.png"));
+        btnMenuServico.setIcon(i);
+    }//GEN-LAST:event_btnMenuServicoMouseReleased
 
-    private void lblFornecedorMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFornecedorMouseEntered
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoFornecedor_Hover.png"));
-        this.lblFornecedor.setIcon(i);
-    }//GEN-LAST:event_lblFornecedorMouseEntered
+    private void btnMenuVendaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuVendaMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuVenda_Hover.png"));
+        btnMenuVenda.setIcon(i);
+    }//GEN-LAST:event_btnMenuVendaMouseEntered
 
-    private void lblFornecedorMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFornecedorMouseExited
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoFornecedor.png"));
-        this.lblFornecedor.setIcon(i);
-    }//GEN-LAST:event_lblFornecedorMouseExited
+    private void btnMenuVendaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuVendaMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuVenda.png"));
+        btnMenuVenda.setIcon(i);
+    }//GEN-LAST:event_btnMenuVendaMouseExited
 
-    private void lblFornecedorMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFornecedorMousePressed
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoFornecedor_Pressed.png"));
-        this.lblFornecedor.setIcon(i);
-    }//GEN-LAST:event_lblFornecedorMousePressed
+    private void btnMenuVendaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuVendaMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuVenda_Pressed.png"));
+        btnMenuVenda.setIcon(i);
+    }//GEN-LAST:event_btnMenuVendaMousePressed
 
-    private void lblFornecedorMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFornecedorMouseReleased
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoFornecedor_Hover.png"));
-        this.lblFornecedor.setIcon(i);
-    }//GEN-LAST:event_lblFornecedorMouseReleased
+    private void btnMenuVendaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuVendaMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuVenda_Hover.png"));
+        btnMenuVenda.setIcon(i);
+    }//GEN-LAST:event_btnMenuVendaMouseReleased
 
-    private void lblFornecimentoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFornecimentoMouseEntered
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoFornecimento_Hover.png"));
-        this.lblFornecimento.setIcon(i);
-    }//GEN-LAST:event_lblFornecimentoMouseEntered
+    private void btnMenuCadastroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuCadastroMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuCadastro_Hover.png"));
+        btnMenuCadastro.setIcon(i);
+    }//GEN-LAST:event_btnMenuCadastroMouseEntered
 
-    private void lblFornecimentoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFornecimentoMouseExited
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoFornecimento.png"));
-        this.lblFornecimento.setIcon(i);
-    }//GEN-LAST:event_lblFornecimentoMouseExited
+    private void btnMenuCadastroMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuCadastroMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuCadastro.png"));
+        btnMenuCadastro.setIcon(i);
+    }//GEN-LAST:event_btnMenuCadastroMouseExited
 
-    private void lblFornecimentoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFornecimentoMousePressed
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoFornecimento_Pressed.png"));
-        this.lblFornecimento.setIcon(i);
-    }//GEN-LAST:event_lblFornecimentoMousePressed
+    private void btnMenuCadastroMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuCadastroMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuCadastro_Pressed.png"));
+        btnMenuCadastro.setIcon(i);
+    }//GEN-LAST:event_btnMenuCadastroMousePressed
 
-    private void lblFornecimentoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFornecimentoMouseReleased
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoFornecimento_Hover.png"));
-        this.lblFornecimento.setIcon(i);
-    }//GEN-LAST:event_lblFornecimentoMouseReleased
+    private void btnMenuCadastroMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuCadastroMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuCadastro_Hover.png"));
+        btnMenuCadastro.setIcon(i);
+    }//GEN-LAST:event_btnMenuCadastroMouseReleased
 
-    private void lblProdutoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProdutoMouseEntered
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoProduto_Hover.png"));
-        this.lblProduto.setIcon(i);    }//GEN-LAST:event_lblProdutoMouseEntered
+    private void btnMenuConsultaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuConsultaMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuConsulta_Hover.png"));
+        btnMenuConsulta.setIcon(i);
+    }//GEN-LAST:event_btnMenuConsultaMouseEntered
 
-    private void lblProdutoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProdutoMouseExited
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoProduto.png"));
-        this.lblProduto.setIcon(i);    }//GEN-LAST:event_lblProdutoMouseExited
+    private void btnMenuConsultaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuConsultaMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuConsulta.png"));
+        btnMenuConsulta.setIcon(i);
+    }//GEN-LAST:event_btnMenuConsultaMouseExited
 
-    private void lblProdutoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProdutoMousePressed
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoProduto_Pressed.png"));
-        this.lblProduto.setIcon(i);    }//GEN-LAST:event_lblProdutoMousePressed
+    private void btnMenuConsultaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuConsultaMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuConsulta_Pressed.png"));
+        btnMenuConsulta.setIcon(i);
+    }//GEN-LAST:event_btnMenuConsultaMousePressed
 
-    private void lblProdutoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProdutoMouseReleased
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoProduto_Hover.png"));
-        this.lblProduto.setIcon(i);
-    }//GEN-LAST:event_lblProdutoMouseReleased
+    private void btnMenuConsultaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuConsultaMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuConsulta_Hover.png"));
+        btnMenuConsulta.setIcon(i);
+    }//GEN-LAST:event_btnMenuConsultaMouseReleased
 
-    private void lblVendaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVendaMouseEntered
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoVenda_Hover.png"));
-        this.lblVenda.setIcon(i);
-    }//GEN-LAST:event_lblVendaMouseEntered
+    private void btnMenuFornecimentoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuFornecimentoMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFornecimento_Hover.png"));
+        btnMenuFornecimento.setIcon(i);
+    }//GEN-LAST:event_btnMenuFornecimentoMouseEntered
 
-    private void lblVendaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVendaMouseExited
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoVenda.png"));
-        this.lblVenda.setIcon(i);
-    }//GEN-LAST:event_lblVendaMouseExited
+    private void btnMenuFornecimentoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuFornecimentoMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFornecimento.png"));
+        btnMenuFornecimento.setIcon(i);
+    }//GEN-LAST:event_btnMenuFornecimentoMouseExited
 
-    private void lblVendaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVendaMousePressed
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoVenda_Pressed.png"));
-        this.lblVenda.setIcon(i);
-    }//GEN-LAST:event_lblVendaMousePressed
+    private void btnMenuFornecimentoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuFornecimentoMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFornecimento_Pressed.png"));
+        btnMenuFornecimento.setIcon(i);
+    }//GEN-LAST:event_btnMenuFornecimentoMousePressed
 
-    private void lblVendaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVendaMouseReleased
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoVenda_Hover.png"));
-        this.lblVenda.setIcon(i);
-    }//GEN-LAST:event_lblVendaMouseReleased
+    private void btnMenuFornecimentoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuFornecimentoMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFornecimento_Hover.png"));
+        btnMenuFornecimento.setIcon(i);
+    }//GEN-LAST:event_btnMenuFornecimentoMouseReleased
 
-    private void lblFuncionarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFuncionarioMouseEntered
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoFuncionario_Hover.png"));
-        this.lblFuncionario.setIcon(i);
-    }//GEN-LAST:event_lblFuncionarioMouseEntered
+    private void btnMenuProdutoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuProdutoMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuProduto_Hover.png"));
+        btnMenuProduto.setIcon(i);
+    }//GEN-LAST:event_btnMenuProdutoMouseEntered
 
-    private void lblFuncionarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFuncionarioMouseExited
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoFuncionario.png"));
-        this.lblFuncionario.setIcon(i);
-    }//GEN-LAST:event_lblFuncionarioMouseExited
+    private void btnMenuProdutoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuProdutoMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuProduto.png"));
+        btnMenuProduto.setIcon(i);
+    }//GEN-LAST:event_btnMenuProdutoMouseExited
 
-    private void lblFuncionarioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFuncionarioMousePressed
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoFuncionario_Pressed.png"));
-        this.lblFuncionario.setIcon(i);
-    }//GEN-LAST:event_lblFuncionarioMousePressed
+    private void btnMenuProdutoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuProdutoMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuProduto_Pressed.png"));
+        btnMenuProduto.setIcon(i);
+    }//GEN-LAST:event_btnMenuProdutoMousePressed
 
-    private void lblFuncionarioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFuncionarioMouseReleased
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/botaoFuncionario_Hover.png"));
-        this.lblFuncionario.setIcon(i);
-    }//GEN-LAST:event_lblFuncionarioMouseReleased
+    private void btnMenuProdutoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuProdutoMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuProduto_Hover.png"));
+        btnMenuProduto.setIcon(i);
+    }//GEN-LAST:event_btnMenuProdutoMouseReleased
+
+    private void btnMenuFornecedorMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuFornecedorMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFornecedor_Hover.png"));
+        btnMenuFornecedor.setIcon(i);
+    }//GEN-LAST:event_btnMenuFornecedorMouseReleased
+
+    private void btnMenuFornecedorMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuFornecedorMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFornecedor_Pressed.png"));
+        btnMenuFornecedor.setIcon(i);
+    }//GEN-LAST:event_btnMenuFornecedorMousePressed
+
+    private void btnMenuFornecedorMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuFornecedorMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFornecedor.png"));
+        btnMenuFornecedor.setIcon(i);
+    }//GEN-LAST:event_btnMenuFornecedorMouseExited
+
+    private void btnMenuFornecedorMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuFornecedorMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFornecedor_Hover.png"));
+        btnMenuFornecedor.setIcon(i);
+    }//GEN-LAST:event_btnMenuFornecedorMouseEntered
+
+    private void btnMenuClienteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuClienteMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuCliente_Hover.png"));
+        btnMenuCliente.setIcon(i);
+    }//GEN-LAST:event_btnMenuClienteMouseReleased
+
+    private void btnMenuClienteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuClienteMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuCliente_Pressed.png"));
+        btnMenuCliente.setIcon(i);
+    }//GEN-LAST:event_btnMenuClienteMousePressed
+
+    private void btnMenuClienteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuClienteMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuCliente.png"));
+        btnMenuCliente.setIcon(i);
+    }//GEN-LAST:event_btnMenuClienteMouseExited
+
+    private void btnMenuClienteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuClienteMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuCliente_Hover.png"));
+        btnMenuCliente.setIcon(i);
+    }//GEN-LAST:event_btnMenuClienteMouseEntered
+
+    private void btnMenuFuncionarioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuFuncionarioMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFuncionario_Hover.png"));
+        btnMenuFuncionario.setIcon(i);
+    }//GEN-LAST:event_btnMenuFuncionarioMouseReleased
+
+    private void btnMenuFuncionarioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuFuncionarioMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFuncionario_Pressed.png"));
+        btnMenuFuncionario.setIcon(i);
+    }//GEN-LAST:event_btnMenuFuncionarioMousePressed
+
+    private void btnMenuFuncionarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuFuncionarioMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFuncionario.png"));
+        btnMenuFuncionario.setIcon(i);
+    }//GEN-LAST:event_btnMenuFuncionarioMouseExited
+
+    private void btnMenuFuncionarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuFuncionarioMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFuncionario_Hover.png"));
+        btnMenuFuncionario.setIcon(i);
+    }//GEN-LAST:event_btnMenuFuncionarioMouseEntered
+
+    private void btnMenuCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuCadastroActionPerformed
+        pnlSubMenu.setVisible(true);
+    }//GEN-LAST:event_btnMenuCadastroActionPerformed
+
+    private void btnMenuConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuConsultaActionPerformed
+        pnlSubMenu.setVisible(true);
+    }//GEN-LAST:event_btnMenuConsultaActionPerformed
+
+    private void btnMenuVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuVendaActionPerformed
+        pnlSubMenu.setVisible(false);
+    }//GEN-LAST:event_btnMenuVendaActionPerformed
+
+    private void btnMenuServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuServicoActionPerformed
+        pnlSubMenu.setVisible(false);
+    }//GEN-LAST:event_btnMenuServicoActionPerformed
+
+    private void btnMenuAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuAgendaActionPerformed
+        pnlSubMenu.setVisible(false);
+    }//GEN-LAST:event_btnMenuAgendaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -378,12 +576,17 @@ public class MenuInicial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblClientes;
-    private javax.swing.JLabel lblFornecedor;
-    private javax.swing.JLabel lblFornecimento;
-    private javax.swing.JLabel lblFuncionario;
-    private javax.swing.JLabel lblProduto;
-    private javax.swing.JLabel lblServicos;
-    private javax.swing.JLabel lblVenda;
+    private javax.swing.JButton btnMenuAgenda;
+    private javax.swing.JButton btnMenuCadastro;
+    private javax.swing.JButton btnMenuCliente;
+    private javax.swing.JButton btnMenuConsulta;
+    private javax.swing.JButton btnMenuFornecedor;
+    private javax.swing.JButton btnMenuFornecimento;
+    private javax.swing.JButton btnMenuFuncionario;
+    private javax.swing.JButton btnMenuProduto;
+    private javax.swing.JButton btnMenuServico;
+    private javax.swing.JButton btnMenuVenda;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel pnlSubMenu;
     // End of variables declaration//GEN-END:variables
 }
