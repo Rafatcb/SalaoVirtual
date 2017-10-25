@@ -34,7 +34,7 @@ public class  FormaDePagamento {
      * Método construtor para facilitar a criação de um objeto que será utilizado para consulta ao invés
      * de cadastro
      */
-    protected FormaDePagamento() {
+    public FormaDePagamento() {
         
     }
 

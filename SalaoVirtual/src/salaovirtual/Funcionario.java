@@ -3,6 +3,8 @@
  */
 package salaovirtual;
 
+import salaovirtual.interfaces.InformacaoPessoa;
+
 
 /**
  * Classe referente ao funcionário

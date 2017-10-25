@@ -4,6 +4,7 @@
 package salaovirtual;
 
 
+import salaovirtual.interfaces.InformacaoPessoa;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

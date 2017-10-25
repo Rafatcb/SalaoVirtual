@@ -4,6 +4,11 @@
  */
 package salaovirtual;
 
+import salaovirtual.access.Consulta;
+import salaovirtual.access.Cadastro;
+import exceptions.TipoDeCartaoInvalidoException;
+import exceptions.ChaveNulaException;
+import exceptions.DataInvalidaException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -86,7 +91,7 @@ public class SalaoVirtual {
         
         Cadastro cad = new Cadastro();
         Consulta con = new Consulta();
-        Venda v = new Venda();
+        //Venda v = new Venda();
         /*Cliente c = con.encontrarCliente(1);
         Dinheiro d = con.encontrarFormaDePagamentoDinheiro(5);
         Funcionario f = con.encontrarFuncionarioLogin("rafatcb");
@@ -121,7 +126,7 @@ public class SalaoVirtual {
         System.out.println(v.toString());
         cad.gravarVenda(v);
         System.out.println("Gravou!");*/
-        v = con.encontrarVenda(2);
+        /*v = con.encontrarVenda(2);
         System.out.println(v.toString());
         System.out.println("Vendas");
         for (Map.Entry<Integer, Integer> pair : v.getProdutos().entrySet()){
@@ -130,6 +135,34 @@ public class SalaoVirtual {
         System.out.println("Serviços");
         for (Map.Entry<Integer, Integer> pair : v.getServicos().entrySet()){
             System.out.println(v.getCodigo() + ";" + pair.getKey() + ";" + pair.getValue());
+        }*/
+        /*SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Servico s = new Servico();
+        Cliente c = new Cliente();
+        Funcionario f = new Funcionario();
+        c = con.encontrarCliente(1);
+        f = con.encontrarFuncionarioLogin("leonidas");
+        try {
+            s.agendarServico(c, f, sdf.parse("27/07/2020"));
+            s.setNome("Corte de cabelo");
+            s.setValor(20.0f);
+        } catch (ParseException ex) {
+            //Logger.getLogger(SalaoVirtual.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DataInvalidaException ex)  {
+            
         }
+        cad.gravarServico(s);
+        c = con.encontrarCliente(2);
+        f = con.encontrarFuncionarioLogin("rafatcb");
+        try {
+            s.agendarServico(c, f, sdf.parse("20/05/2018"));
+            s.setNome("Pintura de cabelo");
+            s.setValor(20.0f);
+        } catch (ParseException ex) {
+            //Logger.getLogger(SalaoVirtual.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DataInvalidaException ex)  {
+            
+        }
+        cad.gravarServico(s);*/
     }
 }

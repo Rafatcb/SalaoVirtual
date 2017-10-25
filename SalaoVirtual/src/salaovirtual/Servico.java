@@ -3,6 +3,8 @@
  */
 package salaovirtual;
 
+import exceptions.DataInvalidaException;
+import exceptions.EstadoServicoInvalidoException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -15,7 +17,7 @@ import java.util.Date;
  * 
  * @author Rafael Tavares
  */
-public class Servico {
+public class Servico implements Comparable<Servico> {
     private int codigo;
     private String nome;
     private float valor;
@@ -102,6 +104,19 @@ public class Servico {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         return this.codigo + ";" + this.nome + ";" + this.valor + ";" + formato.format(this.data) + ";" + 
                     this.estado + ";" + this.funcionario.getLogin() + ";" + this.cliente.getCodigo();
+    }
+
+    /**
+     * Método para ordenar com base na data
+     * @param s
+     * @return 
+     */
+    @Override
+    public int compareTo(Servico s) {
+        if (this.getData() == null || s.getData() == null) {
+            return -1;
+        }
+        return this.getData().compareTo(s.getData());
     }
     
     /* Métodos Construtores, Getters & Setters */
@@ -236,6 +251,4 @@ public class Servico {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    
-    
 }
