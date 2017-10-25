@@ -5,8 +5,9 @@
  */
 package salaovirtual;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  *
@@ -14,12 +15,21 @@ import javax.swing.ImageIcon;
  */
 public class MenuInicial extends javax.swing.JFrame {
 
+    private boolean cadastro = false;
+    
     /**
      * Creates new form MenuInicial
      */
     public MenuInicial() {
         initComponents();
         pnlSubMenu.setVisible(false);
+        pnlSubMenu.setOpaque(false);
+        pnlAgenda.setVisible(true);
+        pnlAgenda.setOpaque(false);
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuAgenda_Hover.png"));
+        btnMenuAgenda.setIcon(i);
+        tblAgenda.setSelectionModel(new ForcedListSelectionModel());
+        tblAgenda.setModel(new AgendaTableModel());
     }
 
     /**
@@ -32,11 +42,16 @@ public class MenuInicial extends javax.swing.JFrame {
     private void initComponents() {
 
         btnMenuAgenda = new javax.swing.JButton();
+        btnMenuConsulta = new javax.swing.JButton();
         btnMenuServico = new javax.swing.JButton();
         btnMenuVenda = new javax.swing.JButton();
         btnMenuCadastro = new javax.swing.JButton();
-        btnMenuConsulta = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        pnlAgenda = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblAgenda = new javax.swing.JTable();
+        btnAgendarServico = new javax.swing.JButton();
+        btnCancelarServico = new javax.swing.JButton();
         pnlSubMenu = new javax.swing.JPanel();
         btnMenuFornecedor = new javax.swing.JButton();
         btnMenuFuncionario = new javax.swing.JButton();
@@ -65,6 +80,28 @@ public class MenuInicial extends javax.swing.JFrame {
         btnMenuAgenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMenuAgendaActionPerformed(evt);
+            }
+        });
+
+        btnMenuConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuConsulta.png"))); // NOI18N
+        btnMenuConsulta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMenuConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnMenuConsultaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnMenuConsultaMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnMenuConsultaMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnMenuConsultaMouseReleased(evt);
+            }
+        });
+        btnMenuConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuConsultaActionPerformed(evt);
             }
         });
 
@@ -134,29 +171,97 @@ public class MenuInicial extends javax.swing.JFrame {
             }
         });
 
-        btnMenuConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuConsulta.png"))); // NOI18N
-        btnMenuConsulta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnMenuConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
+        jSeparator1.setToolTipText("");
+
+        pnlAgenda.setAutoscrolls(true);
+        pnlAgenda.setPreferredSize(new java.awt.Dimension(1290, 645));
+
+        tblAgenda.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblAgenda);
+
+        btnAgendarServico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/agenda/botaoAgendarServico.png"))); // NOI18N
+        btnAgendarServico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgendarServico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnMenuConsultaMouseEntered(evt);
+                btnAgendarServicoMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnMenuConsultaMouseExited(evt);
+                btnAgendarServicoMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnMenuConsultaMousePressed(evt);
+                btnAgendarServicoMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnMenuConsultaMouseReleased(evt);
+                btnAgendarServicoMouseReleased(evt);
             }
         });
-        btnMenuConsulta.addActionListener(new java.awt.event.ActionListener() {
+        btnAgendarServico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMenuConsultaActionPerformed(evt);
+                btnAgendarServicoActionPerformed(evt);
             }
         });
 
-        jSeparator1.setToolTipText("");
+        btnCancelarServico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/agenda/botaoCancelarServico.png"))); // NOI18N
+        btnCancelarServico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancelarServico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCancelarServicoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCancelarServicoMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnCancelarServicoMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCancelarServicoMouseReleased(evt);
+            }
+        });
+        btnCancelarServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarServicoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlAgendaLayout = new javax.swing.GroupLayout(pnlAgenda);
+        pnlAgenda.setLayout(pnlAgendaLayout);
+        pnlAgendaLayout.setHorizontalGroup(
+            pnlAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAgendaLayout.createSequentialGroup()
+                .addContainerGap(415, Short.MAX_VALUE)
+                .addComponent(btnAgendarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(132, 132, 132)
+                .addComponent(btnCancelarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(414, Short.MAX_VALUE))
+            .addGroup(pnlAgendaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 941, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlAgendaLayout.setVerticalGroup(
+            pnlAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAgendaLayout.createSequentialGroup()
+                .addContainerGap(85, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addGroup(pnlAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAgendarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(64, Short.MAX_VALUE))
+        );
+
+        pnlSubMenu.setAutoscrolls(true);
+        pnlSubMenu.setPreferredSize(new java.awt.Dimension(1290, 645));
 
         btnMenuFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuFornecedor.png"))); // NOI18N
         btnMenuFornecedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -248,33 +353,35 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlSubMenuLayout.setHorizontalGroup(
             pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSubMenuLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addGroup(pnlSubMenuLayout.createSequentialGroup()
-                        .addComponent(btnMenuProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
-                        .addComponent(btnMenuFornecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(245, Short.MAX_VALUE)
+                .addGroup(pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlSubMenuLayout.createSequentialGroup()
                         .addComponent(btnMenuCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35)
                         .addComponent(btnMenuFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(btnMenuFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(33, 33, 33)
+                        .addComponent(btnMenuFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlSubMenuLayout.createSequentialGroup()
+                        .addGap(127, 127, 127)
+                        .addComponent(btnMenuProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
+                        .addComponent(btnMenuFornecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(245, Short.MAX_VALUE))
         );
         pnlSubMenuLayout.setVerticalGroup(
             pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSubMenuLayout.createSequentialGroup()
-                .addContainerGap(159, Short.MAX_VALUE)
-                .addGroup(pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnMenuFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(227, Short.MAX_VALUE)
+                .addGroup(pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnMenuFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMenuCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnMenuFuncionario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnMenuCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(31, 31, 31)
                 .addGroup(pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnMenuFornecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMenuProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(159, Short.MAX_VALUE))
+                    .addComponent(btnMenuProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMenuFornecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -282,10 +389,12 @@ public class MenuInicial extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pnlSubMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 1278, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(28, Short.MAX_VALUE)
                         .addComponent(btnMenuAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnMenuServico, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -295,15 +404,19 @@ public class MenuInicial extends javax.swing.JFrame {
                         .addComponent(btnMenuCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnMenuConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jSeparator1)
-                    .addComponent(pnlSubMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 5, Short.MAX_VALUE))
+                    .addComponent(jSeparator1))
                 .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(pnlAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, 1287, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnMenuConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMenuCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,9 +425,14 @@ public class MenuInicial extends javax.swing.JFrame {
                     .addComponent(btnMenuAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlSubMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(41, 41, 41)
+                .addComponent(pnlSubMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(111, Short.MAX_VALUE)
+                    .addComponent(pnlAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
         );
 
         pack();
@@ -326,8 +444,10 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuAgendaMouseEntered
 
     private void btnMenuAgendaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuAgendaMouseExited
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuAgenda.png"));
-        btnMenuAgenda.setIcon(i);
+        if (!pnlAgenda.isVisible()) {
+            ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuAgenda.png"));
+            btnMenuAgenda.setIcon(i);
+        }
     }//GEN-LAST:event_btnMenuAgendaMouseExited
 
     private void btnMenuAgendaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuAgendaMousePressed
@@ -386,8 +506,10 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuCadastroMouseEntered
 
     private void btnMenuCadastroMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuCadastroMouseExited
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuCadastro.png"));
-        btnMenuCadastro.setIcon(i);
+        if ((!pnlSubMenu.isVisible()) || (!this.cadastro)) {
+            ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuCadastro.png"));
+            btnMenuCadastro.setIcon(i);
+        }
     }//GEN-LAST:event_btnMenuCadastroMouseExited
 
     private void btnMenuCadastroMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuCadastroMousePressed
@@ -406,8 +528,10 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuConsultaMouseEntered
 
     private void btnMenuConsultaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuConsultaMouseExited
-        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuConsulta.png"));
-        btnMenuConsulta.setIcon(i);
+        if ((!pnlSubMenu.isVisible()) || (this.cadastro)) {
+            ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/menu/botaoMenuConsulta.png"));
+            btnMenuConsulta.setIcon(i);
+        }
     }//GEN-LAST:event_btnMenuConsultaMouseExited
 
     private void btnMenuConsultaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuConsultaMousePressed
@@ -522,23 +646,106 @@ public class MenuInicial extends javax.swing.JFrame {
 
     private void btnMenuCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuCadastroActionPerformed
         pnlSubMenu.setVisible(true);
+        this.cadastro = true;
+        pnlAgenda.setVisible(false);
+        java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
+        btnMenuAgendaMouseExited(me);
+        btnMenuServicoMouseExited(me);
+        btnMenuVendaMouseExited(me);
+        btnMenuConsultaMouseExited(me);
     }//GEN-LAST:event_btnMenuCadastroActionPerformed
 
     private void btnMenuConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuConsultaActionPerformed
         pnlSubMenu.setVisible(true);
+        this.cadastro = false;
+        pnlAgenda.setVisible(false);
+        java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
+        btnMenuAgendaMouseExited(me);
+        btnMenuServicoMouseExited(me);
+        btnMenuVendaMouseExited(me);
+        btnMenuCadastroMouseExited(me);
     }//GEN-LAST:event_btnMenuConsultaActionPerformed
 
     private void btnMenuVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuVendaActionPerformed
         pnlSubMenu.setVisible(false);
+        this.cadastro = false;
+        pnlAgenda.setVisible(false);
+        java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
+        btnMenuAgendaMouseExited(me);
+        btnMenuServicoMouseExited(me);
+        btnMenuConsultaMouseExited(me);
+        btnMenuCadastroMouseExited(me);
     }//GEN-LAST:event_btnMenuVendaActionPerformed
 
     private void btnMenuServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuServicoActionPerformed
         pnlSubMenu.setVisible(false);
+        this.cadastro = false;
+        pnlAgenda.setVisible(false);
+        java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
+        btnMenuAgendaMouseExited(me);
+        btnMenuVendaMouseExited(me);
+        btnMenuConsultaMouseExited(me);
+        btnMenuCadastroMouseExited(me);
     }//GEN-LAST:event_btnMenuServicoActionPerformed
 
     private void btnMenuAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuAgendaActionPerformed
+        pnlAgenda.setVisible(true);
         pnlSubMenu.setVisible(false);
+        this.cadastro = false;
+        java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
+        btnMenuServicoMouseExited(me);
+        btnMenuVendaMouseExited(me);
+        btnMenuConsultaMouseExited(me);
+        btnMenuCadastroMouseExited(me);
     }//GEN-LAST:event_btnMenuAgendaActionPerformed
+
+    private void btnAgendarServicoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarServicoMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/agenda/botaoAgendarServico_Hover.png"));
+        btnAgendarServico.setIcon(i);
+    }//GEN-LAST:event_btnAgendarServicoMouseEntered
+
+    private void btnAgendarServicoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarServicoMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/agenda/botaoAgendarServico.png"));
+        btnAgendarServico.setIcon(i);
+    }//GEN-LAST:event_btnAgendarServicoMouseExited
+
+    private void btnAgendarServicoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarServicoMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/agenda/botaoAgendarServico_Pressed.png"));
+        btnAgendarServico.setIcon(i);
+    }//GEN-LAST:event_btnAgendarServicoMousePressed
+
+    private void btnAgendarServicoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgendarServicoMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/agenda/botaoAgendarServico_Hover.png"));
+        btnAgendarServico.setIcon(i);
+    }//GEN-LAST:event_btnAgendarServicoMouseReleased
+
+    private void btnAgendarServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarServicoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAgendarServicoActionPerformed
+
+    private void btnCancelarServicoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarServicoMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/agenda/botaoCancelarServico_Hover.png"));
+        btnCancelarServico.setIcon(i);
+    }//GEN-LAST:event_btnCancelarServicoMouseEntered
+
+    private void btnCancelarServicoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarServicoMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/agenda/botaoCancelarServico.png"));
+        btnCancelarServico.setIcon(i);
+    }//GEN-LAST:event_btnCancelarServicoMouseExited
+
+    private void btnCancelarServicoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarServicoMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/agenda/botaoCancelarServico_Pressed.png"));
+        btnCancelarServico.setIcon(i);
+    }//GEN-LAST:event_btnCancelarServicoMousePressed
+
+    private void btnCancelarServicoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarServicoMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/salaovirtual/images/agenda/botaoCancelarServico_Hover.png"));
+        btnCancelarServico.setIcon(i);
+    }//GEN-LAST:event_btnCancelarServicoMouseReleased
+
+    private void btnCancelarServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarServicoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarServicoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -576,6 +783,8 @@ public class MenuInicial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgendarServico;
+    private javax.swing.JButton btnCancelarServico;
     private javax.swing.JButton btnMenuAgenda;
     private javax.swing.JButton btnMenuCadastro;
     private javax.swing.JButton btnMenuCliente;
@@ -586,7 +795,10 @@ public class MenuInicial extends javax.swing.JFrame {
     private javax.swing.JButton btnMenuProduto;
     private javax.swing.JButton btnMenuServico;
     private javax.swing.JButton btnMenuVenda;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel pnlAgenda;
     private javax.swing.JPanel pnlSubMenu;
+    private javax.swing.JTable tblAgenda;
     // End of variables declaration//GEN-END:variables
 }
