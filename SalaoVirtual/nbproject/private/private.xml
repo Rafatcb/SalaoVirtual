@@ -3,8 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/rafae/Desktop/Unicamp/SI%20-%204º%20Semestre/POO%20II/SalaoVirtual/SalaoVirtual/src/salaovirtual/AgendaTableModel.java</file>
             <file>file:/C:/Users/rafae/Desktop/Unicamp/SI%20-%204º%20Semestre/POO%20II/SalaoVirtual/SalaoVirtual/src/salaovirtual/MenuInicial.java</file>
+=======
+            <file>file:/C:/Users/rafae/Desktop/Unicamp/SI%20-%204º%20Semestre/POO%20II/SalaoVirtual/SalaoVirtual/src/salaovirtual/TipoDeCartaoInvalidoException.java</file>
+            <file>file:/C:/Users/rafae/Desktop/Unicamp/SI%20-%204º%20Semestre/POO%20II/SalaoVirtual/SalaoVirtual/src/salaovirtual/SalaoVirtual.java</file>
+            <file>file:/C:/Users/rafae/Desktop/Unicamp/SI%20-%204º%20Semestre/POO%20II/SalaoVirtual/SalaoVirtual/src/salaovirtual/Venda.java</file>
+            <file>file:/C:/Users/rafae/Desktop/Unicamp/SI%20-%204º%20Semestre/POO%20II/SalaoVirtual/SalaoVirtual/src/salaovirtual/Adicionar.java</file>
+            <file>file:/C:/Users/rafae/Desktop/Unicamp/SI%20-%204º%20Semestre/POO%20II/SalaoVirtual/SalaoVirtual/src/salaovirtual/Compra.java</file>
+            <file>file:/C:/Users/rafae/Desktop/Unicamp/SI%20-%204º%20Semestre/POO%20II/SalaoVirtual/SalaoVirtual/src/salaovirtual/EstadoServicoInvalidoException.java</file>
+>>>>>>> master
         </group>
     </open-files>
 </project-private>
