@@ -101,7 +101,7 @@ public class Servico implements Comparable<Servico> {
      */
     @Override
     public String toString() {
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         return this.codigo + ";" + this.nome + ";" + this.valor + ";" + formato.format(this.data) + ";" + 
                     this.estado + ";" + this.funcionario.getLogin() + ";" + this.cliente.getCodigo();
     }

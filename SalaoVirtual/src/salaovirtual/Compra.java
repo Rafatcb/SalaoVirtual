@@ -34,7 +34,7 @@ public class Compra {
      */
     @Override
     public String toString() {
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         if (this.data == null) {
             return this.codigo + ";" + this.valor + ";" + this.data + ";" + this.fornecedor.getCodigo(); 
         }

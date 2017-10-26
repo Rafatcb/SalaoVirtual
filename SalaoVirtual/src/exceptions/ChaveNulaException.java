@@ -8,7 +8,7 @@ package exceptions;
  *
  * @author Rafael Tavares
  */
-public class ChaveNulaException extends MinhaException {
+public class ChaveNulaException extends MinhaCheckedException {
       
     /**
      * Construtor que envia como mensagem "A chave deste Objeto não pode ser nula."

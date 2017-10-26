@@ -1,18 +1,36 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Classe referente ao Menu Inicial
  */
 package gui;
 
+import exceptions.ChaveNulaException;
+import exceptions.DataInvalidaException;
+import exceptions.EstadoServicoInvalidoException;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import static java.lang.Integer.parseInt;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.BorderFactory;
+import static javax.swing.BorderFactory.createEmptyBorder;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import salaovirtual.MensagemOkModal;
+import javax.swing.border.Border;
+import javax.swing.text.MaskFormatter;
+import salaovirtual.Cliente;
+import salaovirtual.Funcionario;
+import salaovirtual.Servico;
+import salaovirtual.access.Cadastro;
+import salaovirtual.access.Consulta;
 
 /**
+ * Classe referente ao Menu Inicial
  *
- * @author rafae
+ * @author Rafael Tavares
  */
 public class MenuInicial extends javax.swing.JFrame {
 
@@ -20,9 +38,10 @@ public class MenuInicial extends javax.swing.JFrame {
     private String mensagemDialog;
     
     /**
-     * Creates new form MenuInicial
+     * Cria um novo JFrame Menu Inicial
      */
     public MenuInicial() {
+        //jdialog login
         initComponents();
         this.setLocationRelativeTo(null);
         pnlSubMenu.setVisible(false);
@@ -33,6 +52,15 @@ public class MenuInicial extends javax.swing.JFrame {
         btnMenuAgenda.setIcon(i);
         tblAgenda.setSelectionModel(new ForcedListSelectionModel());
         tblAgenda.setModel(new AgendaTableModel());
+        tblAgenda.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+        tblAgenda.getColumnModel().getColumn(0).setMaxWidth(65);
+        tblAgenda.getColumnModel().getColumn(1).setMaxWidth(170);
+        tblAgenda.getColumnModel().getColumn(1).setPreferredWidth(170);
+        tblAgenda.getColumnModel().getColumn(3).setMaxWidth(100);
+        tblAgenda.getColumnModel().getColumn(3).setPreferredWidth(100);
+        jScrollPane1.setBorder(createEmptyBorder());
+        jScrollPane1.setViewportBorder(null);
+        jScrollPane1.getViewport().setOpaque(false);
     }
 
     /**
@@ -67,6 +95,7 @@ public class MenuInicial extends javax.swing.JFrame {
         this.cadastro = cadastro;
     }
     
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -93,9 +122,11 @@ public class MenuInicial extends javax.swing.JFrame {
         btnMenuFornecimento = new javax.swing.JButton();
         btnMenuProduto = new javax.swing.JButton();
         btnMenuCliente = new javax.swing.JButton();
+        background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Salão Virtual");
+        setResizable(false);
 
         btnMenuAgenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu/botaoMenuAgenda.png"))); // NOI18N
         btnMenuAgenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -212,6 +243,9 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlAgenda.setAutoscrolls(true);
         pnlAgenda.setPreferredSize(new java.awt.Dimension(1290, 645));
 
+        jScrollPane1.setOpaque(false);
+
+        tblAgenda.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
         tblAgenda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -223,6 +257,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblAgenda.setOpaque(false);
         jScrollPane1.setViewportView(tblAgenda);
 
         btnAgendarServico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/agenda/botaoAgendarServico.png"))); // NOI18N
@@ -273,14 +308,15 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlAgenda.setLayout(pnlAgendaLayout);
         pnlAgendaLayout.setHorizontalGroup(
             pnlAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAgendaLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAgendaLayout.createSequentialGroup()
+                .addContainerGap(413, Short.MAX_VALUE)
+                .addComponent(btnAgendarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(132, 132, 132)
+                .addComponent(btnCancelarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(416, 416, 416))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAgendaLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlAgendaLayout.createSequentialGroup()
-                        .addComponent(btnAgendarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(132, 132, 132)
-                        .addComponent(btnCancelarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 941, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1075, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlAgendaLayout.setVerticalGroup(
@@ -288,11 +324,11 @@ public class MenuInicial extends javax.swing.JFrame {
             .addGroup(pnlAgendaLayout.createSequentialGroup()
                 .addContainerGap(85, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addGap(58, 58, 58)
                 .addGroup(pnlAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAgendarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
 
         pnlSubMenu.setAutoscrolls(true);
@@ -419,6 +455,8 @@ public class MenuInicial extends javax.swing.JFrame {
                 .addContainerGap(228, Short.MAX_VALUE))
         );
 
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background/background.jpg"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -447,6 +485,8 @@ public class MenuInicial extends javax.swing.JFrame {
                     .addContainerGap()
                     .addComponent(pnlAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, 1287, Short.MAX_VALUE)
                     .addContainerGap()))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -468,6 +508,8 @@ public class MenuInicial extends javax.swing.JFrame {
                     .addContainerGap(111, Short.MAX_VALUE)
                     .addComponent(pnlAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -755,16 +797,24 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgendarServicoMouseReleased
 
     private void btnAgendarServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarServicoActionPerformed
-        int linha = tblAgenda.getSelectedRow();
-        if (linha == -1)
-        {
-            MensagemOkModal msg = new MensagemOkModal(this, true);
-            this.setMensagemDialog("Nenhum serviço foi selecionado");
-            msg.setVisible(true);
-        }
-        else
-        {
-            // tem uma linha selecionada
+        CadastroServicoModal cadastroServico = new CadastroServicoModal(this, true);
+        cadastroServico.setVisible(true);
+        if (cadastroServico.isFinalizado()) {
+            if (cadastroServico.isAgendado()) {
+                this.setMensagemDialog("Serviço cadastrado como agendado");
+                tblAgenda.setModel(new AgendaTableModel());
+                tblAgenda.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+                tblAgenda.getColumnModel().getColumn(0).setMaxWidth(65);
+                tblAgenda.getColumnModel().getColumn(1).setMaxWidth(170);
+                tblAgenda.getColumnModel().getColumn(1).setPreferredWidth(170);
+                tblAgenda.getColumnModel().getColumn(3).setMaxWidth(100);
+                tblAgenda.getColumnModel().getColumn(3).setPreferredWidth(100);
+            }
+            else {
+                this.setMensagemDialog("Serviço cadastrado como realizado");
+            }
+            MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Cadastro efetuado");
+            dialog.setVisible(true);
         }
     }//GEN-LAST:event_btnAgendarServicoActionPerformed
 
@@ -792,9 +842,9 @@ public class MenuInicial extends javax.swing.JFrame {
         int linha = tblAgenda.getSelectedRow();
         if (linha == -1)
         {
-            MensagemOkModal msg = new MensagemOkModal(this, true);
             this.setMensagemDialog("Nenhum serviço foi selecionado");
-            msg.setVisible(true);
+            MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Serviço não selecionado");
+            dialog.setVisible(true);
         }
         else
         {
@@ -803,6 +853,7 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarServicoActionPerformed
 
     /**
+     * Método main do Menu Inicial
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -831,13 +882,774 @@ public class MenuInicial extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new MenuInicial().setVisible(true);
             }
         });
     }
+    
+    
+    
+    /**
+     * Classe interna para um JDialog que exibe o Cadastro de Serviço
+     * 
+     * @author Rafael Tavares
+     */ 
+    public class CadastroServicoModal extends javax.swing.JDialog {
+        private java.awt.Frame parent;
+        private boolean agendado;
+        private boolean finalizado;
+        
+        /**
+         * Construtor da classe
+         * @param parent
+         * @param modal 
+         */
+        public CadastroServicoModal(java.awt.Frame parent, boolean modal) {
+            super(parent, modal);
+            initComponents();
+            this.getContentPane().setBackground(Color.PINK);
+            this.setParent(parent);
+            Consulta con = new Consulta();
+            int codigo = con.getProxCodigo("Servico.csv");
+            txtCodigoServico.setText(Integer.toString(codigo));
+            this.setAgendado(false);
+            this.setFinalizado(false);
+            this.setLocationRelativeTo(null);
+        }
 
+        /**
+         * Define o pai do CadastroServicoModal
+         * @param frame 
+         */
+        private void setParent(java.awt.Frame frame) {
+            this.parent = frame;
+        }
+        
+        /**
+         * Retorna o pai do CadastroServicoModal
+         * @return 
+         */
+        public java.awt.Frame getParent() {
+            return this.parent;
+        }
+        
+        /**
+         * Define se o Serviço foi agendado ou não
+         * @param agendado 
+         */
+        private void setAgendado(boolean agendado) {
+            this.agendado = agendado;
+        }
+        
+        /**
+         * Retorna true se o Serviço foi agendado, false se foi Realizado ou se não foi cadastrado
+         * @return true se Agendado, false se Realizado ou se não foi cadastrado
+         */
+        public boolean isAgendado() {
+            return this.agendado;
+        }
+        
+        /**
+         * Define se o Serviço foi finalizado ou cancelado - sem cadastro
+         * @param agendado 
+         */
+        private void setFinalizado(boolean finalizado) {
+            this.finalizado = finalizado;
+        }
+        
+        /**
+         * Retorna true se o Serviço foi finalizado, false se foi cancelado - sem cadastro
+         * @return true se Agendado, false se Realizado ou se não foi cadastrado
+         */
+        public boolean isFinalizado() {
+            return this.finalizado;
+        }
+        
+        /**
+         * This method is called from within the constructor to initialize the form.
+         * WARNING: Do NOT modify this code. The content of this method is always
+         * regenerated by the Form Editor.
+         */
+        @SuppressWarnings("unchecked")
+        // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+        private void initComponents() {
+
+            btnCadastrar = new javax.swing.JButton();
+            btnCancelar = new javax.swing.JButton();
+            jLabel2 = new javax.swing.JLabel();
+            txtNomeServico = new javax.swing.JTextField();
+            txtCodigoCliente = new javax.swing.JTextField();
+            jLabel3 = new javax.swing.JLabel();
+            btnConsultarCliente = new javax.swing.JButton();
+            jLabel4 = new javax.swing.JLabel();
+            txtCodigoServico = new javax.swing.JTextField();
+            btnConsultarFuncionario = new javax.swing.JButton();
+            txtLoginFuncionario = new javax.swing.JTextField();
+            jLabel5 = new javax.swing.JLabel();
+            jLabel6 = new javax.swing.JLabel();
+            ftxtValor = new javax.swing.JFormattedTextField();
+            ftxtData = new javax.swing.JFormattedTextField();
+            jLabel7 = new javax.swing.JLabel();
+
+            setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            setTitle("Cadastrar Serviço");
+            setBackground(new java.awt.Color(249, 180, 209));
+
+            btnCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroServico.png"))); // NOI18N
+            btnCadastrar.setToolTipText("");
+            btnCadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnCadastrar.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btnCadastrarMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btnCadastrarMouseExited(evt);
+                }
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    btnCadastrarMousePressed(evt);
+                }
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    btnCadastrarMouseReleased(evt);
+                }
+            });
+            btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnCadastrarActionPerformed(evt);
+                }
+            });
+
+            btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoCancelarCadastro.png"))); // NOI18N
+            btnCancelar.setToolTipText("");
+            btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btnCancelarMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btnCancelarMouseExited(evt);
+                }
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    btnCancelarMousePressed(evt);
+                }
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    btnCancelarMouseReleased(evt);
+                }
+            });
+            btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnCancelarActionPerformed(evt);
+                }
+            });
+
+            jLabel2.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel2.setText("Nome do Serviço");
+
+            txtNomeServico.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            txtNomeServico.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                   btnCadastrar.doClick();
+                }
+            });
+
+            txtCodigoCliente.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            txtCodigoCliente.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                   btnCadastrar.doClick();
+                }
+            });
+
+            jLabel3.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel3.setText("Código do Cliente");
+
+            btnConsultarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar.png"))); // NOI18N
+            btnConsultarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnConsultarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btnConsultarClienteMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btnConsultarClienteMouseExited(evt);
+                }
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    btnConsultarClienteMousePressed(evt);
+                }
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    btnConsultarClienteMouseReleased(evt);
+                }
+            });
+            btnConsultarCliente.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnConsultarClienteActionPerformed(evt);
+                }
+            });
+
+            jLabel4.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel4.setText("Código");
+
+            jLabel4.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel4.setText("Código");
+
+            txtCodigoServico.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            txtCodigoServico.setFocusable(false);
+
+            btnConsultarFuncionario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar.png"))); // NOI18N
+            btnConsultarFuncionario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnConsultarFuncionario.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btnConsultarFuncionarioMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btnConsultarFuncionarioMouseExited(evt);
+                }
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    btnConsultarFuncionarioMousePressed(evt);
+                }
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    btnConsultarFuncionarioMouseReleased(evt);
+                }
+            });
+            btnConsultarFuncionario.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnConsultarFuncionarioActionPerformed(evt);
+                }
+            });
+
+            txtLoginFuncionario.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            txtLoginFuncionario.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                   btnCadastrar.doClick();
+                }
+            });
+
+            jLabel5.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel5.setText("Login do Funcionário");
+
+            jLabel6.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel6.setText("Valor");
+
+            //ftxtValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+            ftxtValor.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            ftxtValor.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusGained(java.awt.event.FocusEvent evt) {
+                    ftxtValorFocusGained(evt);
+                }
+            });
+            ftxtValor.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                   btnCadastrar.doClick();
+                }
+            });
+
+            //ftxtData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+            ftxtData.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            ftxtData.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusGained(java.awt.event.FocusEvent evt) {
+                    ftxtDataFocusGained(evt);
+                }
+            });
+            ftxtData.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                   btnCadastrar.doClick();
+                }
+            });
+
+            jLabel7.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel7.setText("Data");
+
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(28, 28, 28)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnConsultarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(28, 28, 28))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ftxtData, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(180, 180, 180))
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(245, 245, 245)
+                            .addComponent(jLabel7))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(69, 69, 69)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(txtLoginFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(72, 72, 72))
+                                        .addComponent(jLabel5))
+                                    .addGap(38, 38, 38)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(txtCodigoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(btnConsultarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel3)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtCodigoServico, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(29, 29, 29)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtNomeServico, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2))
+                                    .addGap(26, 26, 26)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel6)
+                                        .addComponent(ftxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(44, 44, 44)
+                            .addComponent(jLabel6)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(ftxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(69, 69, 69)
+                                .addComponent(txtNomeServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCodigoServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel7)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(ftxtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(25, 25, 25)
+                            .addComponent(btnConsultarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel5))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtCodigoCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnConsultarCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtLoginFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(28, 28, 28))
+            );
+
+            pack();
+        }// </editor-fold>                        
+
+        private void btnCadastrarMouseEntered(java.awt.event.MouseEvent evt) {                                          
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroServico_Hover.png"));
+            btnCadastrar.setIcon(i);
+        }                                         
+
+        private void btnCadastrarMouseExited(java.awt.event.MouseEvent evt) {                                         
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroServico.png"));
+            btnCadastrar.setIcon(i);
+        }                                        
+
+        private void btnCadastrarMousePressed(java.awt.event.MouseEvent evt) {                                          
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroServico_Pressed.png"));
+            btnCadastrar.setIcon(i);
+        }                                         
+
+        private void btnCadastrarMouseReleased(java.awt.event.MouseEvent evt) {                                           
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroServico_Hover.png"));
+            btnCadastrar.setIcon(i);
+        }                                          
+
+        private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {                                         
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCancelarCadastro_Hover.png"));
+            btnCancelar.setIcon(i);
+        }                                        
+
+        private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {                                        
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCancelarCadastro.png"));
+            btnCancelar.setIcon(i);
+        }                                       
+
+        private void btnCancelarMousePressed(java.awt.event.MouseEvent evt) {                                         
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCancelarCadastro_Pressed.png"));
+            btnCancelar.setIcon(i);
+        }                                        
+
+        private void btnCancelarMouseReleased(java.awt.event.MouseEvent evt) {                                          
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCancelarCadastro_Hover.png"));
+            btnCancelar.setIcon(i);
+        }                                         
+
+        private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {  
+            dispose();
+        }                                           
+
+        private void btnConsultarFuncionarioMouseEntered(java.awt.event.MouseEvent evt) {                                                     
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar_Hover.png"));
+            btnConsultarFuncionario.setIcon(i);
+        }                                                    
+
+        private void btnConsultarFuncionarioMouseExited(java.awt.event.MouseEvent evt) {                                                    
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar.png"));
+            btnConsultarFuncionario.setIcon(i);
+        }                                                   
+
+        private void btnConsultarFuncionarioMousePressed(java.awt.event.MouseEvent evt) {                                                     
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar_Pressed.png"));
+            btnConsultarFuncionario.setIcon(i);
+        }                                                    
+
+        private void btnConsultarFuncionarioMouseReleased(java.awt.event.MouseEvent evt) {                                                      
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar_Hover.png"));
+            btnConsultarFuncionario.setIcon(i);
+        }                                                     
+
+        private void btnConsultarClienteMouseEntered(java.awt.event.MouseEvent evt) {                                                 
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar_Hover.png"));
+            btnConsultarCliente.setIcon(i);
+        }                                                
+
+        private void btnConsultarClienteMouseExited(java.awt.event.MouseEvent evt) {                                                
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar.png"));
+            btnConsultarCliente.setIcon(i);
+        }                                               
+
+        private void btnConsultarClienteMousePressed(java.awt.event.MouseEvent evt) {                                                 
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar_Pressed.png"));
+            btnConsultarCliente.setIcon(i);
+        }                                                
+
+        private void btnConsultarClienteMouseReleased(java.awt.event.MouseEvent evt) {                                                  
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar_Hover.png"));
+            btnConsultarCliente.setIcon(i);
+        }                                                    
+
+        private void btnConsultarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) { 
+            // TODO add your handling code here:
+        }                                                       
+
+        private void btnConsultarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                    
+            // TODO add your handling code here:
+        }                                                   
+
+        private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {                                             
+            Border bordaVermelha = BorderFactory.createLineBorder(Color.red);
+            Border bordaPadrao = txtCodigoServico.getBorder();
+            int aux = 0;
+            if (txtCodigoCliente.getText().equals("")) {
+                txtCodigoCliente.setBorder(bordaVermelha);
+                aux = 1;
+            }
+            else {
+                txtCodigoCliente.setBorder(bordaPadrao);
+            }
+            if (txtLoginFuncionario.getText().equals("")) {
+                txtLoginFuncionario.setBorder(bordaVermelha);
+                aux = 1;
+            }
+            else {
+                txtLoginFuncionario.setBorder(bordaPadrao);
+            }
+            if (txtNomeServico.getText().equals("")) {
+                txtNomeServico.setBorder(bordaVermelha);
+                aux = 1;
+            }
+            else {
+                txtNomeServico.setBorder(bordaPadrao);
+            }
+            if (ftxtData.getText().equals("")) {
+                ftxtData.setBorder(bordaVermelha);
+                aux = 1;
+            }
+            else {
+                ftxtData.setBorder(bordaPadrao);
+            }
+            if (ftxtValor.getText().equals("")) {
+                ftxtValor.setBorder(bordaVermelha);
+                aux = 1;
+            }
+            else {
+                ftxtValor.setBorder(bordaPadrao);
+            }
+            if (aux == 1) {
+                MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Preencha todos os campos para "
+                        + "o cadastro", "Erro - Preencha os campos");
+                m.setVisible(true);
+            }
+            else {
+                Consulta con = new Consulta();
+                Funcionario f = con.encontrarFuncionarioLogin(txtLoginFuncionario.getText());
+                if (f == null) {
+                    txtLoginFuncionario.setBorder(bordaVermelha);
+                    MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Funcionário não encontrado, "
+                            + "verifique o Login", "Erro - Funcionário inválido");
+                    m.setVisible(true);
+                }
+                else {
+                    Cliente c = con.encontrarCliente(parseInt(txtCodigoCliente.getText()));
+                    if (c == null) {
+                        txtCodigoCliente.setBorder(bordaVermelha);
+                        MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Cliente não encontrado, "
+                                + "verifique o Código", "Erro - Cliente inválido");
+                        m.setVisible(true);
+                    }
+                    else {
+                        /* Aqui todos os dados foram preenchidos, Cliente e Funcionário são existentes */
+                        try {
+                            DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm");
+                            df.setLenient(false);
+                            Date data = df.parse(ftxtData.getText());
+                            
+                            /*Calendar agoraCalendar = Calendar.getInstance();
+                            agoraCalendar.set(Calendar.HOUR_OF_DAY, -1);
+                            agoraCalendar.set(Calendar.MINUTE, -1);
+                            agoraCalendar.set(Calendar.SECOND, -1);
+                            
+                            Date agora = agoraCalendar.getTime();*/
+                            // Com o código comentado acima, não conseguia colocar as horas atuais
+                            // Por isso usei métodos descontinuados
+                            Date agora = new Date();
+                            agora.getHours();
+                            agora.getMinutes();
+                            agora.getSeconds();
+                            
+                            String texto = ftxtValor.getText();
+                            String[] valorTexto = texto.split(" ");
+                            try{
+                                Float valor = Float.parseFloat(valorTexto[1]);
+                                Cadastro cad = new Cadastro();
+                                Servico s = new Servico(txtNomeServico.getText());
+                                s.setValor(valor);
+                                try { // Então, agenda
+                                    if (agora.before(data)) {   
+                                            s.agendarServico(c, f, data);
+                                            this.setAgendado(true);
+                                    }
+                                    else { // Não agenda, já aconteceu!
+                                        s.setCliente(c);
+                                        s.setFuncionario(f);
+                                        s.setData(data);
+                                        s.setEstado("Realizado");
+                                    }
+                                    this.setFinalizado(true);
+                                    cad.gravarServico(s);
+                                    dispose();
+                                } catch (DataInvalidaException | EstadoServicoInvalidoException | ChaveNulaException ex) {
+                                    //
+                                }
+                            } catch (NumberFormatException e) {
+                                ftxtValor.setBorder(bordaVermelha);
+                                MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Valor informado"
+                                        + " inválido: " + ftxtValor.getText(), "Erro - Valor inválido");
+                                m.setVisible(true);
+                            }
+                        } catch (ParseException ex) {
+                            ftxtData.setBorder(bordaVermelha);
+                            MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Data (" 
+                                    + ftxtData.getText() + ") inválida", "Erro - Data inválida");
+                            m.setVisible(true);
+                        } 
+                    }
+                }
+                
+            }
+        }                              
+
+        private void ftxtDataFocusGained(java.awt.event.FocusEvent evt) {                                     
+            MaskFormatter mask;
+            try {
+                mask = new MaskFormatter("##/##/## ##:##");
+                mask.install(ftxtData);
+            } catch (ParseException ex) {
+                //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }                                 
+
+        private void ftxtValorFocusGained(java.awt.event.FocusEvent evt) {                                    
+            MaskFormatter mask;
+            try {
+                mask = new MaskFormatter("R$ ###.##");
+                mask.install(ftxtValor);
+            } catch (ParseException ex) {
+                //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }    
+
+        
+        // Variables declaration - do not modify                     
+        private javax.swing.JButton btnCadastrar;
+        private javax.swing.JButton btnCancelar;
+        private javax.swing.JButton btnConsultarCliente;
+        private javax.swing.JButton btnConsultarFuncionario;
+        private javax.swing.JFormattedTextField ftxtData;
+        private javax.swing.JFormattedTextField ftxtValor;
+        private javax.swing.JLabel jLabel2;
+        private javax.swing.JLabel jLabel3;
+        private javax.swing.JLabel jLabel4;
+        private javax.swing.JLabel jLabel5;
+        private javax.swing.JLabel jLabel6;
+        private javax.swing.JLabel jLabel7;
+        private javax.swing.JTextField txtCodigoCliente;
+        private javax.swing.JTextField txtCodigoServico;
+        private javax.swing.JTextField txtNomeServico;
+        private javax.swing.JTextField txtLoginFuncionario;
+        // End of variables declaration
+    }
+    
+    
+    
+    /**
+     * Classe interna para um JDialog que exibe uma mensagem e possui apenas o botão OK
+     * 
+     * @author Rafael Tavares
+     */ 
+    public class MensagemOkModal extends javax.swing.JDialog {
+        
+        
+        /**
+         * Construtor da classe
+         * @param parent
+         * @param modal 
+         */
+        public MensagemOkModal(java.awt.Frame parent, boolean modal, String mensagem, String titulo) {
+            super(parent, modal);
+            initComponents();
+            this.getContentPane().setBackground(Color.PINK);
+            lblMensagem.setText(mensagem);
+            this.setTitle(titulo);
+            this.setLocationRelativeTo(null);
+
+        }
+
+        /**
+         * This method is called from within the constructor to initialize the form.
+         * WARNING: Do NOT modify this code. The content of this method is always
+         * regenerated by the Form Editor.
+         */
+        @SuppressWarnings("unchecked")
+        // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+        private void initComponents() {
+            btnOk = new javax.swing.JButton();
+            lblMensagem = new javax.swing.JLabel();
+
+            setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            setTitle("Erro");
+            setResizable(false);
+
+            btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"))); // NOI18N
+            btnOk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnOk.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btnOkMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btnOkMouseExited(evt);
+                }
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    btnOkMousePressed(evt);
+                }
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    btnOkMouseReleased(evt);
+                }
+            });
+            btnOk.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnOkActionPerformed(evt);
+                }
+            });
+
+            lblMensagem.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            lblMensagem.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            lblMensagem.setText("Nenhuma linha foi selecionadaaaaaaaaaaaaa");
+            lblMensagem.setToolTipText("");
+
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(lblMensagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap())
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(202, 202, 202)
+                    .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(202, Short.MAX_VALUE))
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(41, 41, 41)
+                    .addComponent(lblMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(55, 55, 55)
+                    .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(46, Short.MAX_VALUE))
+            );
+
+            pack();
+        }// </editor-fold>                        
+
+        private void btnOkMouseEntered(java.awt.event.MouseEvent evt) {                                   
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+            btnOk.setIcon(i);
+        }                                  
+
+        private void btnOkMouseExited(java.awt.event.MouseEvent evt) {                                  
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"));
+            btnOk.setIcon(i);
+        }                                 
+
+        private void btnOkMousePressed(java.awt.event.MouseEvent evt) {                                   
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Pressed.png"));
+            btnOk.setIcon(i);
+        }                                  
+
+        private void btnOkMouseReleased(java.awt.event.MouseEvent evt) {                                    
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+            btnOk.setIcon(i);
+        }                                   
+
+        private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {                                      
+            this.dispose();
+        }                
+
+        // Variables declaration - do not modify                     
+        private javax.swing.JButton btnOk;
+        private javax.swing.JLabel lblMensagem;
+        // End of variables declaration                   
+    }
+    
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel background;
     private javax.swing.JButton btnAgendarServico;
     private javax.swing.JButton btnCancelarServico;
     private javax.swing.JButton btnMenuAgenda;

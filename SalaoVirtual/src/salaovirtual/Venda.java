@@ -82,7 +82,7 @@ public class Venda implements Adicionar{
      */
     @Override
     public String toString() {
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         if (this.data == null) {
             return this.codigo + ";" + this.data + ";" + this.cliente.getCodigo() + ";" + this.funcionario.getLogin() + ";" +
                     this.formaPagamento.getCodigo(); 

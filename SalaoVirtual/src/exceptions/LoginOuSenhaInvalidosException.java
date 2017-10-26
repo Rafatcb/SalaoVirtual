@@ -8,7 +8,7 @@ package exceptions;
  *
  * @author Rafael Tavares
  */
-public class LoginOuSenhaInvalidosException extends MinhaException {
+public class LoginOuSenhaInvalidosException extends MinhaCheckedException {
 
     /**
      * Construtor que envia como mensagem "Login e/ou senha inválidos."

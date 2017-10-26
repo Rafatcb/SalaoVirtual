@@ -8,7 +8,7 @@ package exceptions;
  *
  * @author Rafael Tavares
  */
-public class DataInvalidaException extends MinhaException {
+public class DataInvalidaException extends MinhaCheckedException {
 
     /**
      * Construtor que envia como mensagem "A data inserida não é válida para o agendamento do serviços."

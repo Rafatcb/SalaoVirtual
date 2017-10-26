@@ -8,7 +8,7 @@ package exceptions;
  *
  * @author Rafael Tavares
  */
-public class TipoDeCartaoInvalidoException extends MinhaException {
+public class TipoDeCartaoInvalidoException extends MinhaCheckedException {
 
     /**
      * Construtor que envia como mensagem "O tipo de cartão é inválido. Indique um valor entre 'Crédito' ou 'Débito'."

@@ -8,7 +8,7 @@ package exceptions;
  *
  * @author Rafael Tavares
  */
-public class ObjetoJaCadastradoException extends MinhaException {
+public class ObjetoJaCadastradoException extends MinhaCheckedException {
     
     /**
      * Construtor que envia como mensagem "O Objeto com a Key indicada já está cadastrado no sistema."

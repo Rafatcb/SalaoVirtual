@@ -575,7 +575,7 @@ public class Consulta {
             String linha;
             linha = entrada.readLine();
             Servico s = new Servico();
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             do {
                 String[] valor = linha.split(";");
                 if (parseInt(valor[0]) == codigo) {
@@ -625,7 +625,7 @@ public class Consulta {
             String linha;
             
             linha = entrada.readLine();
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             do {
                 String[] valor = linha.split(";");
                 if (valor[1].equals(nome)) {
@@ -681,7 +681,7 @@ public class Consulta {
             String linha;
             
             linha = entrada.readLine();
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             do {
                 String[] valor = linha.split(";");
                 if (valor[4].equals(estado)) {
@@ -728,7 +728,7 @@ public class Consulta {
             String linha;
             linha = entrada.readLine();
             Compra c = new Compra();
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             do {
                 String[] valor = linha.split(";");
                 if (parseInt(valor[0]) == codigo) {
@@ -1042,7 +1042,7 @@ public class Consulta {
             String linha;
             linha = entrada.readLine();
             Venda v = new Venda();
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             do {
                 String[] valor = linha.split(";");
                 if (parseInt(valor[0]) == codigo) {

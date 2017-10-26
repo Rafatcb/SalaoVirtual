@@ -8,7 +8,7 @@ package exceptions;
  *
  * @author Rafael Tavares
  */
-public class EstadoServicoInvalidoException extends MinhaException {
+public class EstadoServicoInvalidoException extends MinhaCheckedException {
 
     /**
      * Construtor que envia como mensagem "Estado inválido. O estado do serviço deve ser 'Agendado', 'Realizado' ou 'Cancelado'."
