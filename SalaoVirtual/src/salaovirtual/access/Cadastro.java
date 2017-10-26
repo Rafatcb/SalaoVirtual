@@ -32,7 +32,41 @@ public class Cadastro {
      * Método para gravar o fornecedor passado como parâmetro em um arquivo CSV
      * @param f
      */
-    public void gravarFornecedor(Fornecedor f) {
+    public void gravarFornecedor(Fornecedor f) throws ObjetoJaCadastradoException {
+        try {   
+            /* Verifica se o arquivo existe */
+            FileReader arq = new FileReader("Fornecedor.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            entrada.close();
+            arq.close();    
+            
+            /* Não pode existir um fornecedor com este cnpj cadastrado */
+            if (f.getCnpj() != null) {
+                Consulta consulta = new Consulta();
+                try {
+                    Fornecedor ftemp = new Fornecedor();
+                    ftemp = consulta.encontrarFornecedorCnpj(f.getCnpj());
+                    ftemp.getCodigo();
+                    throw new ObjetoJaCadastradoException();
+                } catch (NullPointerException e) {
+                    //
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            /* Se o arquivo não existe, eu crio ele */
+            try {
+                FileWriter arq = new FileWriter("Fornecedor.csv");
+                BufferedWriter saida = new BufferedWriter(arq);
+                saida.close();
+                arq.close();
+            } catch (IOException ex1) {
+                //Logger.getLogger(Funcionario.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        } catch (IOException ex) {
+            //Logger.getLogger(Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         try {
             Consulta consulta = new Consulta();
             FileWriter arq = new FileWriter("Fornecedor.csv", true);
@@ -71,7 +105,42 @@ public class Cadastro {
      * Método para gravar o cliente passado como parâmetro em um arquivo CSV
      * @param c
      */
-    public void gravarCliente(Cliente c) {
+    public void gravarCliente(Cliente c) throws ObjetoJaCadastradoException {
+        try {   
+            /* Verifica se o arquivo existe */
+            FileReader arq = new FileReader("Cliente.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            entrada.close();
+            arq.close();    
+            
+            /* Não pode existir um fornecedor com este cnpj cadastrado */
+            if (c.getCpf()!= null) {
+                Consulta consulta = new Consulta();
+                try {
+                    Cliente ctemp = new Cliente();
+                    ctemp = consulta.encontrarClienteCpf(c.getCpf());
+                    ctemp.getCodigo();
+                    throw new ObjetoJaCadastradoException();
+                } catch (NullPointerException e) {
+                    //
+                }
+            }
+            
+        } catch (FileNotFoundException ex) {
+            /* Se o arquivo não existe, eu crio ele */
+            try {
+                FileWriter arq = new FileWriter("Cliente.csv");
+                BufferedWriter saida = new BufferedWriter(arq);
+                saida.close();
+                arq.close();
+            } catch (IOException ex1) {
+                //Logger.getLogger(Funcionario.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        } catch (IOException ex) {
+            //Logger.getLogger(Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         try {
             Consulta consulta = new Consulta();
             FileWriter arq = new FileWriter("Cliente.csv", true);
@@ -108,6 +177,7 @@ public class Cadastro {
             try {
                 Funcionario ftemp = new Funcionario();
                 ftemp = consulta.encontrarFuncionarioLogin(f.getLogin());
+                ftemp.getCidade();
                 throw new ObjetoJaCadastradoException();
             } catch (NullPointerException e) {
                 /* O funcionário pode ter CPF nulo, mas não pode existir um funcionário com o mesmo cpf cadastrado */
@@ -115,6 +185,7 @@ public class Cadastro {
                     try {
                         Funcionario ftemp2 = new Funcionario();
                         ftemp2 = consulta.encontrarFuncionarioCpf(f.getCpf());
+                        ftemp2.getCidade();
                         throw new ObjetoJaCadastradoException();
                     } catch (NullPointerException ex) {
                     }

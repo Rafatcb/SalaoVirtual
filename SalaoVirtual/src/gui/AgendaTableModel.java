@@ -35,13 +35,6 @@ public class AgendaTableModel extends AbstractTableModel {
         }
     }
     
-    /**
-     * Método para atualizar a lista de serviços agendados
-     */
-    public void atualizarAgenda() {        
-        fireTableRowsInserted(0, servicos.size());
-    }
-    
     
     /**
      * Retorna o nome da coluna - também conhecido como Header

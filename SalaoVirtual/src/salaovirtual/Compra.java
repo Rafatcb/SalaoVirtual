@@ -4,10 +4,13 @@
 package salaovirtual;
 
 import exceptions.ChaveNulaException;
+import exceptions.ObjetoNaoInseridoException;
+import exceptions.QuantidadeInvalidaException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import salaovirtual.access.Consulta;
 
 /**
  * Classe referente à compra de produtos
@@ -26,6 +29,48 @@ public class Compra {
     private Map<Integer, Float> produtos; // Código do produto, Valor dele
     private List<Integer> quantidade; // Quantidade de cada produto
     private Fornecedor fornecedor;
+    
+    /**
+     * Adiciona produto à compra
+     * Polimorfismo: Sobrescrita
+     * @param p
+     * @param quantidade
+     */
+    public void addProduto(Produto p, int quantidade) {
+        try {
+            Consulta con = new Consulta();
+            Produto p1 = con.encontrarProduto(p.getCodigo());
+            if (quantidade <= 0) {
+                throw new QuantidadeInvalidaException();
+            }
+            this.produtos.put(p1.getCodigo(), p1.getValor());
+            this.quantidade.add(quantidade);
+        }
+        catch (NullPointerException ex) {
+            throw new ObjetoNaoInseridoException();
+        }
+    }
+    
+    /**
+     * Adiciona produto à compra com base diretamente no código dele
+     * Polimorfismo: Sobrecarga
+     * @param codigo
+     * @param quantidade
+     * @param valor
+     */
+    public void addProduto(int codigo, int quantidade, float valor)  {
+        try {
+            Consulta con = new Consulta();
+            Produto p = con.encontrarProduto(codigo);
+            if ((quantidade <= 0) || (valor <= 0)) {
+                throw new QuantidadeInvalidaException();
+            }
+            this.produtos.put(codigo, valor);
+            this.quantidade.add(quantidade);
+        } catch (NullPointerException ex) {
+            throw new ObjetoNaoInseridoException();
+        }
+    }
     
     /**
      * Método para facilitar a escrita do objeto em um arquivo CSV

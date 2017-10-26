@@ -3,13 +3,14 @@
  */
 package salaovirtual;
 
+import exceptions.ObjetoNaoInseridoException;
+import exceptions.QuantidadeInvalidaException;
 import salaovirtual.interfaces.Adicionar;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import salaovirtual.access.Consulta;
 
 /**
  * Classe referente à venda de produtos  e serviços
@@ -37,8 +38,17 @@ public class Venda implements Adicionar{
      */
     @Override
     public void addProduto(Produto p, int quantidade) {
-        // Falta verificar se é um produto válido baseado no arquivo de produtos
-        this.produtos.put(p.getCodigo(), quantidade);
+        try {
+            Consulta con = new Consulta();
+            Produto p1 = con.encontrarProduto(p.getCodigo());
+            if (quantidade <= 0) {
+                throw new QuantidadeInvalidaException();
+            }
+            this.produtos.put(p1.getCodigo(), quantidade);
+        }
+        catch (NullPointerException ex) {
+            throw new ObjetoNaoInseridoException();
+        }
     }
     
     /**
@@ -48,8 +58,16 @@ public class Venda implements Adicionar{
      * @param quantidade
      */
     public void addProduto(int codigo, int quantidade) {
-        // Falta verificar se é um produto válido baseado no arquivo de produtos
-        this.produtos.put(codigo, quantidade);
+        try {
+            Consulta con = new Consulta();
+            Produto p = con.encontrarProduto(codigo);
+            if (quantidade <= 0) {
+                throw new QuantidadeInvalidaException();
+            }
+            this.produtos.put(codigo, quantidade);
+        } catch (NullPointerException ex) {
+            throw new ObjetoNaoInseridoException();
+        }
     }
     
     /**
@@ -60,8 +78,16 @@ public class Venda implements Adicionar{
      */
     @Override
     public void addServico(Servico s, int quantidade) {
-        // Falta verificar se é um servico válido baseado no arquivo de servicos
-        this.servicos.put(s.getCodigo(), quantidade);
+        try {
+            Consulta con = new Consulta();
+            Servico s1 = con.encontrarServico(s.getCodigo());
+            if (quantidade <= 0) {
+                throw new QuantidadeInvalidaException();
+            }
+            this.servicos.put(s1.getCodigo(), quantidade);
+        } catch (NullPointerException ex) {
+            throw new ObjetoNaoInseridoException();
+        }
     }
     
     /**
@@ -71,8 +97,16 @@ public class Venda implements Adicionar{
      * @param quantidade
      */
     public void addServico(int codigo, int quantidade) {
-        // Falta verificar se é um servico válido baseado no arquivo de servicos
-        this.servicos.put(codigo, quantidade);
+        try {
+            Consulta con = new Consulta();
+            Servico s = con.encontrarServico(codigo);
+            if (quantidade <= 0) {
+                throw new QuantidadeInvalidaException();
+            }
+            this.servicos.put(codigo, quantidade);
+        } catch (NullPointerException ex) {
+            throw new ObjetoNaoInseridoException();
+        }
     }
     
     /**
@@ -114,6 +148,20 @@ public class Venda implements Adicionar{
     public Venda(){
         this.produtos = new HashMap<>();
         this.servicos = new HashMap<>();
+    }
+    
+    /**
+     * Define o mapa de produtos vendidos com (Código do produto, Quantidade)
+     */
+    public void setProdutos(Map<Integer, Integer> produtos) {
+        this.produtos = produtos;
+    }
+    
+    /**
+     * Define o mapa de serviços vendidos com (Código do serviço, Quantidade)
+     */
+    public void setServicos(Map<Integer, Integer> servicos) {
+        this.servicos = servicos;
     }
     
     /**

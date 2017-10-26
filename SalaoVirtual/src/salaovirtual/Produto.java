@@ -24,10 +24,6 @@ public class Produto {
     private float valor;
     private int qtdEstoque;
     private int qtdEstoqueMin;
-    
-    public void encomendar(Fornecedor f) {
-        
-    }
 
     /**
      * Método para facilitar a escrita do objeto em um arquivo CSV

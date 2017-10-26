@@ -157,20 +157,19 @@ public class Consulta {
     }
     
     /**
-     * Retorna uma lista dos fornecedores que possuem o CNPJ passado como parâmetro
+     * Retorna o fornecedor identificado pelo CNPJ passado por parâmetro
      * @param cnpj
-     * @return Lista de Fornecedor
+     * @return Fornecedor
      */
-    public List<Fornecedor> encontrarFornecedorCnpj(String cnpj) {
+    public Fornecedor encontrarFornecedorCnpj(String cnpj) {
         try {
-            List<Fornecedor> fornecedores = new ArrayList();
+            Fornecedor f = new Fornecedor();
             FileReader arq = new FileReader("Fornecedor.csv");
             BufferedReader entrada = new BufferedReader(arq);
             String linha;
             
             linha = entrada.readLine();
             do {
-                Fornecedor f = new Fornecedor();
                 String[] valor = linha.split(";");
                 if (valor[1].equals(cnpj)) {
                     f.setCodigo(parseInt(valor[0]));
@@ -184,13 +183,15 @@ public class Consulta {
                     f.setEstado(valor[8]);
                     f.setComplemento(valor[9]);
                     this.encontrarFornecedorProdutos(f);
-                    fornecedores.add(f);
+                    arq.close();
+                    entrada.close();
+                    return f;
                 }
                 linha = entrada.readLine();
             } while (linha != null);
             arq.close();
             entrada.close();
-            return fornecedores;
+            return null;
         } catch (FileNotFoundException e) {
             return null;
         } catch (IOException ex2) {
@@ -229,7 +230,6 @@ public class Consulta {
     
     /**
      * Retorna o cliente identificado pelo código passado por parâmetro
-     * Polimorfismo: Sobrecarga
      * @param codigo
      * @return Cliente
      */    
@@ -274,12 +274,56 @@ public class Consulta {
     }
     
     /**
+     * Retorna o cliente identificado pelo código passado por parâmetro
+     * @param codigo
+     * @return Cliente
+     */    
+    public Cliente encontrarClienteCpf(String cpf) {
+        try {
+            FileReader arq = new FileReader("Cliente.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            linha = entrada.readLine();
+            Cliente c = new Cliente();
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            do {
+                String[] valor = linha.split(";");
+                if (valor[1].equals(cpf)) {
+                    c.setCodigo(parseInt(valor[0]));
+                    c.setCpf(valor[1]);
+                    c.setNome(valor[2]);
+                    c.setTelefone(valor[3]);
+                    c.setEmail(valor[4]);
+                    if (!valor[5].equals("null")) {
+                        c.setDataAniversario(formato.parse(valor[5]));
+                    }
+                    else {
+                        c.setDataAniversario(null);
+                    }
+                    entrada.close();
+                    arq.close();
+                    return c;
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            entrada.close();
+            arq.close();
+        } catch (FileNotFoundException ex) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        } catch (ParseException ex) {
+            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    /**
      * Retorna uma lista dos clientes que possuem o nome passado como parâmetro
-     * Polimorfismo: Sobrecarga
      * @param nome
      * @return Lista de Cliente
      */
-    public List<Cliente> encontrarCliente(String nome) {
+    public List<Cliente> encontrarClienteNome(String nome) {
         try {
             List<Cliente> clientes = new ArrayList();
             FileReader arq = new FileReader("Cliente.csv");
