@@ -6,6 +6,7 @@ package gui;
 import exceptions.ChaveNulaException;
 import exceptions.DataInvalidaException;
 import exceptions.EstadoServicoInvalidoException;
+import exceptions.ObjetoJaCadastradoException;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -14,8 +15,9 @@ import static java.lang.Integer.parseInt;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import javax.swing.ImageIcon;
@@ -36,12 +38,17 @@ public class MenuInicial extends javax.swing.JFrame {
 
     private boolean cadastro = false;
     private String mensagemDialog;
+    private Funcionario funcionario;
     
     /**
      * Cria um novo JFrame Menu Inicial
      */
     public MenuInicial() {
-        //jdialog login
+        LoginModal login = new LoginModal(this, true);
+        login.setVisible(true);
+        if (!login.isLogado()) {  // this returns true only if the user logged in
+            System.exit(0);
+        }
         initComponents();
         this.setLocationRelativeTo(null);
         pnlSubMenu.setVisible(false);
@@ -61,6 +68,8 @@ public class MenuInicial extends javax.swing.JFrame {
         jScrollPane1.setBorder(createEmptyBorder());
         jScrollPane1.setViewportBorder(null);
         jScrollPane1.getViewport().setOpaque(false);
+        this.setFuncionario(login.getFuncionarioLogado());
+        
     }
 
     /**
@@ -93,6 +102,22 @@ public class MenuInicial extends javax.swing.JFrame {
      */
     private void setCadastro(boolean cadastro) {
         this.cadastro = cadastro;
+    }
+
+    /**
+     * Retorna o funcionário que logou no sistema
+     * @return Mensagem para exibir no Dialog
+     */
+    public Funcionario getFuncionario() {
+        return this.funcionario;
+    }
+    
+    /**
+     * Define o funcionário que logou no sistema
+     * @param f 
+     */
+    private void setFuncionario(Funcionario f) {
+        this.funcionario = f;
     }
     
     
@@ -797,7 +822,7 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgendarServicoMouseReleased
 
     private void btnAgendarServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarServicoActionPerformed
-        CadastroServicoModal cadastroServico = new CadastroServicoModal(this, true);
+        CadastroServicoModal cadastroServico = new CadastroServicoModal(this, true, this.getFuncionario());
         cadastroServico.setVisible(true);
         if (cadastroServico.isFinalizado()) {
             if (cadastroServico.isAgendado()) {
@@ -906,7 +931,7 @@ public class MenuInicial extends javax.swing.JFrame {
          * @param parent
          * @param modal 
          */
-        public CadastroServicoModal(java.awt.Frame parent, boolean modal) {
+        public CadastroServicoModal(java.awt.Frame parent, boolean modal, Funcionario f) {
             super(parent, modal);
             initComponents();
             this.getContentPane().setBackground(Color.PINK);
@@ -916,6 +941,7 @@ public class MenuInicial extends javax.swing.JFrame {
             txtCodigoServico.setText(Integer.toString(codigo));
             this.setAgendado(false);
             this.setFinalizado(false);
+            txtLoginFuncionario.setText(f.getLogin());
             this.setLocationRelativeTo(null);
         }
 
@@ -929,8 +955,9 @@ public class MenuInicial extends javax.swing.JFrame {
         
         /**
          * Retorna o pai do CadastroServicoModal
-         * @return 
+         * @return Pai
          */
+        @Override
         public java.awt.Frame getParent() {
             return this.parent;
         }
@@ -1408,7 +1435,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 if (f == null) {
                     txtLoginFuncionario.setBorder(bordaVermelha);
                     MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Funcionário não encontrado, "
-                            + "verifique o Login", "Erro - Funcionário inválido");
+                            + "verifique o Login" + txtLoginFuncionario.getText() + ".", "Erro - Funcionário inválido");
                     m.setVisible(true);
                 }
                 else {
@@ -1642,6 +1669,338 @@ public class MenuInicial extends javax.swing.JFrame {
         // Variables declaration - do not modify                     
         private javax.swing.JButton btnOk;
         private javax.swing.JLabel lblMensagem;
+        // End of variables declaration                   
+    }
+    
+    
+    
+    /**
+     * Classe interna para um JDialog para o login no sistema
+     * 
+     * @author Rafael Tavares
+     */ 
+    public class LoginModal extends javax.swing.JDialog {
+        private java.awt.Frame parent;
+        private boolean logado;
+        private Funcionario funcionarioLogado;
+
+
+        /**
+         * Construtor da classe
+         * @param parent
+         * @param modal 
+         */
+        public LoginModal(java.awt.Frame parent, boolean modal) {
+            super(parent, modal);
+            initComponents();
+            jTextField1.setVisible(false);
+            this.setParent(parent);
+            this.setLogado(false);
+            this.setFuncionarioLogado(null);
+            this.getContentPane().setBackground(Color.PINK);
+            this.setLocationRelativeTo(null);
+        }
+
+        /**
+         * Define o pai do LoginModal
+         * @param frame 
+         */
+        private void setParent(java.awt.Frame frame) {
+            this.parent = frame;
+        }
+
+        /**
+         * Retorna o pai do LoginModal
+         * @return Pai do LoginModal
+         */
+        @Override
+        public java.awt.Frame getParent() {
+            return this.parent;
+        }
+
+        /**
+         * Define se o usuário logou ou não no sistema
+         * @param logado 
+         */
+        private void setLogado(boolean logado) {
+            this.logado = logado;
+        }
+
+        /**
+         * Retorna se o usuário logou ou não no sistema
+         * @return Logado - true se entrou, false se cancelou
+         */
+        public boolean isLogado() {
+            return this.logado;
+        }
+        /**
+         * Define o funcionário que logou no sistema
+         * @param f 
+         */
+        private void setFuncionarioLogado(Funcionario f) {
+            this.funcionarioLogado = f;
+        }
+
+        /**
+         * Retorna o funcionário que logou no sistema
+         * @return Funcionário que logou
+         */
+        public Funcionario getFuncionarioLogado() {
+            return this.funcionarioLogado;
+        }
+
+        /**
+         * This method is called from within the constructor to initialize the form.
+         * WARNING: Do NOT modify this code. The content of this method is always
+         * regenerated by the Form Editor.
+         */
+        @SuppressWarnings("unchecked")
+        // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+        private void initComponents() {
+
+            lblImagem = new javax.swing.JLabel();
+            jLabel1 = new javax.swing.JLabel();
+            txtLogin = new javax.swing.JTextField();
+            jLabel2 = new javax.swing.JLabel();
+            ptxtSenha = new javax.swing.JPasswordField();
+            btnOk = new javax.swing.JButton();
+            btnCancelar = new javax.swing.JButton();
+            jTextField1 = new javax.swing.JTextField();
+
+            setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            setTitle("Login");
+
+            lblImagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icones/funcionario.png"))); // NOI18N
+
+            jLabel1.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel1.setText("Login");
+
+            txtLogin.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            txtLogin.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    txtLoginActionPerformed(evt);
+                }
+            });
+
+            jLabel2.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel2.setText("Senha");
+
+            ptxtSenha.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            ptxtSenha.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    ptxtSenhaActionPerformed(evt);
+                }
+            });
+
+            btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"))); // NOI18N
+            btnOk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnOk.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btnOkMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btnOkMouseExited(evt);
+                }
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    btnOkMousePressed(evt);
+                }
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    btnOkMouseReleased(evt);
+                }
+            });
+            btnOk.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnOkActionPerformed(evt);
+                }
+            });
+
+            btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/okcancel/botaoCancelar.png"))); // NOI18N
+            btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btnCancelarMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btnCancelarMouseExited(evt);
+                }
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    btnCancelarMousePressed(evt);
+                }
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    btnCancelarMouseReleased(evt);
+                }
+            });
+            btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnCancelarActionPerformed(evt);
+                }
+            });
+
+            jTextField1.setEditable(false);
+            jTextField1.setText("jTextField1");
+            jTextField1.setEnabled(false);
+
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(21, 21, 21)
+                            .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(49, 49, 49)
+                            .addComponent(lblImagem)
+                            .addGap(32, 32, 32)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2)
+                                .addComponent(txtLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                .addComponent(ptxtSenha)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(29, 29, 29)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap(22, Short.MAX_VALUE))
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(19, 19, 19)
+                    .addComponent(jLabel1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(ptxtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(37, 37, 37))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(lblImagem)
+                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            );
+
+            pack();
+        }// </editor-fold>                        
+
+        private void btnOkMouseEntered(java.awt.event.MouseEvent evt) {                                   
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+            btnOk.setIcon(i);
+        }                                  
+
+        private void btnOkMouseExited(java.awt.event.MouseEvent evt) {                                  
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"));
+            btnOk.setIcon(i);
+        }                                 
+
+        private void btnOkMousePressed(java.awt.event.MouseEvent evt) {                                   
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Pressed.png"));
+            btnOk.setIcon(i);
+        }                                  
+
+        private void btnOkMouseReleased(java.awt.event.MouseEvent evt) {                                    
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+            btnOk.setIcon(i);
+        }                                   
+
+        private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {                                      
+            Border bordaVermelha = BorderFactory.createLineBorder(Color.red);
+            Border bordaPadrao = jTextField1.getBorder();
+            int aux = 0;
+            if (txtLogin.getText().equals("")) {
+                txtLogin.setBorder(bordaVermelha);
+                aux = 1;
+            }
+            else {
+                txtLogin.setBorder(bordaPadrao);
+            }
+            String senha = String.copyValueOf(ptxtSenha.getPassword());
+            if (senha.length() == 0) {
+                ptxtSenha.setBorder(bordaVermelha);
+                aux = 1;
+            }
+            else {
+                ptxtSenha.setBorder(bordaPadrao);
+            }
+            if (aux == 1) {
+                MensagemOkModal msg = new MensagemOkModal(this.getParent(), true, "Informe o Login e Senha", 
+                        "Erro - Preencha todos os campos");
+                msg.setVisible(true);
+            }
+            else {
+                try {
+                    Consulta con = new Consulta();
+                    Funcionario f = con.encontrarFuncionarioLogin(txtLogin.getText());
+                    if (!f.validarLoginSenha(senha)) {
+                        MensagemOkModal msg = new MensagemOkModal(this.getParent(), true, "Login e/ou senha inválidos", 
+                                "Erro - Preencha todos os campos");
+                        msg.setVisible(true);
+                    }
+                    else {
+                        this.setLogado(true);
+                        this.setFuncionarioLogado(f);
+                        dispose();
+                    }
+                } catch (NullPointerException ex) {
+                    MensagemOkModal msg = new MensagemOkModal(this.getParent(), true, "Login e/ou senha inválidos", 
+                            "Erro - Preencha todos os campos");
+                    msg.setVisible(true);
+                }
+            }
+        }                                             
+
+        private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {                                         
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoCancelar_Hover.png"));
+            btnCancelar.setIcon(i);
+        }                                        
+
+        private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {                                        
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoCancelar.png"));
+            btnCancelar.setIcon(i);
+        }                                       
+
+        private void btnCancelarMousePressed(java.awt.event.MouseEvent evt) {                                         
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoCancelar_Pressed.png"));
+            btnCancelar.setIcon(i);
+        }                                        
+
+        private void btnCancelarMouseReleased(java.awt.event.MouseEvent evt) {                                          
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoCancelar_Hover.png"));
+            btnCancelar.setIcon(i);
+        }                                         
+
+        private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                            
+            dispose();
+        }                                           
+
+        private void txtLoginActionPerformed(java.awt.event.ActionEvent evt) {                                         
+            btnOkActionPerformed(evt);
+        }                                        
+
+        private void ptxtSenhaActionPerformed(java.awt.event.ActionEvent evt) {                                          
+            btnOkActionPerformed(evt);
+        }       
+
+
+        // Variables declaration - do not modify                     
+        private javax.swing.JButton btnCancelar;
+        private javax.swing.JButton btnOk;
+        private javax.swing.JLabel jLabel1;
+        private javax.swing.JLabel jLabel2;
+        private javax.swing.JTextField jTextField1;
+        private javax.swing.JLabel lblImagem;
+        private javax.swing.JPasswordField ptxtSenha;
+        private javax.swing.JTextField txtLogin;
         // End of variables declaration                   
     }
     

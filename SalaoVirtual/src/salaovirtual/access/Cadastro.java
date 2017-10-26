@@ -378,9 +378,12 @@ public class Cadastro {
         try {
             FileWriter arq = new FileWriter("VendaProdutos.csv", true);
             BufferedWriter saida = new BufferedWriter(arq);
-            for (Map.Entry<Integer, Integer> pair : v.getProdutos().entrySet()){
-                saida.write(v.getCodigo() + ";" + pair.getKey() + ";" + pair.getValue());
+            int pos = 0;
+            List<Integer> quantidades = v.getQuantidadesProdutos();
+            for (Map.Entry<Integer, Float> pair : v.getProdutos().entrySet()){
+                saida.write(v.getCodigo() + ";" + pair.getKey() + ";" + pair.getValue() + ";" + quantidades.get(pos));
                 saida.newLine();
+                pos++;
             }
             saida.close();
             arq.close();

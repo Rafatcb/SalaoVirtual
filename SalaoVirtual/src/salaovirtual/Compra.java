@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import salaovirtual.access.Consulta;
 
 /**
  * Classe referente à compra de produtos
@@ -31,43 +30,39 @@ public class Compra {
     private Fornecedor fornecedor;
     
     /**
-     * Adiciona produto à compra
+     * Adiciona produto à compra com base no objeto e quantidade passada como parâmetro
      * Polimorfismo: Sobrescrita
      * @param p
      * @param quantidade
      */
     public void addProduto(Produto p, int quantidade) {
         try {
-            Consulta con = new Consulta();
-            Produto p1 = con.encontrarProduto(p.getCodigo());
             if (quantidade <= 0) {
                 throw new QuantidadeInvalidaException();
             }
-            this.produtos.put(p1.getCodigo(), p1.getValor());
+            this.produtos.put(p.getCodigo(), p.getValor());
             this.quantidade.add(quantidade);
         }
         catch (NullPointerException ex) {
             throw new ObjetoNaoInseridoException();
         }
     }
-    
     /**
-     * Adiciona produto à compra com base diretamente no código dele
-     * Polimorfismo: Sobrecarga
+     * Adiciona produto à compra com base no código, valor e quantidade passada como parâmetro
+     * Polimorfismo: Sobrescrita
      * @param codigo
-     * @param quantidade
      * @param valor
+     * @param quantidade
      */
-    public void addProduto(int codigo, int quantidade, float valor)  {
+    public void addProduto(int codigo, float valor, int quantidade) {
         try {
-            Consulta con = new Consulta();
-            Produto p = con.encontrarProduto(codigo);
-            if ((quantidade <= 0) || (valor <= 0)) {
+            if (quantidade <= 0) {
                 throw new QuantidadeInvalidaException();
             }
             this.produtos.put(codigo, valor);
             this.quantidade.add(quantidade);
-        } catch (NullPointerException ex) {
+        }
+        catch (NullPointerException ex) {
             throw new ObjetoNaoInseridoException();
         }
     }

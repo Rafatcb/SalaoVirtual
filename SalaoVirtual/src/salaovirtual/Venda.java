@@ -9,15 +9,16 @@ import salaovirtual.interfaces.Adicionar;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import salaovirtual.access.Consulta;
 
 /**
  * Classe referente à venda de produtos  e serviços
  * 
  * <p>Atributos que merecem destaque para explicação:
- * <p>produtos: mapa de produtos vendidos contendo como chave o código do produto e como valor a quantidade
+ * <p>produtos: mapa de produtos vendidos contendo como chave o código do produto e como valor o valor
  * <p>servicos: mapa de serviços vendidos contendo como chave o código do serviço e como valor a quantidade
+ * <p>quantidadesProdutos: lista de inteiros contendo a quantidade de cada produto vendido
  * 
  * @author Rafael Tavares
  */
@@ -27,7 +28,8 @@ public class Venda implements Adicionar{
     private Cliente cliente;
     private Funcionario funcionario;
     private FormaDePagamento formaPagamento;
-    private Map<Integer, Integer> produtos; // Código do produto, Quantidade dele
+    private Map<Integer, Float> produtos; // Código do produto, valor dele
+    private List<Integer> quantidadesProdutos; // Quantidade de cada produto
     private Map<Integer, Integer> servicos; // Código do serviço, Quantidade dele
 
     /**
@@ -39,12 +41,11 @@ public class Venda implements Adicionar{
     @Override
     public void addProduto(Produto p, int quantidade) {
         try {
-            Consulta con = new Consulta();
-            Produto p1 = con.encontrarProduto(p.getCodigo());
             if (quantidade <= 0) {
                 throw new QuantidadeInvalidaException();
             }
-            this.produtos.put(p1.getCodigo(), quantidade);
+            this.produtos.put(p.getCodigo(), p.getValor());
+            this.quantidadesProdutos.add(quantidade);
         }
         catch (NullPointerException ex) {
             throw new ObjetoNaoInseridoException();
@@ -55,16 +56,16 @@ public class Venda implements Adicionar{
      * Adiciona produto à venda com base diretamente no código dele
      * Polimorfismo: Sobrecarga
      * @param codigo
+     * @param valor
      * @param quantidade
      */
-    public void addProduto(int codigo, int quantidade) {
+    public void addProduto(int codigo, float valor, int quantidade) {
         try {
-            Consulta con = new Consulta();
-            Produto p = con.encontrarProduto(codigo);
             if (quantidade <= 0) {
                 throw new QuantidadeInvalidaException();
             }
-            this.produtos.put(codigo, quantidade);
+            this.produtos.put(codigo, valor);
+            this.quantidadesProdutos.add(quantidade);
         } catch (NullPointerException ex) {
             throw new ObjetoNaoInseridoException();
         }
@@ -79,12 +80,10 @@ public class Venda implements Adicionar{
     @Override
     public void addServico(Servico s, int quantidade) {
         try {
-            Consulta con = new Consulta();
-            Servico s1 = con.encontrarServico(s.getCodigo());
             if (quantidade <= 0) {
                 throw new QuantidadeInvalidaException();
             }
-            this.servicos.put(s1.getCodigo(), quantidade);
+            this.servicos.put(s.getCodigo(), quantidade);
         } catch (NullPointerException ex) {
             throw new ObjetoNaoInseridoException();
         }
@@ -98,8 +97,6 @@ public class Venda implements Adicionar{
      */
     public void addServico(int codigo, int quantidade) {
         try {
-            Consulta con = new Consulta();
-            Servico s = con.encontrarServico(codigo);
             if (quantidade <= 0) {
                 throw new QuantidadeInvalidaException();
             }
@@ -152,13 +149,15 @@ public class Venda implements Adicionar{
     
     /**
      * Define o mapa de produtos vendidos com (Código do produto, Quantidade)
+     * @param produtos
      */
-    public void setProdutos(Map<Integer, Integer> produtos) {
+    public void setProdutos(Map<Integer, Float> produtos) {
         this.produtos = produtos;
     }
     
     /**
      * Define o mapa de serviços vendidos com (Código do serviço, Quantidade)
+     * @param servicos
      */
     public void setServicos(Map<Integer, Integer> servicos) {
         this.servicos = servicos;
@@ -168,7 +167,7 @@ public class Venda implements Adicionar{
      * Retorna o mapa de produtos vendidos com (Código do produto, Quantidade)
      * @return Mapa de Produto
      */
-    public Map<Integer, Integer> getProdutos() {
+    public Map<Integer, Float> getProdutos() {
         return produtos;
     }
     
@@ -178,6 +177,22 @@ public class Venda implements Adicionar{
      */
     public Map<Integer, Integer> getServicos() {
         return servicos;
+    }
+
+    /**
+     * Retorna uma lista da quantidade de produtos comprados
+     * @return Lista com quantidade de produtos comprados
+     */
+    public List<Integer> getQuantidadesProdutos() {
+        return quantidadesProdutos;
+    }
+
+    /**
+     * Define a lista com quantidade de produtos comprados
+     * @param quantidadesProdutos 
+     */
+    public void setQuantidadesProdutos(List<Integer> quantidadesProdutos) {
+        this.quantidadesProdutos = quantidadesProdutos;
     }
 
     /**

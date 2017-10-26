@@ -22,6 +22,17 @@ public class Funcionario implements InformacaoPessoa{
     private String cidade;
     private String estado;
     
+    
+    /**
+     * Método para validar a senha com a senha já definida no objeto
+     * @param tsenha
+     * @return true - válido, false - inválido
+     */
+    public boolean validarLoginSenha(String tsenha) {
+        tsenha = Criptografar.criptografarMD5(tsenha);
+        return this.getSenha().equals(tsenha);
+    }
+    
     /**
      * Método para facilitar a escrita do objeto em um arquivo CSV
      * Polimorfismo: Sobrescrita
@@ -101,6 +112,14 @@ public class Funcionario implements InformacaoPessoa{
      */
     public void setSenha(String senha) {
         this.senha = Criptografar.criptografarMD5(senha);
+    }
+
+    /**
+     * Define a senha do funcionário se já estiver criptografada em MD5.
+     * @param senha não criptografada
+     */
+    public void setSenhaCriptografada(String senha) {
+        this.senha = senha;
     }
 
     /**

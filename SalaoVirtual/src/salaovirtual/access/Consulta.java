@@ -17,6 +17,7 @@ import static java.lang.Integer.parseInt;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -378,9 +379,11 @@ public class Consulta {
             Funcionario f = new Funcionario();
             do {
                 String[] valor = linha.split(";");
-                if (valor[0].equals(login)) {
+                String aux = valor[0].substring(1);
+
+                if (login.equals(valor[0])) {
                     f.setLogin(valor[0]);
-                    f.setSenha(valor[1]);
+                    f.setSenhaCriptografada(valor[1]);
                     f.setCpf(valor[2]);
                     f.setNome(valor[3]);
                     f.setTelefone(valor[4]);
@@ -424,7 +427,7 @@ public class Consulta {
                 if (valor[3].equals(nome)) {
                     Funcionario f = new Funcionario();
                     f.setLogin(valor[0]);
-                    f.setSenha(valor[1]);
+                    f.setSenhaCriptografada(valor[1]);
                     f.setCpf(valor[2]);
                     f.setNome(valor[3]);
                     f.setTelefone(valor[4]);
@@ -817,18 +820,13 @@ public class Consulta {
             BufferedReader entrada = new BufferedReader(arq);
             String linha;
             linha = entrada.readLine();
-            Map mapa = new HashMap<>();
-            List lista = new ArrayList<>();
             do {
                 String[] valor = linha.split(";");
                 if (valor[0].equals(Integer.toString(c.getCodigo()))) {
-                    mapa.put(parseInt(valor[1]), parseFloat(valor[2]));
-                    lista.add(parseInt(valor[3]));
+                    c.addProduto(Integer.parseInt(valor[1]), Float.parseFloat(valor[2]), Integer.parseInt(valor[3]));
                 }
                 linha = entrada.readLine();
             } while (linha != null);
-            c.setProdutos(mapa);
-            c.setQuantidade(lista);
             arq.close();
             entrada.close();
         } catch (FileNotFoundException ex) {
@@ -1129,8 +1127,8 @@ public class Consulta {
             linha = entrada.readLine();
             do {
                 String[] valor = linha.split(";");
-                if (valor[0].equals(Integer.toString(v.getCodigo()))) {
-                    v.addProduto(parseInt(valor[1]), parseInt(valor[2]));
+                if (parseInt(valor[0]) == v.getCodigo()) {
+                    v.addProduto(Integer.parseInt(valor[1]), Float.parseFloat(valor[2]), Integer.parseInt(valor[3]));
                 }
                 linha = entrada.readLine();
             } while (linha != null);
