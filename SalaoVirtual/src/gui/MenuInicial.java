@@ -6,7 +6,6 @@ package gui;
 import exceptions.ChaveNulaException;
 import exceptions.DataInvalidaException;
 import exceptions.EstadoServicoInvalidoException;
-import exceptions.ObjetoJaCadastradoException;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -55,6 +54,8 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlSubMenu.setOpaque(false);
         pnlAgenda.setVisible(true);
         pnlAgenda.setOpaque(false);
+        pnlServico.setVisible(false);
+        pnlServico.setOpaque(true);
         ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuAgenda_Hover.png"));
         btnMenuAgenda.setIcon(i);
         tblAgenda.setSelectionModel(new ForcedListSelectionModel());
@@ -65,9 +66,22 @@ public class MenuInicial extends javax.swing.JFrame {
         tblAgenda.getColumnModel().getColumn(1).setPreferredWidth(170);
         tblAgenda.getColumnModel().getColumn(3).setMaxWidth(100);
         tblAgenda.getColumnModel().getColumn(3).setPreferredWidth(100);
+        tblServico.setSelectionModel(new ForcedListSelectionModel());
+        tblServico.setModel(new ServicoTableModel());
+        tblServico.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+        tblServico.getColumnModel().getColumn(0).setMaxWidth(65);
+        tblServico.getColumnModel().getColumn(1).setMaxWidth(130);
+        tblServico.getColumnModel().getColumn(1).setPreferredWidth(130);
+        tblServico.getColumnModel().getColumn(2).setMaxWidth(170);
+        tblServico.getColumnModel().getColumn(2).setPreferredWidth(170);
+        tblServico.getColumnModel().getColumn(4).setMaxWidth(100);
+        tblServico.getColumnModel().getColumn(4).setPreferredWidth(100);
         jScrollPane1.setBorder(createEmptyBorder());
         jScrollPane1.setViewportBorder(null);
         jScrollPane1.getViewport().setOpaque(false);
+        jScrollPane2.setBorder(createEmptyBorder());
+        jScrollPane2.setViewportBorder(null);
+        jScrollPane2.getViewport().setOpaque(false);
         this.setFuncionario(login.getFuncionarioLogado());
         
     }
@@ -148,6 +162,30 @@ public class MenuInicial extends javax.swing.JFrame {
         btnMenuProduto = new javax.swing.JButton();
         btnMenuCliente = new javax.swing.JButton();
         background = new javax.swing.JLabel();
+        pnlServico = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblServico = new javax.swing.JTable();
+        btnCadastrarServico = new javax.swing.JButton();
+        btnConsultarServico = new javax.swing.JButton();
+        txtNomeServico = new javax.swing.JTextField();
+        chkNomeServico = new javax.swing.JCheckBox();
+        chkValor = new javax.swing.JCheckBox();
+        lblValorAte = new javax.swing.JLabel();
+        chkData = new javax.swing.JCheckBox();
+        lblDataAte = new javax.swing.JLabel();
+        cmbEstado = new javax.swing.JComboBox<>();
+        chkLoginFuncionario = new javax.swing.JCheckBox();
+        txtLoginFuncionario = new javax.swing.JTextField();
+        txtCodigoCliente = new javax.swing.JTextField();
+        chkCodigoCliente = new javax.swing.JCheckBox();
+        chkEstado = new javax.swing.JCheckBox();
+        txtCodigoServico = new javax.swing.JTextField();
+        chkCodigoServico = new javax.swing.JCheckBox();
+        txtPadrao = new javax.swing.JTextField();
+        ftxtDataFim = new javax.swing.JFormattedTextField();
+        ftxtDataInicio = new javax.swing.JFormattedTextField();
+        ftxtValorInicio = new javax.swing.JFormattedTextField();
+        ftxtValorFim = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Salão Virtual");
@@ -482,6 +520,311 @@ public class MenuInicial extends javax.swing.JFrame {
 
         background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background/background.jpg"))); // NOI18N
 
+        pnlServico.setAutoscrolls(true);
+        pnlServico.setPreferredSize(new java.awt.Dimension(1290, 645));
+
+        jScrollPane2.setOpaque(false);
+
+        tblServico.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        tblServico.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblServico.setToolTipText("");
+        tblServico.setOpaque(false);
+        jScrollPane2.setViewportView(tblServico);
+
+        btnCadastrarServico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroServico.png"))); // NOI18N
+        btnCadastrarServico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCadastrarServico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCadastrarServicoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCadastrarServicoMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnCadastrarServicoMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCadastrarServicoMouseReleased(evt);
+            }
+        });
+        btnCadastrarServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarServicoActionPerformed(evt);
+            }
+        });
+
+        btnConsultarServico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaGrande.png"))); // NOI18N
+        btnConsultarServico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnConsultarServico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnConsultarServicoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnConsultarServicoMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnConsultarServicoMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnConsultarServicoMouseReleased(evt);
+            }
+        });
+        btnConsultarServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarServicoActionPerformed(evt);
+            }
+        });
+
+        txtNomeServico.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        txtNomeServico.setEnabled(false);
+
+        chkNomeServico.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        chkNomeServico.setText("Nome do Serviço");
+        chkNomeServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkNomeServicoActionPerformed(evt);
+            }
+        });
+
+        chkValor.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        chkValor.setText("Faixa de valor");
+        chkValor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkValorActionPerformed(evt);
+            }
+        });
+
+        lblValorAte.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        lblValorAte.setText("até");
+        lblValorAte.setEnabled(false);
+
+        chkData.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        chkData.setText("Faixa de data");
+        chkData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkDataActionPerformed(evt);
+            }
+        });
+
+        lblDataAte.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        lblDataAte.setText("até");
+        lblDataAte.setEnabled(false);
+
+        cmbEstado.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agendado", "Realizado", "Cancelado" }));
+        cmbEstado.setEnabled(false);
+
+        chkLoginFuncionario.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        chkLoginFuncionario.setText("Login Funcionário");
+        chkLoginFuncionario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkLoginFuncionarioActionPerformed(evt);
+            }
+        });
+
+        txtLoginFuncionario.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        txtLoginFuncionario.setEnabled(false);
+
+        txtCodigoCliente.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        txtCodigoCliente.setEnabled(false);
+
+        chkCodigoCliente.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        chkCodigoCliente.setText("Código Cliente");
+        chkCodigoCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkCodigoClienteActionPerformed(evt);
+            }
+        });
+
+        chkEstado.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        chkEstado.setText("Estado");
+        chkEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkEstadoActionPerformed(evt);
+            }
+        });
+
+        txtCodigoServico.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        txtCodigoServico.setEnabled(false);
+
+        chkCodigoServico.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        chkCodigoServico.setText("Código do Serviço");
+        chkCodigoServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkCodigoServicoActionPerformed(evt);
+            }
+        });
+
+        txtPadrao.setEditable(false);
+        txtPadrao.setEnabled(false);
+
+        ftxtDataFim.setEnabled(false);
+        ftxtDataFim.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        ftxtDataFim.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ftxtDataFimFocusGained(evt);
+            }
+        });
+
+        ftxtDataInicio.setEnabled(false);
+        ftxtDataInicio.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        ftxtDataInicio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ftxtDataInicioFocusGained(evt);
+            }
+        });
+
+        ftxtValorInicio.setEnabled(false);
+        ftxtValorInicio.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        ftxtValorInicio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ftxtValorInicioFocusGained(evt);
+            }
+        });
+
+        ftxtValorFim.setEnabled(false);
+        ftxtValorFim.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        ftxtValorFim.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ftxtValorFimFocusGained(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlServicoLayout = new javax.swing.GroupLayout(pnlServico);
+        pnlServico.setLayout(pnlServicoLayout);
+        pnlServicoLayout.setHorizontalGroup(
+            pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlServicoLayout.createSequentialGroup()
+                .addGap(393, 393, 393)
+                .addComponent(btnCadastrarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(btnConsultarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 393, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlServicoLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(jScrollPane2)
+                .addGap(60, 60, 60))
+            .addGroup(pnlServicoLayout.createSequentialGroup()
+                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(128, 128, 128)
+                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chkCodigoServico)
+                            .addGroup(pnlServicoLayout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(txtCodigoServico, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(64, 64, 64)
+                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(chkLoginFuncionario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtLoginFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(74, 74, 74)
+                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chkCodigoCliente)
+                            .addGroup(pnlServicoLayout.createSequentialGroup()
+                                .addGap(49, 49, 49)
+                                .addComponent(txtCodigoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                        .addGap(127, 127, 127)
+                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlServicoLayout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addComponent(chkEstado)))
+                        .addGap(44, 44, 44)
+                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNomeServico, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlServicoLayout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addComponent(chkNomeServico)))
+                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlServicoLayout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(ftxtValorInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblValorAte)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ftxtValorFim, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlServicoLayout.createSequentialGroup()
+                                .addGap(81, 81, 81)
+                                .addComponent(chkValor)))
+                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlServicoLayout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addComponent(ftxtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblDataAte)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ftxtDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlServicoLayout.createSequentialGroup()
+                                .addGap(104, 104, 104)
+                                .addComponent(chkData)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlServicoLayout.setVerticalGroup(
+            pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlServicoLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                        .addComponent(chkCodigoCliente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCodigoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                        .addComponent(chkLoginFuncionario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtLoginFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                        .addComponent(chkCodigoServico)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtCodigoServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(pnlServicoLayout.createSequentialGroup()
+                            .addComponent(chkEstado)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlServicoLayout.createSequentialGroup()
+                            .addComponent(chkNomeServico)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtNomeServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                        .addComponent(chkData)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblDataAte)
+                            .addComponent(ftxtDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ftxtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                        .addComponent(chkValor)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblValorAte)
+                            .addComponent(ftxtValorInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ftxtValorFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCadastrarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsultarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -512,6 +855,11 @@ public class MenuInicial extends javax.swing.JFrame {
                     .addContainerGap()))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(pnlServico, javax.swing.GroupLayout.DEFAULT_SIZE, 1287, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -535,6 +883,11 @@ public class MenuInicial extends javax.swing.JFrame {
                     .addContainerGap()))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGap(111, 111, 111)
+                    .addComponent(pnlServico, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         pack();
@@ -568,8 +921,10 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuServicoMouseEntered
 
     private void btnMenuServicoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuServicoMouseExited
-        ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuServico.png"));
-        btnMenuServico.setIcon(i);
+        if (!pnlServico.isVisible()) {
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuServico.png"));
+            btnMenuServico.setIcon(i);
+        }
     }//GEN-LAST:event_btnMenuServicoMouseExited
 
     private void btnMenuServicoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuServicoMousePressed
@@ -747,9 +1102,10 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuFuncionarioMouseEntered
 
     private void btnMenuCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuCadastroActionPerformed
+        pnlServico.setVisible(false);
+        pnlAgenda.setVisible(false);
         pnlSubMenu.setVisible(true);
         this.setCadastro(true);
-        pnlAgenda.setVisible(false);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
         btnMenuAgendaMouseExited(me);
         btnMenuServicoMouseExited(me);
@@ -758,9 +1114,11 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuCadastroActionPerformed
 
     private void btnMenuConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuConsultaActionPerformed
-        pnlSubMenu.setVisible(true);
-        this.setCadastro(false);
+        pnlServico.setVisible(false);
         pnlAgenda.setVisible(false);
+        txtPadrao.setVisible(false);
+        pnlSubMenu.setVisible(true);        
+        this.setCadastro(false);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
         btnMenuAgendaMouseExited(me);
         btnMenuServicoMouseExited(me);
@@ -770,8 +1128,9 @@ public class MenuInicial extends javax.swing.JFrame {
 
     private void btnMenuVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuVendaActionPerformed
         pnlSubMenu.setVisible(false);
-        this.setCadastro(false);
+        pnlServico.setVisible(false);
         pnlAgenda.setVisible(false);
+        this.setCadastro(false);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
         btnMenuAgendaMouseExited(me);
         btnMenuServicoMouseExited(me);
@@ -781,8 +1140,9 @@ public class MenuInicial extends javax.swing.JFrame {
 
     private void btnMenuServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuServicoActionPerformed
         pnlSubMenu.setVisible(false);
-        this.setCadastro(false);
         pnlAgenda.setVisible(false);
+        pnlServico.setVisible(true);
+        this.setCadastro(false);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
         btnMenuAgendaMouseExited(me);
         btnMenuVendaMouseExited(me);
@@ -791,8 +1151,9 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuServicoActionPerformed
 
     private void btnMenuAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuAgendaActionPerformed
-        pnlAgenda.setVisible(true);
         pnlSubMenu.setVisible(false);
+        pnlServico.setVisible(false);
+        pnlAgenda.setVisible(true);
         this.setCadastro(false);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
         btnMenuServicoMouseExited(me);
@@ -876,6 +1237,366 @@ public class MenuInicial extends javax.swing.JFrame {
             // tem uma linha selecionada
         }
     }//GEN-LAST:event_btnCancelarServicoActionPerformed
+
+    private void btnCadastrarServicoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarServicoMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroServico_Hover.png"));
+        btnCadastrarServico.setIcon(i);
+    }//GEN-LAST:event_btnCadastrarServicoMouseEntered
+
+    private void btnCadastrarServicoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarServicoMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroServico.png"));
+        btnCadastrarServico.setIcon(i);
+    }//GEN-LAST:event_btnCadastrarServicoMouseExited
+
+    private void btnCadastrarServicoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarServicoMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroServico_Pressed.png"));
+        btnCadastrarServico.setIcon(i);
+    }//GEN-LAST:event_btnCadastrarServicoMousePressed
+
+    private void btnCadastrarServicoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarServicoMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroServico_Hover.png"));
+        btnCadastrarServico.setIcon(i);
+    }//GEN-LAST:event_btnCadastrarServicoMouseReleased
+
+    private void btnCadastrarServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarServicoActionPerformed
+        CadastroServicoModal cadastroServico = new CadastroServicoModal(this, true, this.getFuncionario());
+        cadastroServico.setVisible(true);
+        if (cadastroServico.isFinalizado()) {
+            if (cadastroServico.isAgendado()) {
+                this.setMensagemDialog("Serviço cadastrado como agendado");
+            }
+            else {
+                this.setMensagemDialog("Serviço cadastrado como realizado");
+            }
+            tblAgenda.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+            tblAgenda.getColumnModel().getColumn(0).setMaxWidth(65);
+            tblAgenda.getColumnModel().getColumn(1).setMaxWidth(170);
+            tblAgenda.getColumnModel().getColumn(1).setPreferredWidth(170);
+            tblAgenda.getColumnModel().getColumn(3).setMaxWidth(100);
+            tblAgenda.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tblServico.setSelectionModel(new ForcedListSelectionModel());
+            MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Cadastro efetuado");
+            dialog.setVisible(true);
+        }
+    }//GEN-LAST:event_btnCadastrarServicoActionPerformed
+
+    private void btnConsultarServicoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsultarServicoMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaGrande_Hover.png"));
+        btnConsultarServico.setIcon(i);
+    }//GEN-LAST:event_btnConsultarServicoMouseEntered
+
+    private void btnConsultarServicoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsultarServicoMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaGrande.png"));
+        btnConsultarServico.setIcon(i);
+    }//GEN-LAST:event_btnConsultarServicoMouseExited
+
+    private void btnConsultarServicoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsultarServicoMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaGrande_Pressed.png"));
+        btnConsultarServico.setIcon(i);
+    }//GEN-LAST:event_btnConsultarServicoMousePressed
+
+    private void btnConsultarServicoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsultarServicoMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaGrande_Hover.png"));
+        btnConsultarServico.setIcon(i);
+    }//GEN-LAST:event_btnConsultarServicoMouseReleased
+
+    private void btnConsultarServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarServicoActionPerformed
+        Border bordaVermelha = BorderFactory.createLineBorder(Color.red);
+        Border bordaPadrao = txtPadrao.getBorder();
+        int aux1 = 0, aux2 = 0;
+        if (chkCodigoServico.isSelected()) {
+            if (txtCodigoServico.getText().length() > 0) {  
+                try {
+                    txtCodigoServico.setBorder(bordaPadrao);
+                    txtCodigoCliente.setBorder(bordaPadrao);
+                    ftxtDataFim.setBorder(bordaPadrao);
+                    ftxtDataInicio.setBorder(bordaPadrao);
+                    txtLoginFuncionario.setBorder(bordaPadrao);
+                    txtNomeServico.setBorder(bordaPadrao);
+                    ftxtValorFim.setBorder(bordaPadrao);
+                    ftxtValorInicio.setBorder(bordaPadrao);
+                    int codigo = Integer.parseInt(txtCodigoServico.getText());
+                    String string = null;
+                    Date data = null;
+                    tblServico.setModel(new ServicoTableModel(codigo, string, data, data, string, -1f, -1f, -1, string));
+                } catch (NumberFormatException ex) {
+                    txtCodigoServico.setBorder(bordaVermelha);
+                    this.setMensagemDialog("Insira um valor numérico válido");
+                    MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Código inválido");
+                    dialog.setVisible(true);
+                }
+            }
+            else {
+                txtCodigoServico.setBorder(bordaVermelha);
+                this.setMensagemDialog("Preencha todos os campos");
+                MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Preencha todos os campos");
+                dialog.setVisible(true);
+            }
+        }
+        else {
+            int codigoCliente = 0;
+            String estado = null, nomeServico = null, loginFuncionario = null;
+            float valorInicio = -1, valorFim = -1;
+            Date dataInicio = null, dataFim = null;
+            if (chkCodigoCliente.isSelected()) {
+                if (txtCodigoCliente.getText().length() == 0){
+                    txtCodigoCliente.setBorder(bordaVermelha);
+                    aux1 = 1;
+                }
+                else {
+                    try {
+                        codigoCliente = Integer.parseInt(txtCodigoCliente.getText());
+                        txtCodigoCliente.setBorder(bordaPadrao);
+                    } catch (NumberFormatException e) {
+                        txtCodigoCliente.setBorder(bordaVermelha);
+                        aux2 = 1;
+                    }
+                }
+            }
+            if (chkData.isSelected()) {
+                if (ftxtDataFim.getText().length() == 0) {
+                    ftxtDataFim.setBorder(bordaVermelha);
+                    aux1 = 1;
+                }
+                if (ftxtDataInicio.getText().length() == 0) {
+                    ftxtDataInicio.setBorder(bordaVermelha);
+                    aux1 = 1;
+                } 
+                else {
+                    DateFormat format = new SimpleDateFormat("dd/MM/yy");
+                    try {
+                        dataInicio = format.parse(ftxtDataInicio.getText());
+                        ftxtDataInicio.setBorder(bordaPadrao);
+                        try {
+                            dataFim = format.parse(ftxtDataFim.getText());
+                            ftxtDataFim.setBorder(bordaPadrao);
+                        } catch (ParseException e) {
+                            aux2 = 1;
+                            ftxtDataFim.setBorder(bordaVermelha);
+                        }
+                    } catch (ParseException ex) {
+                        aux2 = 1;
+                        ftxtDataInicio.setBorder(bordaVermelha);
+                    }
+                }
+            }
+            if (chkEstado.isSelected()) {
+                estado = cmbEstado.getSelectedItem().toString();
+            }
+            if (chkLoginFuncionario.isSelected()) {
+                if (txtLoginFuncionario.getText().length() == 0) {
+                    txtLoginFuncionario.setBorder(bordaVermelha);
+                    aux1 = 1;
+                }
+                else {
+                    txtLoginFuncionario.setBorder(bordaPadrao);
+                    loginFuncionario = txtLoginFuncionario.getText();
+                }
+            }
+            if (chkNomeServico.isSelected()) {
+                if (txtNomeServico.getText().length() == 0) {
+                    txtNomeServico.setBorder(bordaVermelha);
+                    aux1 = 1;
+                }
+                else {
+                    txtNomeServico.setBorder(bordaPadrao);
+                    nomeServico = txtNomeServico.getText();
+                }
+            }
+            if (chkValor.isSelected()) {
+                if (ftxtValorInicio.getText().length() == 0) {
+                    ftxtValorInicio.setBorder(bordaVermelha);
+                    aux1 = 1;
+                }
+                if (ftxtValorFim.getText().length() == 0) {
+                    ftxtValorFim.setBorder(bordaVermelha);
+                    aux1 = 1;
+                } 
+                else {
+                    String texto = ftxtValorInicio.getText();
+                    String[] valorTexto = texto.split(" ");
+                    try{
+                        valorInicio = Float.parseFloat(valorTexto[1]);
+                        ftxtValorInicio.setBorder(bordaPadrao);
+                        texto = ftxtValorFim.getText();
+                        valorTexto = texto.split(" ");
+                        try {
+                            valorInicio = Float.parseFloat(valorTexto[1]);;
+                            ftxtValorFim.setBorder(bordaPadrao);
+                        } catch (NumberFormatException ex) {
+                            aux2 = 1;
+                            ftxtValorFim.setBorder(bordaVermelha);
+                        }
+                    } catch (NumberFormatException e) {
+                        aux2 = 1;
+                        ftxtValorInicio.setBorder(bordaVermelha);
+                    }
+                }
+            }
+            
+            if (aux1 == 1) {
+                this.setMensagemDialog("Preencha todos os campos");
+                MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Preencha todos os campos");
+                dialog.setVisible(true);
+            }
+            else if (aux2 == 1) {
+                this.setMensagemDialog("Insira um valor válido nos campos");
+                MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Valores inválidos");
+                dialog.setVisible(true);
+            }
+            else {
+                tblServico.setModel(new ServicoTableModel(0, estado, dataInicio, dataFim, nomeServico, valorInicio,
+                        valorFim, codigoCliente, loginFuncionario));
+            }
+        }
+        tblAgenda.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+        tblAgenda.getColumnModel().getColumn(0).setMaxWidth(65);
+        tblAgenda.getColumnModel().getColumn(0).setPreferredWidth(65);
+        tblAgenda.getColumnModel().getColumn(1).setMaxWidth(170);
+        tblAgenda.getColumnModel().getColumn(1).setPreferredWidth(170);
+        tblAgenda.getColumnModel().getColumn(3).setMaxWidth(100);
+        tblAgenda.getColumnModel().getColumn(3).setPreferredWidth(100);
+        tblServico.setSelectionModel(new ForcedListSelectionModel());
+    }//GEN-LAST:event_btnConsultarServicoActionPerformed
+
+    private void chkNomeServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkNomeServicoActionPerformed
+        if (chkNomeServico.isSelected()) {
+            txtNomeServico.setEnabled(true);
+            chkCodigoServico.setSelected(false);
+            txtCodigoServico.setEnabled(false);
+        }
+        else {
+            txtNomeServico.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkNomeServicoActionPerformed
+
+    private void chkValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkValorActionPerformed
+        if (chkValor.isSelected()) {
+            ftxtValorFim.setEnabled(true);
+            ftxtValorInicio.setEnabled(true);
+            lblValorAte.setEnabled(true);
+            chkCodigoServico.setSelected(false);
+            txtCodigoServico.setEnabled(false);
+        }
+        else {
+            ftxtValorFim.setEnabled(false);
+            ftxtValorInicio.setEnabled(false);
+            lblValorAte.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkValorActionPerformed
+
+    private void chkDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkDataActionPerformed
+        if (chkData.isSelected()) {
+            ftxtDataFim.setEnabled(true);
+            ftxtDataInicio.setEnabled(true);
+            lblDataAte.setEnabled(true);
+            chkCodigoServico.setSelected(false);
+            txtCodigoServico.setEnabled(false);
+        }
+        else {
+            ftxtDataFim.setEnabled(false);
+            ftxtDataInicio.setEnabled(false);
+            lblDataAte.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkDataActionPerformed
+
+    private void chkLoginFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkLoginFuncionarioActionPerformed
+        if (chkLoginFuncionario.isSelected()) {
+            txtLoginFuncionario.setEnabled(true);
+            chkCodigoServico.setSelected(false);
+            txtCodigoServico.setEnabled(false);
+        }
+        else {
+            txtLoginFuncionario.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkLoginFuncionarioActionPerformed
+
+    private void chkCodigoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCodigoClienteActionPerformed
+        if (chkCodigoCliente.isSelected()) {
+            txtCodigoCliente.setEnabled(true);
+            chkCodigoServico.setSelected(false);
+            txtCodigoServico.setEnabled(false);
+        }
+        else {
+            txtCodigoCliente.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkCodigoClienteActionPerformed
+
+    private void chkEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkEstadoActionPerformed
+        if (chkEstado.isSelected()) {
+            cmbEstado.setEnabled(true);
+            chkCodigoServico.setSelected(false);
+            txtCodigoServico.setEnabled(false);
+        }
+        else {
+            cmbEstado.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkEstadoActionPerformed
+
+    private void chkCodigoServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCodigoServicoActionPerformed
+        if (chkCodigoServico.isSelected()) {
+            txtCodigoServico.setEnabled(true);
+            chkCodigoCliente.setSelected(false);
+            txtCodigoCliente.setEnabled(false);
+            chkData.setSelected(false);
+            ftxtDataFim.setEnabled(false);
+            ftxtDataInicio.setEnabled(false);
+            lblDataAte.setEnabled(false);
+            chkEstado.setSelected(false);
+            cmbEstado.setEnabled(false);
+            chkLoginFuncionario.setSelected(false);
+            txtLoginFuncionario.setEnabled(false); 
+            chkNomeServico.setSelected(false);
+            txtNomeServico.setEnabled(false);
+            chkValor.setSelected(false);
+            ftxtValorFim.setEnabled(false);
+            ftxtValorInicio.setEnabled(false); 
+            lblValorAte.setEnabled(false);
+        }
+        else {
+            txtCodigoServico.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkCodigoServicoActionPerformed
+
+    private void ftxtDataFimFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtDataFimFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("##/##/##");
+            mask.install(ftxtDataFim);
+        } catch (ParseException ex) {
+            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtDataFimFocusGained
+
+    private void ftxtDataInicioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtDataInicioFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("##/##/##");
+            mask.install(ftxtDataInicio);
+        } catch (ParseException ex) {
+            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtDataInicioFocusGained
+
+    private void ftxtValorInicioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtValorInicioFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("R$ ###.##");
+            mask.install(ftxtValorInicio);
+        } catch (ParseException ex) {
+            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtValorInicioFocusGained
+
+    private void ftxtValorFimFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtValorFimFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("R$ ###.##");
+            mask.install(ftxtValorFim);
+        } catch (ParseException ex) {
+            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtValorFimFocusGained
 
     /**
      * Método main do Menu Inicial
@@ -2010,7 +2731,9 @@ public class MenuInicial extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel background;
     private javax.swing.JButton btnAgendarServico;
+    private javax.swing.JButton btnCadastrarServico;
     private javax.swing.JButton btnCancelarServico;
+    private javax.swing.JButton btnConsultarServico;
     private javax.swing.JButton btnMenuAgenda;
     private javax.swing.JButton btnMenuCadastro;
     private javax.swing.JButton btnMenuCliente;
@@ -2021,10 +2744,32 @@ public class MenuInicial extends javax.swing.JFrame {
     private javax.swing.JButton btnMenuProduto;
     private javax.swing.JButton btnMenuServico;
     private javax.swing.JButton btnMenuVenda;
+    private javax.swing.JCheckBox chkCodigoCliente;
+    private javax.swing.JCheckBox chkCodigoServico;
+    private javax.swing.JCheckBox chkData;
+    private javax.swing.JCheckBox chkEstado;
+    private javax.swing.JCheckBox chkLoginFuncionario;
+    private javax.swing.JCheckBox chkNomeServico;
+    private javax.swing.JCheckBox chkValor;
+    private javax.swing.JComboBox<String> cmbEstado;
+    private javax.swing.JFormattedTextField ftxtDataFim;
+    private javax.swing.JFormattedTextField ftxtDataInicio;
+    private javax.swing.JFormattedTextField ftxtValorFim;
+    private javax.swing.JFormattedTextField ftxtValorInicio;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblDataAte;
+    private javax.swing.JLabel lblValorAte;
     private javax.swing.JPanel pnlAgenda;
+    private javax.swing.JPanel pnlServico;
     private javax.swing.JPanel pnlSubMenu;
     private javax.swing.JTable tblAgenda;
+    private javax.swing.JTable tblServico;
+    private javax.swing.JTextField txtCodigoCliente;
+    private javax.swing.JTextField txtCodigoServico;
+    private javax.swing.JTextField txtLoginFuncionario;
+    private javax.swing.JTextField txtNomeServico;
+    private javax.swing.JTextField txtPadrao;
     // End of variables declaration//GEN-END:variables
 }

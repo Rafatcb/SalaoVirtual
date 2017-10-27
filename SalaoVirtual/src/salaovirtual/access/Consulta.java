@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -276,7 +277,7 @@ public class Consulta {
     
     /**
      * Retorna o cliente identificado pelo código passado por parâmetro
-     * @param codigo
+     * @param cpf
      * @return Cliente
      */    
     public Cliente encontrarClienteCpf(String cpf) {
@@ -571,6 +572,7 @@ public class Consulta {
     
     /**
      * Retorna uma lista dos produtos que possuem a marca passada como parâmetro
+     * Polimorfismo: Sobrecarga
      * @param marca
      * @return Lista de Produto
      */
@@ -608,6 +610,58 @@ public class Consulta {
         } 
         return null;
     }
+    
+    /**
+     * Retorna uma lista dos serviços que estão entre as datas passadas como parâmetro
+     * Polimorfismo: Sobrecarga
+     * @param dataInicio
+     * @param dataFim
+     * @return Lista de Serviço
+     */
+    public List<Servico> encontrarServico(Date dataInicio, Date dataFim) {
+        try {
+            Consulta consulta = new Consulta();
+            List<Servico> servicos = new ArrayList();
+            FileReader arq = new FileReader("Servico.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            
+            linha = entrada.readLine();
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            do {
+                String[] valor = linha.split(";");
+                try{
+                    if ((formato.parse(valor[3]).after(dataInicio)) && ((formato.parse(valor[3]).before(dataFim)))) {
+                        Servico s = new Servico();
+                        s.setCodigo(parseInt(valor[0]));
+                        s.setNome(valor[1]);
+                        s.setValor(parseFloat(valor[2]));
+                        s.setData(formato.parse(valor[3]));
+                        s.setEstado(valor[4]);
+
+                        s.setFuncionario(consulta.encontrarFuncionarioLogin(valor[5]));
+
+                        s.setCliente(consulta.encontrarCliente(parseInt(valor[6])));
+                        servicos.add(s);
+                    }
+                } catch (EstadoServicoInvalidoException ex) {
+                    //Logger.getLogger(Servico.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            entrada.close();
+            arq.close();
+            return servicos;
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        } catch (ParseException ex) {
+            //Logger.getLogger(Servico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     
     /**
      * Retorna o serviço identificado pelo código passado por parâmetro
@@ -658,6 +712,108 @@ public class Consulta {
         return null;
     }
     
+    
+    /**
+     * Retorna uma lista dos serviços que possuem valor entre os passados como parâmetro
+     * @param valorInicio
+     * @param valorFim
+     * @return Lista de Serviço
+     */   
+    public List<Servico> encontrarServico(float valorInicio, float valorFim) {
+        try {
+            Consulta consulta = new Consulta();
+            List<Servico> servicos = new ArrayList();
+            FileReader arq = new FileReader("Servico.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            
+            linha = entrada.readLine();
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            do {
+                String[] valor = linha.split(";");
+                float preco = parseFloat(valor[2]);
+                if ((preco >= valorInicio) && (preco <= valorFim)) {
+                    Servico s = new Servico();
+                    s.setCodigo(parseInt(valor[0]));
+                    s.setNome(valor[1]);
+                    s.setValor(preco);
+                    s.setData(formato.parse(valor[3]));
+                    try {
+                        s.setEstado(valor[4]);
+                    } catch (EstadoServicoInvalidoException ex) {
+                        //Logger.getLogger(Servico.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    s.setFuncionario(consulta.encontrarFuncionarioLogin(valor[5]));
+                    
+                    s.setCliente(consulta.encontrarCliente(parseInt(valor[6])));
+                    servicos.add(s);
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            entrada.close();
+            arq.close();
+            return servicos;
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        } catch (ParseException ex) {
+            //Logger.getLogger(Servico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
+    /**
+     * Retorna uma lista dos serviços que foram realizados para o cliente cujo código foi passado como parâmetro
+     * @param codigoCliente
+     * @return Lista de Serviço
+     */   
+    public List<Servico> encontrarServicoCliente(int codigoCliente) {
+        try {
+            Consulta consulta = new Consulta();
+            List<Servico> servicos = new ArrayList();
+            FileReader arq = new FileReader("Servico.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            
+            linha = entrada.readLine();
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            do {
+                String[] valor = linha.split(";");
+                if (parseInt(valor[6]) == codigoCliente) {
+                    Servico s = new Servico();
+                    s.setCodigo(parseInt(valor[0]));
+                    s.setNome(valor[1]);
+                    s.setValor(parseFloat(valor[2]));
+                    s.setData(formato.parse(valor[3]));
+                    try {
+                        s.setEstado(valor[4]);
+                    } catch (EstadoServicoInvalidoException ex) {
+                        //Logger.getLogger(Servico.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    s.setFuncionario(consulta.encontrarFuncionarioLogin(valor[5]));
+                    
+                    s.setCliente(consulta.encontrarCliente(parseInt(valor[6])));
+                    servicos.add(s);
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            entrada.close();
+            arq.close();
+            return servicos;
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        } catch (ParseException ex) {
+            //Logger.getLogger(Servico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     /**
      * Retorna uma lista dos serviços que possuem o nome passado como parâmetro
      * @param nome
@@ -676,6 +832,55 @@ public class Consulta {
             do {
                 String[] valor = linha.split(";");
                 if (valor[1].equals(nome)) {
+                    Servico s = new Servico();
+                    s.setCodigo(parseInt(valor[0]));
+                    s.setNome(valor[1]);
+                    s.setValor(parseFloat(valor[2]));
+                    s.setData(formato.parse(valor[3]));
+                    try {
+                        s.setEstado(valor[4]);
+                    } catch (EstadoServicoInvalidoException ex) {
+                        //Logger.getLogger(Servico.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    s.setFuncionario(consulta.encontrarFuncionarioLogin(valor[5]));
+                    
+                    s.setCliente(consulta.encontrarCliente(parseInt(valor[6])));
+                    servicos.add(s);
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            entrada.close();
+            arq.close();
+            return servicos;
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        } catch (ParseException ex) {
+            //Logger.getLogger(Servico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    /**
+     * Retorna uma lista dos serviços realizados pelo funcionário com o login passado como parâmetro
+     * @param login
+     * @return Lista de Serviço
+     */
+    public List<Servico> encontrarServicoFuncionario(String login) {
+        try {
+            Consulta consulta = new Consulta();
+            List<Servico> servicos = new ArrayList();
+            FileReader arq = new FileReader("Servico.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            
+            linha = entrada.readLine();
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            do {
+                String[] valor = linha.split(";");
+                if (valor[5].equals(login)) {
                     Servico s = new Servico();
                     s.setCodigo(parseInt(valor[0]));
                     s.setNome(valor[1]);
