@@ -350,11 +350,8 @@ public class Cadastro {
      * Método para gravar a compra passada como parâmetro em um arquivo CSV
      * @param v
      */
-    public void gravarVenda(Venda v) throws ChaveNulaException {
+    public void gravarVenda(Venda v) {
         try {
-            if (v.getFuncionario()== null) {
-                throw new ChaveNulaException();
-            }
             Consulta consulta = new Consulta();
             FileWriter arq = new FileWriter("Venda.csv", true);
             BufferedWriter saida = new BufferedWriter(arq);
@@ -400,8 +397,8 @@ public class Cadastro {
         try {
             FileWriter arq = new FileWriter("VendaServicos.csv", true);
             BufferedWriter saida = new BufferedWriter(arq);
-            for (Map.Entry<Integer, Integer> pair : v.getServicos().entrySet()){
-                saida.write(v.getCodigo() + ";" + pair.getKey() + ";" + pair.getValue());
+            for (int sCod : v.getServicos()) {
+                saida.write(v.getCodigo() + ";" + sCod);
                 saida.newLine();
             }
             saida.close();

@@ -17,7 +17,6 @@ import static java.lang.Integer.parseInt;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -380,7 +379,6 @@ public class Consulta {
             Funcionario f = new Funcionario();
             do {
                 String[] valor = linha.split(";");
-                String aux = valor[0].substring(1);
 
                 if (login.equals(valor[0])) {
                     f.setLogin(valor[0]);
@@ -1107,6 +1105,9 @@ public class Consulta {
                     entrada.close();
                     return c;
                 }
+                if (parseInt(valor[0]) > codigo) { // já passou
+                    break;
+                }
                 linha = entrada.readLine();
             } while (linha != null);
             arq.close();
@@ -1147,6 +1148,9 @@ public class Consulta {
                     arq.close();
                     entrada.close();
                     return d;
+                }
+                if (parseInt(valor[0]) > codigo) { // já passou
+                    break;
                 }
                 linha = entrada.readLine();
             } while (linha != null);
@@ -1297,7 +1301,8 @@ public class Consulta {
                     v.setData(formato.parse(valor[1]));
                     v.setCliente(this.encontrarCliente(parseInt(valor[2])));
                     v.setFuncionario(this.encontrarFuncionarioLogin(valor[3]));
-                    v.setFormaPagamento(this.encontrarFormaDePagamento(parseInt(valor[4])));
+                    v.setFormaPagamento(this.encontrarFormaDePagamentoCartao(Integer.parseInt(valor[4])));
+                    v.setFormaPagamento(this.encontrarFormaDePagamentoDinheiro(Integer.parseInt(valor[4])));
                     this.encontrarVendaProdutos(v);
                     this.encontrarVendaServicos(v);
                     
@@ -1360,7 +1365,7 @@ public class Consulta {
             do {
                 String[] valor = linha.split(";");
                 if (valor[0].equals(Integer.toString(v.getCodigo()))) {
-                    v.addServico(parseInt(valor[1]), parseInt(valor[2]));
+                    v.addServico(parseInt(valor[1]));
                 }
                 linha = entrada.readLine();
             } while (linha != null);

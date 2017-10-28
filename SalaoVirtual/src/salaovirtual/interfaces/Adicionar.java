@@ -13,5 +13,5 @@ import salaovirtual.Servico;
  */
 public interface Adicionar {
     public void addProduto(Produto p, int quantidade);
-    public void addServico(Servico s, int quantidade);
+    public void addServico(Servico s);
 }

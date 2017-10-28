@@ -17,8 +17,8 @@ import exceptions.TipoDeCartaoInvalidoException;
  */
 public class Cartao extends FormaDePagamento {
     private String tipo; // Crédito ou Débito
-    private static final float TAXA_DEBITO = (float) 2.4;
-    private static final float TAXA_CREDITO = (float) 3.2;
+    private static final float TAXA_DEBITO = (float) 1.024;  // 2,4%
+    private static final float TAXA_CREDITO = (float) 1.032;  // 3,2%
     private int qtdParcelas = 1;
 
 
@@ -79,7 +79,7 @@ public class Cartao extends FormaDePagamento {
      * @return Taxa
      * @throws TipoDeCartaoInvalidoException 
      */
-    public double getTaxa() throws TipoDeCartaoInvalidoException {
+    public float getTaxa() throws TipoDeCartaoInvalidoException {
         switch (tipo) {
             case "Crédito":
                 return Cartao.TAXA_CREDITO;

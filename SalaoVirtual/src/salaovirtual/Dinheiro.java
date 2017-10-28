@@ -18,11 +18,10 @@ public class Dinheiro extends FormaDePagamento{
     
     /**
      * Cálculo do troco
-     * @param valorRecebido
      * @return Troco
      */
-    public float calcularTroco(float valorRecebido){
-        return (valorRecebido - this.getValorTotal());
+    public float calcularTroco(){
+        return (this.valorRecebido - this.getValorTotal());
     }
 
     /**

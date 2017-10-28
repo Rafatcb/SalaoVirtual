@@ -7,6 +7,7 @@ import exceptions.ObjetoNaoInseridoException;
 import exceptions.QuantidadeInvalidaException;
 import salaovirtual.interfaces.Adicionar;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +18,10 @@ import java.util.Map;
  * 
  * <p>Atributos que merecem destaque para explicação:
  * <p>produtos: mapa de produtos vendidos contendo como chave o código do produto e como valor o valor
- * <p>servicos: mapa de serviços vendidos contendo como chave o código do serviço e como valor a quantidade
+ * <p>servicos: lista com o código dos serviços
  * <p>quantidadesProdutos: lista de inteiros contendo a quantidade de cada produto vendido
+ * <p>pagamentoCartao: se null, foi pago em dinheiro, senão contém as informações do cartão
+ * <p>pagamentoDinheiro: se null, foi pago em cartão, senão contém as informações do dinheiro
  * 
  * @author Rafael Tavares
  */
@@ -27,10 +30,11 @@ public class Venda implements Adicionar{
     private Date data;
     private Cliente cliente;
     private Funcionario funcionario;
-    private FormaDePagamento formaPagamento;
+    private Cartao pagamentoCartao;
+    private Dinheiro pagamentoDinheiro;
     private Map<Integer, Float> produtos; // Código do produto, valor dele
     private List<Integer> quantidadesProdutos; // Quantidade de cada produto
-    private Map<Integer, Integer> servicos; // Código do serviço, Quantidade dele
+    private List<Integer> servicos; // Código do serviço
 
     /**
      * Adiciona produto à venda
@@ -44,6 +48,7 @@ public class Venda implements Adicionar{
             if (quantidade <= 0) {
                 throw new QuantidadeInvalidaException();
             }
+            System.out.println(p.toString());
             this.produtos.put(p.getCodigo(), p.getValor());
             this.quantidadesProdutos.add(quantidade);
         }
@@ -73,17 +78,13 @@ public class Venda implements Adicionar{
     
     /**
      * Adiciona serviço à venda
-     * Polimorfismo: Sobrescrita
+     * Polimorfismo: Sobrecarga, Sobrescrita
      * @param s
-     * @param quantidade
      */
     @Override
-    public void addServico(Servico s, int quantidade) {
+    public void addServico(Servico s) {
         try {
-            if (quantidade <= 0) {
-                throw new QuantidadeInvalidaException();
-            }
-            this.servicos.put(s.getCodigo(), quantidade);
+            this.servicos.add(s.getCodigo());
         } catch (NullPointerException ex) {
             throw new ObjetoNaoInseridoException();
         }
@@ -93,14 +94,10 @@ public class Venda implements Adicionar{
      * Adiciona produto à venda com base diretamente no código dele
      * Polimorfismo: Sobrecarga
      * @param codigo
-     * @param quantidade
      */
-    public void addServico(int codigo, int quantidade) {
+    public void addServico(int codigo) {
         try {
-            if (quantidade <= 0) {
-                throw new QuantidadeInvalidaException();
-            }
-            this.servicos.put(codigo, quantidade);
+            this.servicos.add(codigo);
         } catch (NullPointerException ex) {
             throw new ObjetoNaoInseridoException();
         }
@@ -114,13 +111,31 @@ public class Venda implements Adicionar{
     @Override
     public String toString() {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        if (this.data == null) {
-            return this.codigo + ";" + this.data + ";" + this.cliente.getCodigo() + ";" + this.funcionario.getLogin() + ";" +
-                    this.formaPagamento.getCodigo(); 
+        int cod, codCli;
+        String login;
+        if (this.pagamentoCartao == null) {
+            cod = this.pagamentoDinheiro.getCodigo();
         }
         else {
-            return this.codigo + ";" + formato.format(this.data) + ";" + this.cliente.getCodigo() + ";" + this.funcionario.getLogin() + ";" +
-                    this.formaPagamento.getCodigo();  
+            cod = this.pagamentoCartao.getCodigo();
+        }
+        if (this.cliente == null) {
+            codCli = 0;
+        }
+        else {
+            codCli = cliente.getCodigo();
+        }
+        if (this.funcionario == null) {
+            login = "";
+        }
+        else {
+            login = funcionario.getLogin();
+        }
+        if (this.data == null) {
+            return this.codigo + ";" + this.data + ";" + codCli + ";" +login + ";" + cod; 
+        }
+        else {
+            return this.codigo + ";" + formato.format(this.data) + ";" + codCli + ";" + login + ";" + cod;  
         }
     }
     
@@ -132,10 +147,13 @@ public class Venda implements Adicionar{
      */
     public Venda(Cliente cliente, Funcionario funcionario) {
         this.produtos = new HashMap<>();
-        this.servicos = new HashMap<>();
+        this.servicos = new ArrayList<>();
+        this.quantidadesProdutos = new ArrayList();
         this.cliente = cliente;
         this.funcionario = funcionario;
         this.setData();
+        this.pagamentoCartao = null;
+        this.pagamentoDinheiro = null;
     }
 
     /**
@@ -144,11 +162,14 @@ public class Venda implements Adicionar{
      */    
     public Venda(){
         this.produtos = new HashMap<>();
-        this.servicos = new HashMap<>();
+        this.servicos = new ArrayList<>();
+        this.quantidadesProdutos = new ArrayList();
+        this.pagamentoCartao = null;
+        this.pagamentoDinheiro = null;
     }
     
     /**
-     * Define o mapa de produtos vendidos com (Código do produto, Quantidade)
+     * Define o mapa de produtos vendidos com Código do produto, Quantidade
      * @param produtos
      */
     public void setProdutos(Map<Integer, Float> produtos) {
@@ -156,15 +177,15 @@ public class Venda implements Adicionar{
     }
     
     /**
-     * Define o mapa de serviços vendidos com (Código do serviço, Quantidade)
+     * Define a lista de serviços vendidos com Código do serviço
      * @param servicos
      */
-    public void setServicos(Map<Integer, Integer> servicos) {
+    public void setServicos(List<Integer> servicos) {
         this.servicos = servicos;
     }
     
     /**
-     * Retorna o mapa de produtos vendidos com (Código do produto, Quantidade)
+     * Retorna o mapa de produtos vendidos com Código do produto, Quantidade
      * @return Mapa de Produto
      */
     public Map<Integer, Float> getProdutos() {
@@ -172,10 +193,10 @@ public class Venda implements Adicionar{
     }
     
     /**
-     * Retorna o mapa de serviços vendidos com (Código do serviço, Quantidade)
+     * Retorna a lista de serviços vendidos com código
      * @return Mapa de Serviço
      */
-    public Map<Integer, Integer> getServicos() {
+    public List<Integer> getServicos() {
         return servicos;
     }
 
@@ -269,19 +290,37 @@ public class Venda implements Adicionar{
     }
 
     /**
-     * Retorna a forma de pagamento da venda 
-     * @return Forma de Pagamento
+     * Retorna a forma de pagamento da venda  - dinheiro
+     * @return Forma de Pagamento em dinheiro
      */
-    public FormaDePagamento getFormaPagamento() {
-        return formaPagamento;
+    public Dinheiro getFormaPagamentoDinheiro() {
+        return pagamentoDinheiro;
+    }
+
+    /**
+     * Retorna a forma de pagamento da venda - cartao
+     * @return Forma de Pagamento em cartao
+     */
+    public Cartao getFormaPagamentoCartao() {
+        return pagamentoCartao;
     }
 
     /**
      * Define a forma de pagamento da venda
-     * @param formaPagamento 
+     * Polimorfismo: Sobrecarga
+     * @param d - dinheiro 
      */
-    public void setFormaPagamento(FormaDePagamento formaPagamento) {
-        this.formaPagamento = formaPagamento;
+    public void setFormaPagamento(Dinheiro d) {
+        this.pagamentoDinheiro = d;
+    }
+
+    /**
+     * Define a forma de pagamento da venda
+     * Polimorfismo: Sobrecarga
+     * @param c - cartão 
+     */
+    public void setFormaPagamento(Cartao c) {
+        this.pagamentoCartao = c;
     }
     
     

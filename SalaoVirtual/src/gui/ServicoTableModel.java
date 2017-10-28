@@ -490,6 +490,11 @@ public class ServicoTableModel extends AbstractTableModel {
             servicos = new ArrayList();
         }
     }
+    
+    /**
+     * Método construtor que lista todos os serviços realizados nos 15 dias anteriores
+     * ou marcados para os próximos 30 dias
+     */
     public ServicoTableModel() {
         try {
             servicos = new ArrayList();
@@ -512,6 +517,19 @@ public class ServicoTableModel extends AbstractTableModel {
             Collections.sort(servicos);
         } catch (NullPointerException ex) {
             servicos = new ArrayList();
+        }
+    }
+    
+    /**
+     * Método construtor para adicionar serviços à lista
+     * @param s - lista de serviços que aparecerão na tabela
+     */
+    public ServicoTableModel(List<Servico> s){
+        if (s == null) {
+            servicos = new ArrayList();
+        }
+        else {
+            servicos = s;
         }
     }
     
