@@ -6,6 +6,7 @@ package gui;
 import exceptions.ChaveNulaException;
 import exceptions.DataInvalidaException;
 import exceptions.EstadoServicoInvalidoException;
+import exceptions.ObjetoJaCadastradoException;
 import exceptions.TipoDeCartaoInvalidoException;
 import java.awt.Color;
 import java.awt.Font;
@@ -13,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.lang.Integer.parseInt;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
-import static javax.swing.BorderFactory.createEmptyBorder;
 import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 import javax.swing.text.MaskFormatter;
@@ -63,13 +62,12 @@ public class MenuInicial extends javax.swing.JFrame {
             System.exit(0);
         }
         initComponents();
+        this.getContentPane().setBackground(Color.PINK);
         this.setLocationRelativeTo(null);
         pnlSubMenu.setVisible(false);
-        pnlSubMenu.setOpaque(false);
-        pnlAgenda.setOpaque(false);
-        pnlServico.setOpaque(true);
         pnlServico.setVisible(false);
-        pnlVenda.setOpaque(true);
+        pnlCadastroCliente.setVisible(false);
+        pnlCadastroFuncionario.setVisible(false);
         pnlVenda.setVisible(false);
         pnlAgenda.setVisible(true);
         ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuAgenda_Hover.png"));
@@ -86,18 +84,6 @@ public class MenuInicial extends javax.swing.JFrame {
         List<Produto> pl = null;
         List<Integer> il = null;
         gerarTabelaProdutoVenda(pl, il);
-        jScrollPane1.setBorder(createEmptyBorder());
-        jScrollPane1.setViewportBorder(null);
-        jScrollPane1.getViewport().setOpaque(false);
-        jScrollPane2.setBorder(createEmptyBorder());
-        jScrollPane2.setViewportBorder(null);
-        jScrollPane2.getViewport().setOpaque(false);
-        jScrollPane3.setBorder(createEmptyBorder());
-        jScrollPane3.setViewportBorder(null);
-        jScrollPane3.getViewport().setOpaque(false);
-        jScrollPane4.setBorder(createEmptyBorder());
-        jScrollPane4.setViewportBorder(null);
-        jScrollPane4.getViewport().setOpaque(false);
         txtProdutoVendaMarca.setDisabledTextColor(Color.black);
         txtProdutoVendaQtdUnitaria.setDisabledTextColor(Color.black);
         txtProdutoVendaValorTotal.setDisabledTextColor(Color.black);
@@ -177,6 +163,61 @@ public class MenuInicial extends javax.swing.JFrame {
         tblAgenda.getColumnModel().getColumn(3).setMaxWidth(100);
         tblAgenda.getColumnModel().getColumn(3).setPreferredWidth(100);
     }
+    
+    /**
+     * Método para organizar a tela de cadastro de cliente
+     */
+    private void limparTelaCadastroCliente() {
+        Consulta con = new Consulta();
+        Border bordaPadrao = txtCadastroClienteCodigo.getBorder();
+        txtCadastroClienteCodigo.setText(Integer.toString(con.getProxCodigo("Cliente.csv")));
+        txtCadastroClienteEmail.setText("");
+        txtCadastroClienteNome.setText("");
+        ftxtCadastroClienteCpf.setText("");
+        ftxtCadastroClienteData.setText("");
+        ftxtCadastroClienteTelefone.setText("");
+        ftxtCadastroClienteData.setBorder(bordaPadrao);
+        ftxtCadastroClienteData.setSize(157, txtCadastroClienteCodigo.getHeight());
+        ftxtCadastroClienteCpf.setBorder(bordaPadrao);
+        ftxtCadastroClienteCpf.setSize(157, txtCadastroClienteCodigo.getHeight());
+        ftxtCadastroClienteTelefone.setBorder(bordaPadrao);
+        ftxtCadastroClienteTelefone.setSize(157, txtCadastroClienteCodigo.getHeight());
+        txtCadastroClienteNome.setBorder(bordaPadrao);
+        txtCadastroClienteNome.setSize(286, txtCadastroClienteCodigo.getHeight());
+    }
+    
+    /**
+     * Método para organizar a tela de cadastro de funcionário
+     */
+    private void limparTelaCadastroFuncionario() {
+        Consulta con = new Consulta();
+        Border bordaPadrao = txtCadastroClienteCodigo.getBorder();
+        cmbCadastroFuncionarioEstado.setSelectedIndex(24);
+        txtCadastroFuncionarioCidade.setText("");
+        txtCadastroFuncionarioComplemento.setText("");
+        txtCadastroFuncionarioLogin.setText("");
+        txtCadastroFuncionarioNome.setText("");
+        txtCadastroFuncionarioRua.setText("");
+        ftxtCadastroFuncionarioCpf.setText("");
+        ftxtCadastroFuncionarioNumero.setText("");
+        ftxtCadastroFuncionarioTelefone.setText("");
+        ptxtCadastroFuncionarioSenha.setText("");
+        ptxtCadastroFuncionarioSenha.setBorder(bordaPadrao);
+        ptxtCadastroFuncionarioSenha.setSize(157, txtCadastroClienteCodigo.getHeight());
+        ftxtCadastroFuncionarioCpf.setBorder(bordaPadrao);
+        ftxtCadastroFuncionarioCpf.setSize(157, txtCadastroClienteCodigo.getHeight());
+        ftxtCadastroFuncionarioTelefone.setBorder(bordaPadrao);
+        ftxtCadastroFuncionarioTelefone.setSize(157, txtCadastroClienteCodigo.getHeight());
+        ptxtCadastroFuncionarioSenha.setBorder(bordaPadrao);
+        ptxtCadastroFuncionarioSenha.setSize(130, txtCadastroClienteCodigo.getHeight());
+        txtCadastroFuncionarioNome.setBorder(bordaPadrao);
+        txtCadastroFuncionarioNome.setSize(290, txtCadastroClienteCodigo.getHeight());
+        txtCadastroFuncionarioCidade.setBorder(bordaPadrao);
+        txtCadastroFuncionarioCidade.setSize(220, txtCadastroClienteCodigo.getHeight());
+        txtCadastroFuncionarioLogin.setBorder(bordaPadrao);
+        txtCadastroFuncionarioLogin.setSize(130, txtCadastroClienteCodigo.getHeight());
+    }
+    
     /**
      * Retorna a mensagem para ser exibida no dialog
      * @return Mensagem para exibir no Dialog
@@ -278,7 +319,6 @@ public class MenuInicial extends javax.swing.JFrame {
         btnMenuFornecimento = new javax.swing.JButton();
         btnMenuProduto = new javax.swing.JButton();
         btnMenuCliente = new javax.swing.JButton();
-        background = new javax.swing.JLabel();
         pnlServico = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblServico = new javax.swing.JTable();
@@ -345,6 +385,46 @@ public class MenuInicial extends javax.swing.JFrame {
         btnFinalizarVenda = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         lblValorTotalVenda = new javax.swing.JLabel();
+        pnlCadastroCliente = new javax.swing.JPanel();
+        btnCadastrarCliente = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
+        txtCadastroClienteNome = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        ftxtCadastroClienteCpf = new javax.swing.JFormattedTextField();
+        jLabel20 = new javax.swing.JLabel();
+        txtCadastroClienteCodigo = new javax.swing.JTextField();
+        ftxtCadastroClienteTelefone = new javax.swing.JFormattedTextField();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        txtCadastroClienteEmail = new javax.swing.JTextField();
+        ftxtCadastroClienteData = new javax.swing.JFormattedTextField();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        pnlCadastroFuncionario = new javax.swing.JPanel();
+        btnCadastrarFuncionario = new javax.swing.JButton();
+        jLabel26 = new javax.swing.JLabel();
+        txtCadastroFuncionarioComplemento = new javax.swing.JTextField();
+        ftxtCadastroFuncionarioCpf = new javax.swing.JFormattedTextField();
+        jLabel28 = new javax.swing.JLabel();
+        ftxtCadastroFuncionarioTelefone = new javax.swing.JFormattedTextField();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        txtCadastroFuncionarioRua = new javax.swing.JTextField();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        txtCadastroFuncionarioNome = new javax.swing.JTextField();
+        ptxtCadastroFuncionarioSenha = new javax.swing.JPasswordField();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        ftxtCadastroFuncionarioNumero = new javax.swing.JFormattedTextField();
+        txtCadastroFuncionarioCidade = new javax.swing.JTextField();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        cmbCadastroFuncionarioEstado = new javax.swing.JComboBox<>();
+        txtCadastroFuncionarioLogin = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Salão Virtual");
@@ -463,6 +543,7 @@ public class MenuInicial extends javax.swing.JFrame {
         jSeparator1.setToolTipText("");
 
         pnlAgenda.setAutoscrolls(true);
+        pnlAgenda.setOpaque(false);
         pnlAgenda.setPreferredSize(new java.awt.Dimension(1290, 645));
 
         jScrollPane1.setOpaque(false);
@@ -544,9 +625,9 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlAgendaLayout.setVerticalGroup(
             pnlAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAgendaLayout.createSequentialGroup()
-                .addContainerGap(85, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
+                .addGap(47, 47, 47)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(pnlAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAgendarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -554,6 +635,7 @@ public class MenuInicial extends javax.swing.JFrame {
         );
 
         pnlSubMenu.setAutoscrolls(true);
+        pnlSubMenu.setOpaque(false);
         pnlSubMenu.setPreferredSize(new java.awt.Dimension(1290, 645));
 
         btnMenuFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu/botaoMenuFornecedor.png"))); // NOI18N
@@ -587,6 +669,11 @@ public class MenuInicial extends javax.swing.JFrame {
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 btnMenuFuncionarioMouseReleased(evt);
+            }
+        });
+        btnMenuFuncionario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuFuncionarioActionPerformed(evt);
             }
         });
 
@@ -640,6 +727,11 @@ public class MenuInicial extends javax.swing.JFrame {
                 btnMenuClienteMouseReleased(evt);
             }
         });
+        btnMenuCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuClienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlSubMenuLayout = new javax.swing.GroupLayout(pnlSubMenu);
         pnlSubMenu.setLayout(pnlSubMenuLayout);
@@ -664,7 +756,7 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlSubMenuLayout.setVerticalGroup(
             pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSubMenuLayout.createSequentialGroup()
-                .addContainerGap(227, Short.MAX_VALUE)
+                .addContainerGap(244, Short.MAX_VALUE)
                 .addGroup(pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnMenuFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -674,12 +766,11 @@ public class MenuInicial extends javax.swing.JFrame {
                 .addGroup(pnlSubMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnMenuProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMenuFornecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(228, Short.MAX_VALUE))
+                .addContainerGap(245, Short.MAX_VALUE))
         );
 
-        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background/background.jpg"))); // NOI18N
-
         pnlServico.setAutoscrolls(true);
+        pnlServico.setOpaque(false);
         pnlServico.setPreferredSize(new java.awt.Dimension(1290, 645));
 
         jScrollPane2.setOpaque(false);
@@ -876,23 +967,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlServicoLayout.createSequentialGroup()
                         .addGap(55, 55, 55)
-                        .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(128, 128, 128)
-                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(chkCodigoServico)
-                            .addGroup(pnlServicoLayout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addComponent(txtCodigoServico, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(64, 64, 64)
-                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(chkLoginFuncionario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtLoginFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(74, 74, 74)
-                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(chkCodigoCliente)
-                            .addGroup(pnlServicoLayout.createSequentialGroup()
-                                .addGap(49, 49, 49)
-                                .addComponent(txtCodigoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlServicoLayout.createSequentialGroup()
                         .addGap(127, 127, 127)
                         .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -902,54 +977,76 @@ public class MenuInicial extends javax.swing.JFrame {
                                 .addComponent(chkEstado)))
                         .addGap(44, 44, 44)
                         .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNomeServico, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlServicoLayout.createSequentialGroup()
+                                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNomeServico, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                                        .addGap(16, 16, 16)
+                                        .addComponent(chkNomeServico)))
+                                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                                        .addGap(32, 32, 32)
+                                        .addComponent(ftxtValorInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblValorAte)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(ftxtValorFim, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                                        .addGap(81, 81, 81)
+                                        .addComponent(chkValor)))
+                                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                                        .addGap(48, 48, 48)
+                                        .addComponent(ftxtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(lblDataAte)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(ftxtDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                                        .addGap(94, 94, 94)
+                                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(chkCodigoCliente)
+                                                .addGroup(pnlServicoLayout.createSequentialGroup()
+                                                    .addGap(49, 49, 49)
+                                                    .addComponent(txtCodigoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(chkData)))))
                             .addGroup(pnlServicoLayout.createSequentialGroup()
                                 .addGap(16, 16, 16)
-                                .addComponent(chkNomeServico)))
-                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlServicoLayout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(ftxtValorInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblValorAte)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ftxtValorFim, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlServicoLayout.createSequentialGroup()
-                                .addGap(81, 81, 81)
-                                .addComponent(chkValor)))
-                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlServicoLayout.createSequentialGroup()
-                                .addGap(48, 48, 48)
-                                .addComponent(ftxtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblDataAte)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ftxtDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlServicoLayout.createSequentialGroup()
-                                .addGap(104, 104, 104)
-                                .addComponent(chkData)))))
+                                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(chkCodigoServico)
+                                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                                        .addGap(45, 45, 45)
+                                        .addComponent(txtCodigoServico, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(87, 87, 87)
+                                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(chkLoginFuncionario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtLoginFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlServicoLayout.setVerticalGroup(
             pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlServicoLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
                 .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlServicoLayout.createSequentialGroup()
-                        .addComponent(chkCodigoCliente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCodigoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36)
+                        .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlServicoLayout.createSequentialGroup()
-                        .addComponent(chkLoginFuncionario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtLoginFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlServicoLayout.createSequentialGroup()
-                        .addComponent(chkCodigoServico)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtCodigoServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
+                        .addContainerGap()
+                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlServicoLayout.createSequentialGroup()
+                                .addComponent(chkCodigoCliente)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCodigoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlServicoLayout.createSequentialGroup()
+                                .addComponent(chkLoginFuncionario)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtLoginFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlServicoLayout.createSequentialGroup()
+                                .addComponent(chkCodigoServico)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCodigoServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(pnlServicoLayout.createSequentialGroup()
@@ -976,7 +1073,7 @@ public class MenuInicial extends javax.swing.JFrame {
                             .addComponent(ftxtValorFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
                 .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCadastrarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConsultarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -984,6 +1081,7 @@ public class MenuInicial extends javax.swing.JFrame {
         );
 
         pnlVenda.setAutoscrolls(true);
+        pnlVenda.setOpaque(false);
         pnlVenda.setPreferredSize(new java.awt.Dimension(1290, 645));
 
         jScrollPane3.setOpaque(false);
@@ -1327,7 +1425,7 @@ public class MenuInicial extends javax.swing.JFrame {
                                         .addGap(124, 124, 124)
                                         .addComponent(btnRemoverProdutoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1075, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel11)))
                 .addContainerGap())
             .addGroup(pnlVendaLayout.createSequentialGroup()
@@ -1386,7 +1484,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 .addGroup(pnlVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAdicionarProdutoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRemoverProdutoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1438,6 +1536,406 @@ public class MenuInicial extends javax.swing.JFrame {
                         .addContainerGap())))
         );
 
+        pnlCadastroCliente.setAutoscrolls(true);
+        pnlCadastroCliente.setOpaque(false);
+        pnlCadastroCliente.setPreferredSize(new java.awt.Dimension(1288, 727));
+        pnlCadastroCliente.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                pnlCadastroClienteComponentShown(evt);
+            }
+        });
+
+        btnCadastrarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroCliente.png"))); // NOI18N
+        btnCadastrarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCadastrarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCadastrarClienteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCadastrarClienteMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnCadastrarClienteMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCadastrarClienteMouseReleased(evt);
+            }
+        });
+        btnCadastrarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarClienteActionPerformed(evt);
+            }
+        });
+
+        jLabel18.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel18.setText("Nome");
+
+        txtCadastroClienteNome.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+
+        jLabel19.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel19.setText("Código");
+
+        ftxtCadastroClienteCpf.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        ftxtCadastroClienteCpf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ftxtCadastroClienteCpfFocusGained(evt);
+            }
+        });
+
+        jLabel20.setFont(new java.awt.Font("Courier New", 0, 20)); // NOI18N
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("Cliente");
+
+        txtCadastroClienteCodigo.setEnabled(false);
+
+        ftxtCadastroClienteTelefone.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        ftxtCadastroClienteTelefone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ftxtCadastroClienteTelefoneFocusGained(evt);
+            }
+        });
+
+        jLabel21.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel21.setText("Telefone");
+
+        jLabel22.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel22.setText("E-mail");
+
+        txtCadastroClienteEmail.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+
+        ftxtCadastroClienteData.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        ftxtCadastroClienteData.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        ftxtCadastroClienteData.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ftxtCadastroClienteDataFocusGained(evt);
+            }
+        });
+
+        jLabel23.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel23.setText("Data de Nascimento");
+
+        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background/bgCliente.png"))); // NOI18N
+
+        jLabel25.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel25.setText("CPF");
+
+        javax.swing.GroupLayout pnlCadastroClienteLayout = new javax.swing.GroupLayout(pnlCadastroCliente);
+        pnlCadastroCliente.setLayout(pnlCadastroClienteLayout);
+        pnlCadastroClienteLayout.setHorizontalGroup(
+            pnlCadastroClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCadastroClienteLayout.createSequentialGroup()
+                .addGap(230, 230, 230)
+                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroClienteLayout.createSequentialGroup()
+                .addGap(300, 300, 300)
+                .addComponent(jLabel19)
+                .addGap(66, 66, 66)
+                .addComponent(jLabel25))
+            .addGroup(pnlCadastroClienteLayout.createSequentialGroup()
+                .addGap(300, 300, 300)
+                .addComponent(txtCadastroClienteCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(ftxtCadastroClienteCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroClienteLayout.createSequentialGroup()
+                .addGap(300, 300, 300)
+                .addComponent(jLabel18))
+            .addGroup(pnlCadastroClienteLayout.createSequentialGroup()
+                .addGap(300, 300, 300)
+                .addComponent(txtCadastroClienteNome, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroClienteLayout.createSequentialGroup()
+                .addGap(300, 300, 300)
+                .addComponent(txtCadastroClienteEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroClienteLayout.createSequentialGroup()
+                .addGap(280, 280, 280)
+                .addComponent(jLabel21)
+                .addGap(98, 98, 98)
+                .addComponent(jLabel23))
+            .addGroup(pnlCadastroClienteLayout.createSequentialGroup()
+                .addGap(280, 280, 280)
+                .addComponent(ftxtCadastroClienteTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(ftxtCadastroClienteData, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroClienteLayout.createSequentialGroup()
+                .addGap(340, 340, 340)
+                .addComponent(btnCadastrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroClienteLayout.createSequentialGroup()
+                .addGap(300, 300, 300)
+                .addComponent(jLabel22))
+            .addGroup(pnlCadastroClienteLayout.createSequentialGroup()
+                .addGap(464, 464, 464)
+                .addComponent(jLabel24))
+        );
+        pnlCadastroClienteLayout.setVerticalGroup(
+            pnlCadastroClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCadastroClienteLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addGroup(pnlCadastroClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel25))
+                .addGap(2, 2, 2)
+                .addGroup(pnlCadastroClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtCadastroClienteCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftxtCadastroClienteCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addComponent(jLabel18)
+                .addGap(12, 12, 12)
+                .addComponent(txtCadastroClienteNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
+                .addComponent(txtCadastroClienteEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addGroup(pnlCadastroClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel21)
+                    .addComponent(jLabel23))
+                .addGap(2, 2, 2)
+                .addGroup(pnlCadastroClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ftxtCadastroClienteTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftxtCadastroClienteData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(66, 66, 66)
+                .addComponent(btnCadastrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroClienteLayout.createSequentialGroup()
+                .addGap(250, 250, 250)
+                .addComponent(jLabel22))
+            .addComponent(jLabel24)
+        );
+
+        pnlCadastroFuncionario.setAutoscrolls(true);
+        pnlCadastroFuncionario.setOpaque(false);
+        pnlCadastroFuncionario.setPreferredSize(new java.awt.Dimension(1288, 727));
+        pnlCadastroFuncionario.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                pnlCadastroFuncionarioComponentShown(evt);
+            }
+        });
+
+        btnCadastrarFuncionario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroFuncionario.png"))); // NOI18N
+        btnCadastrarFuncionario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCadastrarFuncionario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCadastrarFuncionarioMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCadastrarFuncionarioMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnCadastrarFuncionarioMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCadastrarFuncionarioMouseReleased(evt);
+            }
+        });
+        btnCadastrarFuncionario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarFuncionarioActionPerformed(evt);
+            }
+        });
+
+        jLabel26.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel26.setText("Senha");
+
+        txtCadastroFuncionarioComplemento.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+
+        ftxtCadastroFuncionarioCpf.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        ftxtCadastroFuncionarioCpf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ftxtCadastroFuncionarioCpfFocusGained(evt);
+            }
+        });
+
+        jLabel28.setFont(new java.awt.Font("Courier New", 0, 20)); // NOI18N
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel28.setText("Funcionário");
+
+        ftxtCadastroFuncionarioTelefone.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        ftxtCadastroFuncionarioTelefone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ftxtCadastroFuncionarioTelefoneFocusGained(evt);
+            }
+        });
+
+        jLabel29.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel29.setText("Telefone");
+
+        jLabel30.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel30.setText("Rua");
+
+        txtCadastroFuncionarioRua.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+
+        jLabel31.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel31.setText("Complemento");
+
+        jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background/bgFuncionario.png"))); // NOI18N
+
+        jLabel33.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel33.setText("CPF");
+
+        jLabel27.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel27.setText("Nome");
+
+        txtCadastroFuncionarioNome.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+
+        jLabel34.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel34.setText("Login");
+
+        jLabel35.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel35.setText("Número");
+
+        ftxtCadastroFuncionarioNumero.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        ftxtCadastroFuncionarioNumero.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ftxtCadastroFuncionarioNumeroFocusGained(evt);
+            }
+        });
+
+        txtCadastroFuncionarioCidade.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+
+        jLabel36.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel36.setText("Estado");
+
+        jLabel37.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel37.setText("Cidade");
+
+        cmbCadastroFuncionarioEstado.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        cmbCadastroFuncionarioEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Acre", "Alagoas", "Amapás", "Amazonas", "Bahia", "Ceará", "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins" }));
+
+        txtCadastroFuncionarioLogin.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+
+        javax.swing.GroupLayout pnlCadastroFuncionarioLayout = new javax.swing.GroupLayout(pnlCadastroFuncionario);
+        pnlCadastroFuncionario.setLayout(pnlCadastroFuncionarioLayout);
+        pnlCadastroFuncionarioLayout.setHorizontalGroup(
+            pnlCadastroFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addGroup(pnlCadastroFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtCadastroFuncionarioLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel27)
+                    .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCadastroFuncionarioCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                        .addGap(150, 150, 150)
+                        .addComponent(btnCadastrarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(15, 15, 15)
+                .addComponent(jLabel32))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(240, 240, 240)
+                .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(390, 390, 390)
+                .addComponent(ftxtCadastroFuncionarioCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(360, 360, 360)
+                .addComponent(ftxtCadastroFuncionarioNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(txtCadastroFuncionarioNome, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(320, 320, 320)
+                .addComponent(cmbCadastroFuncionarioEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(txtCadastroFuncionarioRua, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(450, 450, 450)
+                .addComponent(txtCadastroFuncionarioComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(240, 240, 240)
+                .addComponent(ptxtCadastroFuncionarioSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(390, 390, 390)
+                .addComponent(jLabel33))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(390, 390, 390)
+                .addComponent(ftxtCadastroFuncionarioTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(360, 360, 360)
+                .addComponent(jLabel35))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(320, 320, 320)
+                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(390, 390, 390)
+                .addComponent(jLabel29))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(440, 440, 440)
+                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        pnlCadastroFuncionarioLayout.setVerticalGroup(
+            pnlCadastroFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(170, 170, 170)
+                .addComponent(txtCadastroFuncionarioLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel27)
+                .addGap(52, 52, 52)
+                .addComponent(jLabel30)
+                .addGap(62, 62, 62)
+                .addComponent(txtCadastroFuncionarioCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(96, 96, 96)
+                .addComponent(btnCadastrarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jLabel32)
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(150, 150, 150)
+                .addComponent(jLabel26))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(170, 170, 170)
+                .addComponent(ftxtCadastroFuncionarioCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(310, 310, 310)
+                .addComponent(ftxtCadastroFuncionarioNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(240, 240, 240)
+                .addComponent(txtCadastroFuncionarioNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(150, 150, 150)
+                .addComponent(jLabel34))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(370, 370, 370)
+                .addComponent(cmbCadastroFuncionarioEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(310, 310, 310)
+                .addComponent(txtCadastroFuncionarioRua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(310, 310, 310)
+                .addComponent(txtCadastroFuncionarioComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(350, 350, 350)
+                .addComponent(jLabel37))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(170, 170, 170)
+                .addComponent(ptxtCadastroFuncionarioSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(150, 150, 150)
+                .addComponent(jLabel33))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(240, 240, 240)
+                .addComponent(ftxtCadastroFuncionarioTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(290, 290, 290)
+                .addComponent(jLabel35))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(350, 350, 350)
+                .addComponent(jLabel36))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(220, 220, 220)
+                .addComponent(jLabel29))
+            .addGroup(pnlCadastroFuncionarioLayout.createSequentialGroup()
+                .addGap(290, 290, 290)
+                .addComponent(jLabel31))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -1467,8 +1965,6 @@ public class MenuInicial extends javax.swing.JFrame {
                     .addComponent(pnlAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, 1287, Short.MAX_VALUE)
                     .addContainerGap()))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(pnlServico, javax.swing.GroupLayout.DEFAULT_SIZE, 1287, Short.MAX_VALUE)
@@ -1476,8 +1972,18 @@ public class MenuInicial extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(pnlVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 1287, Short.MAX_VALUE)
+                    .addComponent(pnlVenda, javax.swing.GroupLayout.DEFAULT_SIZE, 1287, Short.MAX_VALUE)
                     .addContainerGap()))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(pnlCadastroCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 1288, Short.MAX_VALUE)
+                    .addGap(11, 11, 11)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(22, 22, 22)
+                    .addComponent(pnlCadastroFuncionario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(1, 1, 1)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1491,26 +1997,34 @@ public class MenuInicial extends javax.swing.JFrame {
                     .addComponent(btnMenuAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
-                .addComponent(pnlSubMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlSubMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 684, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(63, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(111, Short.MAX_VALUE)
-                    .addComponent(pnlAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(106, Short.MAX_VALUE)
+                    .addComponent(pnlAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 747, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addGap(111, 111, 111)
-                    .addComponent(pnlServico, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
+                    .addComponent(pnlServico, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
                     .addContainerGap()))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(113, Short.MAX_VALUE)
-                    .addComponent(pnlVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(23, 23, 23)))
+                    .addContainerGap(112, Short.MAX_VALUE)
+                    .addComponent(pnlVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(39, 39, 39)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(109, Short.MAX_VALUE)
+                    .addComponent(pnlCadastroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(30, 30, 30)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(119, Short.MAX_VALUE)
+                    .addComponent(pnlCadastroFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(20, 20, 20)))
         );
 
         pack();
@@ -1728,6 +2242,8 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlServico.setVisible(false);
         pnlAgenda.setVisible(false);
         pnlVenda.setVisible(false);
+        pnlCadastroCliente.setVisible(false);
+        pnlCadastroFuncionario.setVisible(false);
         pnlSubMenu.setVisible(true);
         this.setCadastro(true);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
@@ -1741,46 +2257,54 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlServico.setVisible(false);
         pnlAgenda.setVisible(false);
         txtPadrao.setVisible(false);
-        pnlVenda.setVisible(false);    
+        pnlVenda.setVisible(false);   
+        pnlCadastroCliente.setVisible(false);
+        pnlCadastroFuncionario.setVisible(false);
+        pnlSubMenu.setVisible(true);    
         this.setCadastro(false);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
         btnMenuAgendaMouseExited(me);
         btnMenuServicoMouseExited(me);
         btnMenuVendaMouseExited(me);
-        btnMenuCadastroMouseExited(me);
-        pnlSubMenu.setVisible(true);    
+        btnMenuCadastroMouseExited(me); 
     }//GEN-LAST:event_btnMenuConsultaActionPerformed
 
     private void btnMenuVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuVendaActionPerformed
         pnlSubMenu.setVisible(false);
         pnlServico.setVisible(false);
         pnlAgenda.setVisible(false);
+        pnlCadastroCliente.setVisible(false);
+        pnlCadastroFuncionario.setVisible(false);
+        pnlVenda.setVisible(true);
         this.setCadastro(false);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
         btnMenuAgendaMouseExited(me);
         btnMenuServicoMouseExited(me);
         btnMenuConsultaMouseExited(me);
         btnMenuCadastroMouseExited(me);
-        pnlVenda.setVisible(true);
     }//GEN-LAST:event_btnMenuVendaActionPerformed
 
     private void btnMenuServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuServicoActionPerformed
         pnlSubMenu.setVisible(false);
         pnlAgenda.setVisible(false);
         pnlVenda.setVisible(false);
+        pnlCadastroCliente.setVisible(false);
+        pnlCadastroFuncionario.setVisible(false);
+        pnlServico.setVisible(true);
         this.setCadastro(false);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
         btnMenuAgendaMouseExited(me);
         btnMenuVendaMouseExited(me);
         btnMenuConsultaMouseExited(me);
         btnMenuCadastroMouseExited(me);
-        pnlServico.setVisible(true);
     }//GEN-LAST:event_btnMenuServicoActionPerformed
 
     private void btnMenuAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuAgendaActionPerformed
         pnlSubMenu.setVisible(false);
         pnlServico.setVisible(false);
         pnlVenda.setVisible(false);
+        pnlCadastroCliente.setVisible(false);
+        pnlCadastroFuncionario.setVisible(false);
         this.setCadastro(false);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
         btnMenuServicoMouseExited(me);
@@ -2072,145 +2596,6 @@ public class MenuInicial extends javax.swing.JFrame {
         gerarTabelaServico();
         tblServico.setSelectionModel(new ForcedListSelectionModel());
     }//GEN-LAST:event_btnConsultarServicoActionPerformed
-
-    private void chkNomeServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkNomeServicoActionPerformed
-        if (chkNomeServico.isSelected()) {
-            txtNomeServico.setEnabled(true);
-            chkCodigoServico.setSelected(false);
-            txtCodigoServico.setEnabled(false);
-        }
-        else {
-            txtNomeServico.setEnabled(false);
-        }
-    }//GEN-LAST:event_chkNomeServicoActionPerformed
-
-    private void chkValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkValorActionPerformed
-        if (chkValor.isSelected()) {
-            ftxtValorFim.setEnabled(true);
-            ftxtValorInicio.setEnabled(true);
-            lblValorAte.setEnabled(true);
-            chkCodigoServico.setSelected(false);
-            txtCodigoServico.setEnabled(false);
-        }
-        else {
-            ftxtValorFim.setEnabled(false);
-            ftxtValorInicio.setEnabled(false);
-            lblValorAte.setEnabled(false);
-        }
-    }//GEN-LAST:event_chkValorActionPerformed
-
-    private void chkDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkDataActionPerformed
-        if (chkData.isSelected()) {
-            ftxtDataFim.setEnabled(true);
-            ftxtDataInicio.setEnabled(true);
-            lblDataAte.setEnabled(true);
-            chkCodigoServico.setSelected(false);
-            txtCodigoServico.setEnabled(false);
-        }
-        else {
-            ftxtDataFim.setEnabled(false);
-            ftxtDataInicio.setEnabled(false);
-            lblDataAte.setEnabled(false);
-        }
-    }//GEN-LAST:event_chkDataActionPerformed
-
-    private void chkLoginFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkLoginFuncionarioActionPerformed
-        if (chkLoginFuncionario.isSelected()) {
-            txtLoginFuncionario.setEnabled(true);
-            chkCodigoServico.setSelected(false);
-            txtCodigoServico.setEnabled(false);
-        }
-        else {
-            txtLoginFuncionario.setEnabled(false);
-        }
-    }//GEN-LAST:event_chkLoginFuncionarioActionPerformed
-
-    private void chkCodigoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCodigoClienteActionPerformed
-        if (chkCodigoCliente.isSelected()) {
-            txtCodigoCliente.setEnabled(true);
-            chkCodigoServico.setSelected(false);
-            txtCodigoServico.setEnabled(false);
-        }
-        else {
-            txtCodigoCliente.setEnabled(false);
-        }
-    }//GEN-LAST:event_chkCodigoClienteActionPerformed
-
-    private void chkEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkEstadoActionPerformed
-        if (chkEstado.isSelected()) {
-            cmbEstado.setEnabled(true);
-            chkCodigoServico.setSelected(false);
-            txtCodigoServico.setEnabled(false);
-        }
-        else {
-            cmbEstado.setEnabled(false);
-        }
-    }//GEN-LAST:event_chkEstadoActionPerformed
-
-    private void chkCodigoServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCodigoServicoActionPerformed
-        if (chkCodigoServico.isSelected()) {
-            txtCodigoServico.setEnabled(true);
-            chkCodigoCliente.setSelected(false);
-            txtCodigoCliente.setEnabled(false);
-            chkData.setSelected(false);
-            ftxtDataFim.setEnabled(false);
-            ftxtDataInicio.setEnabled(false);
-            lblDataAte.setEnabled(false);
-            chkEstado.setSelected(false);
-            cmbEstado.setEnabled(false);
-            chkLoginFuncionario.setSelected(false);
-            txtLoginFuncionario.setEnabled(false); 
-            chkNomeServico.setSelected(false);
-            txtNomeServico.setEnabled(false);
-            chkValor.setSelected(false);
-            ftxtValorFim.setEnabled(false);
-            ftxtValorInicio.setEnabled(false); 
-            lblValorAte.setEnabled(false);
-        }
-        else {
-            txtCodigoServico.setEnabled(false);
-        }
-    }//GEN-LAST:event_chkCodigoServicoActionPerformed
-
-    private void ftxtDataFimFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtDataFimFocusGained
-        MaskFormatter mask;
-        try {
-            mask = new MaskFormatter("##/##/##");
-            mask.install(ftxtDataFim);
-        } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_ftxtDataFimFocusGained
-
-    private void ftxtDataInicioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtDataInicioFocusGained
-        MaskFormatter mask;
-        try {
-            mask = new MaskFormatter("##/##/##");
-            mask.install(ftxtDataInicio);
-        } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_ftxtDataInicioFocusGained
-
-    private void ftxtValorInicioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtValorInicioFocusGained
-        MaskFormatter mask;
-        try {
-            mask = new MaskFormatter("R$ ###.##");
-            mask.install(ftxtValorInicio);
-        } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_ftxtValorInicioFocusGained
-
-    private void ftxtValorFimFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtValorFimFocusGained
-        MaskFormatter mask;
-        try {
-            mask = new MaskFormatter("R$ ###.##");
-            mask.install(ftxtValorFim);
-        } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_ftxtValorFimFocusGained
 
     private void btnAdicionarProdutoVendaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdicionarProdutoVendaMouseEntered
         ImageIcon i = new ImageIcon(getClass().getResource("/images/add/botaoAddProduto_Hover.png"));
@@ -2580,6 +2965,412 @@ public class MenuInicial extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnFinalizarVendaActionPerformed
+
+    private void btnCadastrarClienteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarClienteMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroCliente_Hover.png"));
+        btnCadastrarCliente.setIcon(i);
+    }//GEN-LAST:event_btnCadastrarClienteMouseEntered
+
+    private void btnCadastrarClienteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarClienteMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroCliente.png"));
+        btnCadastrarCliente.setIcon(i);
+    }//GEN-LAST:event_btnCadastrarClienteMouseExited
+
+    private void btnCadastrarClienteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarClienteMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroCliente_Pressed.png"));
+        btnCadastrarCliente.setIcon(i);
+    }//GEN-LAST:event_btnCadastrarClienteMousePressed
+
+    private void btnCadastrarClienteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarClienteMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroCliente_Hover.png"));
+        btnCadastrarCliente.setIcon(i);
+    }//GEN-LAST:event_btnCadastrarClienteMouseReleased
+
+    private void btnCadastrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarClienteActionPerformed
+        Border bordaVermelha = BorderFactory.createLineBorder(Color.red);
+        Border bordaPadrao = txtCadastroClienteCodigo.getBorder();
+        int aux = 0;
+        if (txtCadastroClienteNome.getText().length() == 0) {
+            aux = 1;
+            txtCadastroClienteNome.setBorder(bordaVermelha);
+        }
+        if ((ftxtCadastroClienteTelefone.getText().length() == 0) || (ftxtCadastroClienteTelefone.getText().equals("(  )      -    "))) {
+            aux = 1;
+            ftxtCadastroClienteTelefone.setBorder(bordaVermelha);
+        }
+        if (ftxtCadastroClienteData.getText().length() == 0) {
+            aux = 1;
+            ftxtCadastroClienteData.setBorder(bordaVermelha);
+        }
+        if (aux == 1) {
+            this.setMensagemDialog("Preencha todos os campos");
+            MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Preencha todos os campos");
+            dialog.setVisible(true);
+        }
+        else {
+            ftxtCadastroClienteTelefone.setBorder(bordaPadrao);
+            txtCadastroClienteNome.setBorder(bordaPadrao);
+            try {
+                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                Date data = df.parse(ftxtCadastroClienteData.getText());
+                Cliente c = new Cliente(txtCadastroClienteNome.getText());
+                c.setCpf(ftxtCadastroClienteCpf.getText());
+                Date agora = new Date();
+                if (data.before(agora)) {
+                    ftxtCadastroClienteData.setBorder(bordaPadrao);
+                    c.setDataAniversario(data);
+                    c.setEmail(txtCadastroClienteEmail.getText());
+                    c.setTelefone(ftxtCadastroClienteTelefone.getText());
+                    Cadastro cad = new Cadastro();
+                    try {
+                        cad.gravarCliente(c);
+                        this.setMensagemDialog("O cliente foi cadastrado com sucesso");
+                        MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Cliente cadastrado");
+                        dialog.setVisible(true);
+                        limparTelaCadastroCliente();
+                    } catch (ObjetoJaCadastradoException ex) {
+                        ftxtCadastroClienteCpf.setBorder(bordaVermelha);
+                        this.setMensagemDialog("Este CPF já está cadastrado");
+                        MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe um CPF válido");
+                        dialog.setVisible(true);
+                    }
+                }
+                else {
+                    ftxtCadastroClienteData.setBorder(bordaVermelha);
+                    this.setMensagemDialog("Informe uma data de nascimento válida");
+                    MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe uma data válida");
+                    dialog.setVisible(true);
+                }
+            } catch (ParseException e) {
+                ftxtCadastroClienteData.setBorder(bordaVermelha);
+                this.setMensagemDialog("Informe uma data de nascimento válida");
+                MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe uma data válida");
+                dialog.setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_btnCadastrarClienteActionPerformed
+
+    private void ftxtValorFimFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtValorFimFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("R$ ###.##");
+            mask.install(ftxtValorFim);
+        } catch (ParseException ex) {
+            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtValorFimFocusGained
+
+    private void chkLoginFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkLoginFuncionarioActionPerformed
+        if (chkLoginFuncionario.isSelected()) {
+            txtLoginFuncionario.setEnabled(true);
+            chkCodigoServico.setSelected(false);
+            txtCodigoServico.setEnabled(false);
+        }
+        else {
+            txtLoginFuncionario.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkLoginFuncionarioActionPerformed
+
+    private void ftxtValorInicioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtValorInicioFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("R$ ###.##");
+            mask.install(ftxtValorInicio);
+        } catch (ParseException ex) {
+            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtValorInicioFocusGained
+
+    private void ftxtDataInicioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtDataInicioFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("##/##/##");
+            mask.install(ftxtDataInicio);
+        } catch (ParseException ex) {
+            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtDataInicioFocusGained
+
+    private void ftxtDataFimFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtDataFimFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("##/##/##");
+            mask.install(ftxtDataFim);
+        } catch (ParseException ex) {
+            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtDataFimFocusGained
+
+    private void chkDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkDataActionPerformed
+        if (chkData.isSelected()) {
+            ftxtDataFim.setEnabled(true);
+            ftxtDataInicio.setEnabled(true);
+            lblDataAte.setEnabled(true);
+            chkCodigoServico.setSelected(false);
+            txtCodigoServico.setEnabled(false);
+        }
+        else {
+            ftxtDataFim.setEnabled(false);
+            ftxtDataInicio.setEnabled(false);
+            lblDataAte.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkDataActionPerformed
+
+    private void chkValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkValorActionPerformed
+        if (chkValor.isSelected()) {
+            ftxtValorFim.setEnabled(true);
+            ftxtValorInicio.setEnabled(true);
+            lblValorAte.setEnabled(true);
+            chkCodigoServico.setSelected(false);
+            txtCodigoServico.setEnabled(false);
+        }
+        else {
+            ftxtValorFim.setEnabled(false);
+            ftxtValorInicio.setEnabled(false);
+            lblValorAte.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkValorActionPerformed
+
+    private void chkNomeServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkNomeServicoActionPerformed
+        if (chkNomeServico.isSelected()) {
+            txtNomeServico.setEnabled(true);
+            chkCodigoServico.setSelected(false);
+            txtCodigoServico.setEnabled(false);
+        }
+        else {
+            txtNomeServico.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkNomeServicoActionPerformed
+
+    private void chkEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkEstadoActionPerformed
+        if (chkEstado.isSelected()) {
+            cmbEstado.setEnabled(true);
+            chkCodigoServico.setSelected(false);
+            txtCodigoServico.setEnabled(false);
+        }
+        else {
+            cmbEstado.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkEstadoActionPerformed
+
+    private void chkCodigoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCodigoClienteActionPerformed
+        if (chkCodigoCliente.isSelected()) {
+            txtCodigoCliente.setEnabled(true);
+            chkCodigoServico.setSelected(false);
+            txtCodigoServico.setEnabled(false);
+        }
+        else {
+            txtCodigoCliente.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkCodigoClienteActionPerformed
+
+    private void chkCodigoServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCodigoServicoActionPerformed
+        if (chkCodigoServico.isSelected()) {
+            txtCodigoServico.setEnabled(true);
+            chkCodigoCliente.setSelected(false);
+            txtCodigoCliente.setEnabled(false);
+            chkData.setSelected(false);
+            ftxtDataFim.setEnabled(false);
+            ftxtDataInicio.setEnabled(false);
+            lblDataAte.setEnabled(false);
+            chkEstado.setSelected(false);
+            cmbEstado.setEnabled(false);
+            chkLoginFuncionario.setSelected(false);
+            txtLoginFuncionario.setEnabled(false);
+            chkNomeServico.setSelected(false);
+            txtNomeServico.setEnabled(false);
+            chkValor.setSelected(false);
+            ftxtValorFim.setEnabled(false);
+            ftxtValorInicio.setEnabled(false);
+            lblValorAte.setEnabled(false);
+        }
+        else {
+            txtCodigoServico.setEnabled(false);
+        }
+    }//GEN-LAST:event_chkCodigoServicoActionPerformed
+
+    private void ftxtCadastroClienteCpfFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtCadastroClienteCpfFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("###.###.###-##");
+            mask.install(ftxtCadastroClienteCpf);
+        } catch (ParseException ex) {
+            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtCadastroClienteCpfFocusGained
+
+    private void btnMenuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuClienteActionPerformed
+        if (this.isCadastro()) {
+            pnlSubMenu.setVisible(false);
+            pnlCadastroCliente.setVisible(true);
+        }
+    }//GEN-LAST:event_btnMenuClienteActionPerformed
+
+    private void ftxtCadastroClienteTelefoneFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtCadastroClienteTelefoneFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("(##) #####-####");
+            mask.install(ftxtCadastroClienteTelefone);
+        } catch (ParseException ex) {
+            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtCadastroClienteTelefoneFocusGained
+
+    private void ftxtCadastroClienteDataFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtCadastroClienteDataFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("##/##/####");
+            mask.install(ftxtCadastroClienteData);
+        } catch (ParseException ex) {
+            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtCadastroClienteDataFocusGained
+
+    private void pnlCadastroClienteComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlCadastroClienteComponentShown
+        limparTelaCadastroCliente();
+    }//GEN-LAST:event_pnlCadastroClienteComponentShown
+
+    private void btnCadastrarFuncionarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarFuncionarioMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroFuncionario_Hover.png"));
+        btnCadastrarFuncionario.setIcon(i);
+    }//GEN-LAST:event_btnCadastrarFuncionarioMouseEntered
+
+    private void btnCadastrarFuncionarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarFuncionarioMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroFuncionario.png"));
+        btnCadastrarFuncionario.setIcon(i);
+    }//GEN-LAST:event_btnCadastrarFuncionarioMouseExited
+
+    private void btnCadastrarFuncionarioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarFuncionarioMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroFuncionario_Pressed.png"));
+        btnCadastrarFuncionario.setIcon(i);
+    }//GEN-LAST:event_btnCadastrarFuncionarioMousePressed
+
+    private void btnCadastrarFuncionarioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarFuncionarioMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCadastroFuncionario_Hover.png"));
+        btnCadastrarFuncionario.setIcon(i);
+    }//GEN-LAST:event_btnCadastrarFuncionarioMouseReleased
+
+    private void btnCadastrarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarFuncionarioActionPerformed
+        Border bordaVermelha = BorderFactory.createLineBorder(Color.red);
+        Border bordaPadrao = txtCadastroClienteCodigo.getBorder();
+        int aux = 0;
+        if (txtCadastroFuncionarioLogin.getText().length() == 0) {
+            aux = 1;
+            txtCadastroFuncionarioLogin.setBorder(bordaVermelha);
+        }
+        if (txtCadastroFuncionarioCidade.getText().length() == 0) {
+            aux = 1;
+            txtCadastroFuncionarioCidade.setBorder(bordaVermelha);
+        }
+        if ((ftxtCadastroFuncionarioCpf.getText().length() == 0) || ("   .   .   -  ".equals(ftxtCadastroFuncionarioCpf.getText()))) {
+            aux = 1;
+            ftxtCadastroFuncionarioCpf.setBorder(bordaVermelha);
+        }
+        if ((ftxtCadastroFuncionarioTelefone.getText().length() == 0) || ( ftxtCadastroFuncionarioTelefone.getText().equals("(  )      -    "))) {
+            aux = 1;
+            ftxtCadastroFuncionarioTelefone.setBorder(bordaVermelha);
+        }
+        if (ptxtCadastroFuncionarioSenha.getText().length() == 0) {
+            aux = 1;
+            ptxtCadastroFuncionarioSenha.setBorder(bordaVermelha);
+        }
+        if (txtCadastroFuncionarioNome.getText().length() == 0) {
+            aux = 1;
+            txtCadastroFuncionarioNome.setBorder(bordaVermelha);
+        }
+        if (aux == 1) {
+            this.setMensagemDialog("Preencha todos os campos");
+            MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Preencha todos os campos");
+            dialog.setVisible(true);
+        }
+        else {
+            try {
+                txtCadastroFuncionarioCidade.setBorder(bordaPadrao);
+                ftxtCadastroFuncionarioCpf.setBorder(bordaPadrao);
+                ftxtCadastroFuncionarioTelefone.setBorder(bordaPadrao);
+                ptxtCadastroFuncionarioSenha.setBorder(bordaPadrao);
+                txtCadastroFuncionarioNome.setBorder(bordaPadrao);
+                aux = 0;
+                if (!ftxtCadastroFuncionarioNumero.getText().equals("   ")) {
+                    String[] numero = ftxtCadastroFuncionarioNumero.getText().split(" ");
+                    aux = parseInt(numero[0]);
+                }
+                String senha = new String(ptxtCadastroFuncionarioSenha.getPassword());
+                Funcionario f = new Funcionario(txtCadastroFuncionarioLogin.getText(), senha, txtCadastroFuncionarioNome.getText());
+                f.setCidade(txtCadastroFuncionarioCidade.getText());
+                f.setComplemento(txtCadastroFuncionarioComplemento.getText());
+                f.setCpf(ftxtCadastroFuncionarioCpf.getText());
+                f.setEstado((String) cmbCadastroFuncionarioEstado.getSelectedItem());
+                f.setNumero(aux);
+                f.setRua(txtCadastroFuncionarioRua.getText());
+                f.setTelefone(ftxtCadastroFuncionarioTelefone.getText());
+                Cadastro cad = new Cadastro();
+                try {
+                    cad.gravarFuncionario(f);
+                    limparTelaCadastroFuncionario();
+                } catch (ObjetoJaCadastradoException ex) {
+                    txtCadastroFuncionarioLogin.setBorder(bordaVermelha);
+                    ftxtCadastroFuncionarioCpf.setBorder(bordaVermelha);
+                    this.setMensagemDialog("Login ou CPF já cadastrados");
+                    MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Login ou CPF já cadastrados");
+                    dialog.setVisible(true);
+                } catch (ChaveNulaException ex) {
+                    txtCadastroFuncionarioLogin.setBorder(bordaVermelha);
+                    this.setMensagemDialog("Informe o login");
+                    MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe um login válido");
+                    dialog.setVisible(true);
+                }
+            } catch (NumberFormatException ex) {
+                ftxtCadastroFuncionarioNumero.setBorder(bordaVermelha);
+                this.setMensagemDialog("Informe um número de endereço válido");
+                MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe um número válido");
+                dialog.setVisible(true);
+            } catch (ArrayIndexOutOfBoundsException ex1) {
+                //
+            }
+        }
+    }//GEN-LAST:event_btnCadastrarFuncionarioActionPerformed
+
+    private void ftxtCadastroFuncionarioCpfFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtCadastroFuncionarioCpfFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("###.###.###-##");
+            mask.install(ftxtCadastroFuncionarioCpf);
+        } catch (ParseException ex) {
+            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtCadastroFuncionarioCpfFocusGained
+
+    private void ftxtCadastroFuncionarioTelefoneFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtCadastroFuncionarioTelefoneFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("(##) #####-####");
+            mask.install(ftxtCadastroFuncionarioTelefone);
+        } catch (ParseException ex) {
+            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtCadastroFuncionarioTelefoneFocusGained
+
+    private void pnlCadastroFuncionarioComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlCadastroFuncionarioComponentShown
+        limparTelaCadastroFuncionario();
+    }//GEN-LAST:event_pnlCadastroFuncionarioComponentShown
+
+    private void btnMenuFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuFuncionarioActionPerformed
+        if (this.isCadastro()) {
+            pnlSubMenu.setVisible(false);
+            pnlCadastroFuncionario.setVisible(true);
+        }
+    }//GEN-LAST:event_btnMenuFuncionarioActionPerformed
+
+    private void ftxtCadastroFuncionarioNumeroFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtCadastroFuncionarioNumeroFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("###");
+            mask.install(ftxtCadastroFuncionarioNumero);
+        } catch (ParseException ex) {
+            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtCadastroFuncionarioNumeroFocusGained
 
     /**
      * Método main do Menu Inicial
@@ -4797,10 +5588,11 @@ public class MenuInicial extends javax.swing.JFrame {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel background;
     private javax.swing.JButton btnAdicionarProdutoVenda;
     private javax.swing.JButton btnAdicionarSerivocVenda;
     private javax.swing.JButton btnAgendarServico;
+    private javax.swing.JButton btnCadastrarCliente;
+    private javax.swing.JButton btnCadastrarFuncionario;
     private javax.swing.JButton btnCadastrarServico;
     private javax.swing.JButton btnCancelarServico;
     private javax.swing.JButton btnConsultarServico;
@@ -4824,7 +5616,14 @@ public class MenuInicial extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkLoginFuncionario;
     private javax.swing.JCheckBox chkNomeServico;
     private javax.swing.JCheckBox chkValor;
+    private javax.swing.JComboBox<String> cmbCadastroFuncionarioEstado;
     private javax.swing.JComboBox<String> cmbEstado;
+    private javax.swing.JFormattedTextField ftxtCadastroClienteCpf;
+    private javax.swing.JFormattedTextField ftxtCadastroClienteData;
+    private javax.swing.JFormattedTextField ftxtCadastroClienteTelefone;
+    private javax.swing.JFormattedTextField ftxtCadastroFuncionarioCpf;
+    private javax.swing.JFormattedTextField ftxtCadastroFuncionarioNumero;
+    private javax.swing.JFormattedTextField ftxtCadastroFuncionarioTelefone;
     private javax.swing.JFormattedTextField ftxtDataFim;
     private javax.swing.JFormattedTextField ftxtDataInicio;
     private javax.swing.JFormattedTextField ftxtValorFim;
@@ -4838,8 +5637,28 @@ public class MenuInicial extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -4855,13 +5674,24 @@ public class MenuInicial extends javax.swing.JFrame {
     private javax.swing.JLabel lblValorAte;
     private javax.swing.JLabel lblValorTotalVenda;
     private javax.swing.JPanel pnlAgenda;
+    private javax.swing.JPanel pnlCadastroCliente;
+    private javax.swing.JPanel pnlCadastroFuncionario;
     private javax.swing.JPanel pnlServico;
     private javax.swing.JPanel pnlSubMenu;
     private javax.swing.JPanel pnlVenda;
+    private javax.swing.JPasswordField ptxtCadastroFuncionarioSenha;
     private javax.swing.JTable tblAgenda;
     private javax.swing.JTable tblProdutoVenda;
     private javax.swing.JTable tblServico;
     private javax.swing.JTable tblServicoVenda;
+    private javax.swing.JTextField txtCadastroClienteCodigo;
+    private javax.swing.JTextField txtCadastroClienteEmail;
+    private javax.swing.JTextField txtCadastroClienteNome;
+    private javax.swing.JTextField txtCadastroFuncionarioCidade;
+    private javax.swing.JTextField txtCadastroFuncionarioComplemento;
+    private javax.swing.JTextField txtCadastroFuncionarioLogin;
+    private javax.swing.JTextField txtCadastroFuncionarioNome;
+    private javax.swing.JTextField txtCadastroFuncionarioRua;
     private javax.swing.JTextField txtCodigoCliente;
     private javax.swing.JTextField txtCodigoServico;
     private javax.swing.JTextField txtLoginFuncionario;
