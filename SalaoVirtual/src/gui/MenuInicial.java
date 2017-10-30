@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.border.Border;
@@ -91,6 +93,7 @@ public class MenuInicial extends javax.swing.JFrame {
         gerarTabelaServico();
         tblCadastroFornecimentoProduto.setSelectionModel(new ForcedListSelectionModel());
         tblCadastroFornecimentoProduto.setModel(new CadastroProdutoFornecimentoTableModel(listaCadastroFornecimentoProduto,listaCadastroFornecimentoQuantidade,listaCadastroFornecimentoValor));
+        gerarTabelaCadastroFornecimentoProduto();
         List<Servico> sl = null;
         gerarTabelaServicoVenda(sl);
         List<Produto> pl = null;
@@ -117,6 +120,7 @@ public class MenuInicial extends javax.swing.JFrame {
         txtCadastroFornecimentoFornecedorTelefone.setDisabledTextColor(Color.black);
         txtCadastroFornecimentoFornecedorCidade.setDisabledTextColor(Color.black);
         txtCadastroFornecimentoFornecedorEstado.setDisabledTextColor(Color.black);
+        txtCadastroFornecimentoCodigo.setDisabledTextColor(Color.black);
         listaServicoVenda = new ArrayList();
         listaProdutoVenda = new ArrayList();
         listaProdutoVendaQuantidade = new ArrayList();
@@ -192,7 +196,18 @@ public class MenuInicial extends javax.swing.JFrame {
      */
     private void gerarTabelaCadastroFornecimentoProduto() {
         tblCadastroFornecimentoProduto.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
-        tblAgenda.getColumnModel().getColumn(0).setMaxWidth(85);
+        tblCadastroFornecimentoProduto.getColumnModel().getColumn(0).setMaxWidth(105);
+        tblCadastroFornecimentoProduto.getColumnModel().getColumn(0).setPreferredWidth(105);
+        tblCadastroFornecimentoProduto.getColumnModel().getColumn(2).setMaxWidth(125);
+        tblCadastroFornecimentoProduto.getColumnModel().getColumn(2).setPreferredWidth(125);
+        tblCadastroFornecimentoProduto.getColumnModel().getColumn(4).setMaxWidth(100);
+        tblCadastroFornecimentoProduto.getColumnModel().getColumn(4).setPreferredWidth(100);
+        tblCadastroFornecimentoProduto.getColumnModel().getColumn(5).setMaxWidth(110);
+        tblCadastroFornecimentoProduto.getColumnModel().getColumn(5).setPreferredWidth(110);
+        tblCadastroFornecimentoProduto.getColumnModel().getColumn(6).setMaxWidth(110);
+        tblCadastroFornecimentoProduto.getColumnModel().getColumn(6).setPreferredWidth(110);
+        tblCadastroFornecimentoProduto.getColumnModel().getColumn(7).setMaxWidth(110);
+        tblCadastroFornecimentoProduto.getColumnModel().getColumn(7).setPreferredWidth(110);
     }
     
     /**
@@ -244,10 +259,14 @@ public class MenuInicial extends javax.swing.JFrame {
      */
     private void limparTelaCadastroFornecimento() {
         Consulta con = new Consulta();
-        Border bordaPadrao = txtCadastroFornecedorCodigo.getBorder();
+        Border bordaPadrao = txtCadastroFornecimentoCodigo.getBorder();
+        txtCadastroFornecimentoCodigo.setText(Integer.toString(con.getProxCodigo("Compra.csv")));
         listaCadastroFornecimentoProduto = new ArrayList();
         listaCadastroFornecimentoQuantidade = new ArrayList();
         listaCadastroFornecimentoValor = new ArrayList();
+        lblCadastroFornecimentoValorTotal.setText("R$ 0.0");
+        gerarTabelaCadastroFornecimentoProduto();
+        tblCadastroFornecimentoProduto.setModel( new CadastroProdutoFornecimentoTableModel(listaCadastroFornecimentoProduto, listaCadastroFornecimentoQuantidade, listaCadastroFornecimentoValor));
         limparProdutoFornecimento();
         limparFornecedorFornecimento();
     }
@@ -400,6 +419,7 @@ public class MenuInicial extends javax.swing.JFrame {
         txtCadastroFornecimentoProdutoValor.setText("");
         txtCadastroFornecimentoProdutoQuantidade.setText("");
         txtCadastroFornecimentoProdutoValorTotal.setText("");
+        txtCadastroFornecimentoProdutoCodigo.setText("");
     }
     
     private void limparFornecedorFornecimento() {
@@ -592,7 +612,7 @@ public class MenuInicial extends javax.swing.JFrame {
         tblCadastroFornecimentoProduto = new javax.swing.JTable();
         btnCadastroFornecimentoAddProduto = new javax.swing.JButton();
         jLabel50 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtCadastroFornecimentoCodigo = new javax.swing.JTextField();
         jLabel51 = new javax.swing.JLabel();
         txtCadastroFornecimentoProdutoCodigo = new javax.swing.JTextField();
         txtCadastroFornecimentoProdutoNome = new javax.swing.JTextField();
@@ -1534,7 +1554,7 @@ public class MenuInicial extends javax.swing.JFrame {
         lblValorTotalVenda.setFont(new java.awt.Font("Courier New", 0, 20)); // NOI18N
         lblValorTotalVenda.setText("R$ 0.0");
         pnlVenda.add(lblValorTotalVenda);
-        lblValorTotalVenda.setBounds(1150, 440, 72, 23);
+        lblValorTotalVenda.setBounds(1150, 440, 140, 23);
 
         getContentPane().add(pnlVenda);
         pnlVenda.setBounds(12, 110, 1293, 590);
@@ -2106,6 +2126,11 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlCadastroFornecimento.setAutoscrolls(true);
         pnlCadastroFornecimento.setOpaque(false);
         pnlCadastroFornecimento.setPreferredSize(new java.awt.Dimension(1290, 645));
+        pnlCadastroFornecimento.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                pnlCadastroFornecimentoComponentShown(evt);
+            }
+        });
         pnlCadastroFornecimento.setLayout(null);
 
         jScrollPane6.setOpaque(false);
@@ -2158,10 +2183,10 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlCadastroFornecimento.add(jLabel50);
         jLabel50.setBounds(200, 20, 130, 18);
 
-        jTextField1.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
-        jTextField1.setEnabled(false);
-        pnlCadastroFornecimento.add(jTextField1);
-        jTextField1.setBounds(50, 70, 60, 24);
+        txtCadastroFornecimentoCodigo.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        txtCadastroFornecimentoCodigo.setEnabled(false);
+        pnlCadastroFornecimento.add(txtCadastroFornecimentoCodigo);
+        txtCadastroFornecimentoCodigo.setBounds(50, 70, 60, 24);
 
         jLabel51.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
         jLabel51.setText("Código");
@@ -2424,7 +2449,7 @@ public class MenuInicial extends javax.swing.JFrame {
         lblCadastroFornecimentoValorTotal.setFont(new java.awt.Font("Courier New", 0, 20)); // NOI18N
         lblCadastroFornecimentoValorTotal.setText("R$ 0.0");
         pnlCadastroFornecimento.add(lblCadastroFornecimentoValorTotal);
-        lblCadastroFornecimentoValorTotal.setBounds(1060, 500, 72, 23);
+        lblCadastroFornecimentoValorTotal.setBounds(1060, 500, 150, 23);
 
         btnCadastroFornecimentoRemoverProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/remover/botaoRemoverProduto.png"))); // NOI18N
         btnCadastroFornecimentoRemoverProduto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -2526,7 +2551,13 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuCadastroMouseEntered
 
     private void btnMenuCadastroMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuCadastroMouseExited
-        if ((!pnlSubMenu.isVisible()) && (!this.isCadastro())) {
+       if (pnlSubMenu.isVisible()) {
+            if (!this.isCadastro()) {
+                ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuCadastro.png"));
+                btnMenuCadastro.setIcon(i);
+            }
+        }
+        else if (!this.isCadastro()) {
             ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuCadastro.png"));
             btnMenuCadastro.setIcon(i);
         }
@@ -2548,7 +2579,13 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuConsultaMouseEntered
 
     private void btnMenuConsultaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuConsultaMouseExited
-        if ((!pnlSubMenu.isVisible()) && (this.isCadastro())) {
+        if (pnlSubMenu.isVisible()) {
+            if (this.isCadastro()) {
+                ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuConsulta.png"));
+                btnMenuConsulta.setIcon(i);
+            }
+        }
+        else {
             ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuConsulta.png"));
             btnMenuConsulta.setIcon(i);
         }
@@ -4145,7 +4182,7 @@ public class MenuInicial extends javax.swing.JFrame {
             dialog.setVisible(true);
         }
         else {
-            if (txtCadastrarProdutoNome.getText().length() == 0) {
+            if (txtCadastroFornecimentoProdutoNome.getText().length() == 0) {
                 txtCadastroFornecimentoProdutoCodigo.setBorder(bordaVermelha);
                 this.setMensagemDialog("Insira um código válido de produto");
                 MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Código inválido");
@@ -4162,7 +4199,11 @@ public class MenuInicial extends javax.swing.JFrame {
                         listaCadastroFornecimentoProduto.add(produtoFornecimento);
                         listaCadastroFornecimentoQuantidade.add(quantidade);
                         listaCadastroFornecimentoValor.add(valor);
+                        tblCadastroFornecimentoProduto.setModel( new CadastroProdutoFornecimentoTableModel(listaCadastroFornecimentoProduto, listaCadastroFornecimentoQuantidade, listaCadastroFornecimentoValor));
+                        valorTotalFornecimento += valor*quantidade;
+                        lblCadastroFornecimentoValorTotal.setText("R$ " + valorTotalFornecimento);
                         limparProdutoFornecimento();
+                        gerarTabelaCadastroFornecimentoProduto();
                     } catch (NumberFormatException ex) {
                         txtCadastroFornecimentoProdutoValor.setBorder(bordaVermelha);
                         this.setMensagemDialog("Insira um valor válido");
@@ -4325,7 +4366,70 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFinalizarFornecimentoMouseReleased
 
     private void btnFinalizarFornecimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarFornecimentoActionPerformed
-        // TODO add your handling code here:
+        Border bordaVermelha = BorderFactory.createLineBorder(Color.red);
+        Border bordaPadrao = txtPadrao.getBorder();
+        txtCadastroFornecimentoFornecedorCodigo.setBorder(bordaPadrao);
+        if (listaCadastroFornecimentoProduto.isEmpty()) {
+            txtCadastroFornecimentoProdutoCodigo.setBorder(bordaVermelha);
+            txtCadastroFornecimentoProdutoValor.setBorder(bordaVermelha);
+            txtCadastroFornecimentoProdutoQuantidade.setBorder(bordaVermelha);
+            this.setMensagemDialog("Nenhum produto foi adicionado");
+            MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Nenhum produto foi adicionado");
+            dialog.setVisible(true);
+        }
+        else if (txtCadastroFornecimentoFornecedorNome.getText().isEmpty()) {
+            txtCadastroFornecimentoProdutoCodigo.setBorder(bordaPadrao);
+            txtCadastroFornecimentoProdutoValor.setBorder(bordaPadrao);
+            txtCadastroFornecimentoProdutoQuantidade.setBorder(bordaPadrao);
+            txtCadastroFornecimentoFornecedorCodigo.setBorder(bordaVermelha);
+            this.setMensagemDialog("Informe um fornecedor");
+            MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Nenhum fornecedor foi adicionado");
+            dialog.setVisible(true);
+        }
+        else {
+            txtCadastroFornecimentoProdutoCodigo.setBorder(bordaPadrao);
+            txtCadastroFornecimentoProdutoValor.setBorder(bordaPadrao);
+            txtCadastroFornecimentoProdutoQuantidade.setBorder(bordaPadrao);
+            if (txtCadastroFornecimentoFornecedorNome.getText().length() == 0) {
+                txtCadastroFornecimentoFornecedorCodigo.setBorder(bordaVermelha);
+                this.setMensagemDialog("Informe um fornecedor válido");
+                MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Fornecedor inválido");
+                dialog.setVisible(true);
+            }
+            else {
+                txtCadastroFornecimentoFornecedorCodigo.setBorder(bordaPadrao);
+                Cadastro cad = new Cadastro();
+                Compra c = new Compra();
+                c.setData();
+                try {
+                    c.setFornecedor(fornecedorFornecimento);
+                    for (int i = 0; i < listaCadastroFornecimentoProduto.size(); i++) {
+                        c.addProduto(listaCadastroFornecimentoProduto.get(i).getCodigo(), listaCadastroFornecimentoValor.get(i), listaCadastroFornecimentoQuantidade.get(i));
+                    }
+                    c.setValorTotal(valorTotalFornecimento);
+                    cad.gravarCompra(c);
+/* --------------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------------- */
+                    // Aqui atualizaria o estoque do produto //
+/* --------------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------------- */
+                    this.setMensagemDialog("O fornecimento foi cadastrado com sucesso");
+                    MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Fornecimento cadastrado");
+                    dialog.setVisible(true);
+                    limparTelaCadastroFornecimento();
+                } catch (ChaveNulaException ex) {
+                    txtCadastroFornecimentoFornecedorCodigo.setBorder(bordaVermelha);
+                    this.setMensagemDialog("Informe um fornecedor válido");
+                    MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Fornecedor inválido");
+                    dialog.setVisible(true);
+                }
+                
+            }
+        }
     }//GEN-LAST:event_btnFinalizarFornecimentoActionPerformed
 
     private void btnCadastroFornecimentoRemoverProdutoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastroFornecimentoRemoverProdutoMouseEntered
@@ -4349,14 +4453,13 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastroFornecimentoRemoverProdutoMouseReleased
 
     private void btnCadastroFornecimentoRemoverProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroFornecimentoRemoverProdutoActionPerformed
-        int linha = tblProdutoVenda.getSelectedRow();
+        int linha = tblCadastroFornecimentoProduto.getSelectedRow();
         if (linha == -1) {
             this.setMensagemDialog("Nenhum produto foi selecionado");
             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Produto não selecionado");
             dialog.setVisible(true);
         }
-        else
-        {
+        else {
             this.setMensagemDialog("Você deseja remover " + tblCadastroFornecimentoProduto.getModel().getValueAt(linha, 1) + "?");
             MensagemOkCancelModal dialog = new MensagemOkCancelModal(this, true, this.getMensagemDialog(), "Confirmar - Remover produto");
             dialog.setVisible(true);
@@ -4367,9 +4470,12 @@ public class MenuInicial extends javax.swing.JFrame {
                 Consulta con = new Consulta();
                 Produto p;
                 p = con.encontrarProduto((Integer) tblCadastroFornecimentoProduto.getModel().getValueAt(linha, 0));
+                valorTotalFornecimento -= listaCadastroFornecimentoValor.get(linha)*listaCadastroFornecimentoQuantidade.get(linha);
+                lblCadastroFornecimentoValorTotal.setText("R$ " + valorTotalFornecimento);
                 listaCadastroFornecimentoProduto.remove(linha);
                 listaCadastroFornecimentoQuantidade.remove(linha);
                 listaCadastroFornecimentoValor.remove(linha);
+                tblCadastroFornecimentoProduto.setModel( new CadastroProdutoFornecimentoTableModel(listaCadastroFornecimentoProduto, listaCadastroFornecimentoQuantidade, listaCadastroFornecimentoValor));
                 gerarTabelaCadastroFornecimentoProduto();
                 this.setMensagemDialog("Produto removido com sucesso!");
                 MensagemOkModal dialog2 = new MensagemOkModal(this, true, this.getMensagemDialog(), "Sucesso - Produto removido");
@@ -4377,6 +4483,10 @@ public class MenuInicial extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnCadastroFornecimentoRemoverProdutoActionPerformed
+
+    private void pnlCadastroFornecimentoComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlCadastroFornecimentoComponentShown
+        limparTelaCadastroFornecimento();
+    }//GEN-LAST:event_pnlCadastroFornecimentoComponentShown
 
     /**
      * Método main do Menu Inicial
@@ -6733,7 +6843,6 @@ public class MenuInicial extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblCadastroFornecimentoValorTotal;
     private javax.swing.JLabel lblDataAte;
     private javax.swing.JLabel lblValorAte;
@@ -6766,6 +6875,7 @@ public class MenuInicial extends javax.swing.JFrame {
     private javax.swing.JTextField txtCadastroFornecedorEmail;
     private javax.swing.JTextField txtCadastroFornecedorNome;
     private javax.swing.JTextField txtCadastroFornecedorRua;
+    private javax.swing.JTextField txtCadastroFornecimentoCodigo;
     private javax.swing.JTextField txtCadastroFornecimentoFornecedorCidade;
     private javax.swing.JTextField txtCadastroFornecimentoFornecedorCnpj;
     private javax.swing.JTextField txtCadastroFornecimentoFornecedorCodigo;

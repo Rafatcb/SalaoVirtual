@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 /*
  * Classe referente à criptografia de senhas no padrão MD5
  * 
- * @author Rafael Tavares
+ * @author Desconhecido
  */
 public class Criptografar {
     private static MessageDigest md;

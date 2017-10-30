@@ -277,7 +277,7 @@ public class Cadastro {
             FileWriter arq = new FileWriter("CompraProdutos.csv", true);
             BufferedWriter saida = new BufferedWriter(arq);
             for (int i = 0; i < c.getQuantidade().size(); i++) {
-                saida.write(c.getCodigo() + ";" + c.getProdutos().get(i) + ";" + c.getValores().get(i) + c.getQuantidade().get(i));
+                saida.write(c.getCodigo() + ";" + c.getProdutos().get(i) + ";" + c.getValores().get(i) + ";" + c.getQuantidade().get(i));
                 saida.newLine();
             }
             saida.close();

@@ -7,6 +7,7 @@ import exceptions.ChaveNulaException;
 import exceptions.ObjetoNaoInseridoException;
 import exceptions.QuantidadeInvalidaException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -102,7 +103,9 @@ public class Compra {
      * de cadastro
      */
     public Compra() {
-               
+        this.produtos = new ArrayList(); // Cada produto
+        this.valores = new ArrayList(); // Valor de cada produto
+        this.quantidade = new ArrayList(); // Quantidade de cada produto
     }
 
     /**
