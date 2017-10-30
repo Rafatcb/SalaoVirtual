@@ -8,9 +8,6 @@ import java.util.Map;
 /**
  * Classe referente ao fornecedor
  * 
- * <p>Atributos que merecem destaque para explicação:
- * <p>produtos: É um map onde a Key é o código, e Value é seu valor (preço)
- * 
  * @author Rafael Tavares
  */
 public class Fornecedor {
@@ -24,7 +21,6 @@ public class Fornecedor {
     private String cidade;
     private String estado;
     private String complemento;
-    private Map<Integer, Float> produtos;  // Código do produto e seu valor
 
     
     /**
@@ -53,24 +49,6 @@ public class Fornecedor {
      */
     public Fornecedor () {
         
-    }
-
-    /**
-     * Define um Map dos produtos possuindo como chave o código do produto e como valor o valor que o
-     * fornecedor fornece este produto
-     * @param produtos 
-     */
-    public void setProdutos(Map<Integer, Float> produtos) {
-        this.produtos = produtos;
-    }
-
-    /**
-     * Retorna um Map dos produtos possuindo como chave o código do produto e como valor o valor que o 
-     * fornecedor fornece este produto
-     * @return Map de Produtos
-     */
-    public Map<Integer, Float> getProdutos() {
-        return produtos;
     }
 
     /**

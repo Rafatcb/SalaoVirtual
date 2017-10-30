@@ -9,7 +9,6 @@ import exceptions.QuantidadeInvalidaException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Classe referente à compra de produtos
@@ -23,24 +22,37 @@ import java.util.Map;
  */
 public class Compra {
     private int codigo;
-    private float valor;
     private Date data;
-    private Map<Integer, Float> produtos; // Código do produto, Valor dele
+    private float valorTotal;
+    private List<Integer> produtos; // Cada produto
+    private List<Float> valores; // Valor de cada produto
     private List<Integer> quantidade; // Quantidade de cada produto
     private Fornecedor fornecedor;
     
     /**
-     * Adiciona produto à compra com base no objeto e quantidade passada como parâmetro
+     * Método para atualizar o valor total com base na lista de produtos existentes
+     */
+    public void atualizarValorTotal() {
+        valorTotal = 0;
+        for (int i = 0; i < valores.size(); i++) {
+            valorTotal += valores.get(i);
+        }
+    }
+    
+    /**
+     * Adiciona produto à compra com base no objeto, valor e quantidade passada como parâmetro
      * Polimorfismo: Sobrescrita
      * @param p
+     * @param valor
      * @param quantidade
      */
-    public void addProduto(Produto p, int quantidade) {
+    public void addProduto(Produto p, float valor, int quantidade) {
         try {
             if (quantidade <= 0) {
                 throw new QuantidadeInvalidaException();
             }
-            this.produtos.put(p.getCodigo(), p.getValor());
+            this.produtos.add(p.getCodigo());
+            this.valores.add(valor);
             this.quantidade.add(quantidade);
         }
         catch (NullPointerException ex) {
@@ -59,7 +71,8 @@ public class Compra {
             if (quantidade <= 0) {
                 throw new QuantidadeInvalidaException();
             }
-            this.produtos.put(codigo, valor);
+            this.produtos.add(codigo);
+            this.valores.add(valor);
             this.quantidade.add(quantidade);
         }
         catch (NullPointerException ex) {
@@ -76,10 +89,10 @@ public class Compra {
     public String toString() {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         if (this.data == null) {
-            return this.codigo + ";" + this.valor + ";" + this.data + ";" + this.fornecedor.getCodigo(); 
+            return this.codigo + ";" + this.valorTotal + ";" + this.data + ";" + this.fornecedor.getCodigo(); 
         }
         else {
-            return this.codigo + ";" + this.valor + ";" + formato.format(this.data) + ";" + this.fornecedor.getCodigo(); 
+            return this.codigo + ";" + this.valorTotal + ";" + formato.format(this.data) + ";" + this.fornecedor.getCodigo(); 
         }
     }
     
@@ -93,6 +106,22 @@ public class Compra {
     }
 
     /**
+     * Retorna o valor total da compra
+     * @return Valor total
+     */
+    public float getValorTotal() {
+        return valorTotal;
+    }
+
+    /**
+     * Define o valor total da compra
+     * @param valorTotal 
+     */
+    public void setValorTotal(float valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    /**
      * Define o código da compra
      * @param codigo 
      */
@@ -101,37 +130,35 @@ public class Compra {
     }
 
     /**
-     * Retorna o valor da compra
-     * @return Valor
+     * Retorna uma lista dos produtos possuindo o código
+     * @return Lista de código dos produtos
      */
-    public float getValor() {
-        return valor;
-    }
-
-    /**
-     * Define o valor
-     * @param valor 
-     */
-    public void setValor(float valor) {
-        this.valor = valor;
-    }
-
-    /**
-     * Retorna um Map dos produtos possuindo como chave o código do produto e como valor o valor que o 
-     * produto foi comprado
-     * @return Map de Produtos
-     */
-    public Map<Integer, Float> getProdutos() {
+    public List<Integer> getProdutos() {
         return produtos;
     }
 
     /**
-     * Define um Map dos produtos possuindo como chave o código do produto e como valor o valor que o
-     * produto foi comprado
+     * Define uma lista dos produtos possuindo o codigo
      * @param produtos 
      */
-    public void setProdutos(Map<Integer, Float> produtos) {
+    public void setProdutos(List<Integer> produtos) {
         this.produtos = produtos;
+    }
+
+    /**
+     * Retorna uma lista dos valores dos produtos copmprados
+     * @return Lista de valores dos produtos
+     */
+    public List<Float> getValores() {
+        return valores;
+    }
+
+    /**
+     * Define uma lista dos produtos possuindo o valor
+     * @param valor 
+     */
+    public void setValores(List<Float> valor) {
+        this.valores = valor;
     }
 
     /**

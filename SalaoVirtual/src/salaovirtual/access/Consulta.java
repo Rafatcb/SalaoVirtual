@@ -18,9 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import salaovirtual.Cartao;
@@ -97,8 +95,11 @@ public class Consulta {
                     f.setNumero(parseInt(valor[6]));
                     f.setCidade(valor[7]);
                     f.setEstado(valor[8]);
-                    f.setComplemento(valor[9]);
-                    this.encontrarFornecedorProdutos(f);
+                    try {
+                        f.setComplemento(valor[9]);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        f.setComplemento("");
+                    }
                     arq.close();
                     entrada.close();
                     return f;
@@ -142,7 +143,6 @@ public class Consulta {
                     f.setCidade(valor[7]);
                     f.setEstado(valor[8]);
                     f.setComplemento(valor[9]);
-                    this.encontrarFornecedorProdutos(f);
                     fornecedores.add(f);
                 }
                 linha = entrada.readLine();
@@ -183,7 +183,6 @@ public class Consulta {
                     f.setCidade(valor[7]);
                     f.setEstado(valor[8]);
                     f.setComplemento(valor[9]);
-                    this.encontrarFornecedorProdutos(f);
                     arq.close();
                     entrada.close();
                     return f;
@@ -197,35 +196,6 @@ public class Consulta {
             return null;
         } catch (IOException ex2) {
             return null;
-        }
-    }
-    
-    /**
-     * Adiciona ao atributo "produtos" do fornecedor que chamou esta função um Map dos produtos
-     * cadastrados que ele fornece, com base no arquivo CSV
-     * @param f 
-     */
-    private void encontrarFornecedorProdutos(Fornecedor f) {
-        try {
-            FileReader arq = new FileReader("FornecedorProdutos.csv");
-            BufferedReader entrada = new BufferedReader(arq);
-            String linha;
-            linha = entrada.readLine();
-            Map mapa = new HashMap<>();
-            do {
-                String[] valor = linha.split(";");
-                if (valor[0].equals(Integer.toString(f.getCodigo()))) {
-                    mapa.put(parseInt(valor[1]), parseFloat(valor[2]));
-                }
-                linha = entrada.readLine();
-            } while (linha != null);
-            f.setProdutos(mapa);
-            arq.close();
-            entrada.close();
-        } catch (FileNotFoundException ex) {
-            //
-        }catch (IOException ex2) {
-            //
         }
     }
     
@@ -983,13 +953,13 @@ public class Consulta {
                 String[] valor = linha.split(";");
                 if (parseInt(valor[0]) == codigo) {
                     c.setCodigo(parseInt(valor[0]));
-                    c.setValor(parseFloat(valor[1]));
+                    c.setValorTotal(parseFloat(valor[1]));
                     c.setData(formato.parse(valor[2]));
                     
                     try {
                         c.setFornecedor(this.encontrarFornecedor(parseInt(valor[3])));
                     } catch (ChaveNulaException ex) {
-                        Logger.getLogger(Consulta.class.getName()).log(Level.SEVERE, null, ex);
+                        //Logger.getLogger(Consulta.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
                     this.encontrarCompraProdutos(c);
@@ -1316,9 +1286,7 @@ public class Consulta {
             entrada.close();
         } catch (FileNotFoundException ex) {
             return null;
-        } catch (IOException ex2) {
-            return null;
-        } catch (ParseException ex3) {
+        } catch (IOException | ParseException ex2) {
             return null;
         }
         return null;

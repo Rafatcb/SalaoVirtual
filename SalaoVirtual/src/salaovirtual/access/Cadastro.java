@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import salaovirtual.Cartao;
@@ -31,6 +30,7 @@ public class Cadastro {
     /**
      * Método para gravar o fornecedor passado como parâmetro em um arquivo CSV
      * @param f
+     * @throws exceptions.ObjetoJaCadastradoException
      */
     public void gravarFornecedor(Fornecedor f) throws ObjetoJaCadastradoException {
         try {   
@@ -76,26 +76,6 @@ public class Cadastro {
             saida.newLine();
             saida.close();
             arq.close();
-            this.gravarFornecedorProdutos(f);
-        } catch (IOException e) {
-            //
-        }
-    }
-    
-    /**
-     * Método para gravar o mapa de produtos fornecidos pelo fornecedor passado como parâmetro em um arquivo CSV
-     * @param f
-     */
-    private void gravarFornecedorProdutos(Fornecedor f) {
-        try {
-            FileWriter arq = new FileWriter("FornecedorProdutos.csv", true);
-            BufferedWriter saida = new BufferedWriter(arq);
-            for (Map.Entry<Integer, Float> pair : f.getProdutos().entrySet()){
-                saida.write(f.getCodigo() + ";" + pair.getKey() + ";" + pair.getValue());
-                saida.newLine();
-            }
-            saida.close();
-            arq.close();
         } catch (IOException e) {
             //
         }
@@ -104,6 +84,7 @@ public class Cadastro {
     /**
      * Método para gravar o cliente passado como parâmetro em um arquivo CSV
      * @param c
+     * @throws exceptions.ObjetoJaCadastradoException
      */
     public void gravarCliente(Cliente c) throws ObjetoJaCadastradoException {
         try {   
@@ -158,6 +139,8 @@ public class Cadastro {
     /**
      * Método para gravar o funcionário passado como parâmetro em um arquivo CSV
      * @param f
+     * @throws exceptions.ObjetoJaCadastradoException
+     * @throws exceptions.ChaveNulaException
      */
     public void gravarFuncionario(Funcionario f) throws ObjetoJaCadastradoException, ChaveNulaException { // PRECISA VERIFICAR SE ESTE LOGIN/CPF JÁ ESTÁ CADASTRADO
         /* O funcionário deve possuir um login */
@@ -241,6 +224,7 @@ public class Cadastro {
     /**
      * Método para gravar o serviço passado como parâmetro em um arquivo CSV
      * @param s
+     * @throws exceptions.ChaveNulaException
      */
     public void gravarServico(Servico s) throws ChaveNulaException {
         try {
@@ -263,6 +247,7 @@ public class Cadastro {
     /**
      * Método para gravar a compra passada como parâmetro em um arquivo CSV
      * @param c
+     * @throws exceptions.ChaveNulaException
      */
     public void gravarCompra(Compra c) throws ChaveNulaException {
         try {
@@ -291,12 +276,8 @@ public class Cadastro {
         try {
             FileWriter arq = new FileWriter("CompraProdutos.csv", true);
             BufferedWriter saida = new BufferedWriter(arq);
-            List<Integer> quantidade = new ArrayList<>();
-            int pos = 0;
-            quantidade = c.getQuantidade();
-            for (Map.Entry<Integer, Float> pair : c.getProdutos().entrySet()){
-                saida.write(c.getCodigo() + ";" + pair.getKey() + ";" + pair.getValue() + ";" + quantidade.get(pos));
-                pos++;
+            for (int i = 0; i < c.getQuantidade().size(); i++) {
+                saida.write(c.getCodigo() + ";" + c.getProdutos().get(i) + ";" + c.getValores().get(i) + c.getQuantidade().get(i));
                 saida.newLine();
             }
             saida.close();
