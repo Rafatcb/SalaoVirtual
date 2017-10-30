@@ -20,6 +20,7 @@ import gui.tableModel.ConsultaProdutoTableModel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.lang.Integer.parseInt;
@@ -29,8 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.border.Border;
@@ -664,6 +663,7 @@ public class MenuInicial extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Salão Virtual");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(MenuInicial.class.getResource("/images/background/mini-icon.png")));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -4635,6 +4635,8 @@ public class MenuInicial extends javax.swing.JFrame {
          */
         public CadastroServicoModal(java.awt.Frame parent, boolean modal, Funcionario f) {
             super(parent, modal);
+            ImageIcon img = new ImageIcon(MenuInicial.class.getResource("/images/background/mini-icon.png"));
+            this.setIconImage(img.getImage());
             initComponents();
             this.getContentPane().setBackground(Color.PINK);
             this.setParent(parent);
@@ -5268,6 +5270,8 @@ public class MenuInicial extends javax.swing.JFrame {
          */
         public MensagemOkModal(java.awt.Frame parent, boolean modal, String mensagem, String titulo) {
             super(parent, modal);
+            ImageIcon img = new ImageIcon(MenuInicial.class.getResource("/images/background/mini-icon.png"));
+            this.setIconImage(img.getImage());
             initComponents();
             this.getContentPane().setBackground(Color.PINK);
             lblMensagem.setText(mensagem);
@@ -5400,6 +5404,8 @@ public class MenuInicial extends javax.swing.JFrame {
         */
        public FinalizarVendaModal(java.awt.Frame parent, boolean modal, Funcionario f, float v) {
            super(parent, modal);
+            ImageIcon img = new ImageIcon(MenuInicial.class.getResource("/images/background/mini-icon.png"));
+            this.setIconImage(img.getImage());
            initComponents();
            this.getContentPane().setBackground(Color.PINK);
            this.setLocationRelativeTo(null);
@@ -6284,6 +6290,8 @@ public class MenuInicial extends javax.swing.JFrame {
        */   
        public MensagemOkCancelModal(java.awt.Frame parent, boolean modal, String mensagem, String titulo) {
            super(parent, modal);
+            ImageIcon img = new ImageIcon(MenuInicial.class.getResource("/images/background/mini-icon.png"));
+            this.setIconImage(img.getImage());
            initComponents();
            this.setLocationRelativeTo(null);
            confirmado = false;
@@ -6481,6 +6489,8 @@ public class MenuInicial extends javax.swing.JFrame {
          */
         public LoginModal(java.awt.Frame parent, boolean modal) {
             super(parent, modal);
+            ImageIcon img = new ImageIcon(MenuInicial.class.getResource("/images/background/mini-icon.png"));
+            this.setIconImage(img.getImage());
             initComponents();
             jTextField1.setVisible(false);
             this.setParent(parent);
@@ -6809,6 +6819,8 @@ public class MenuInicial extends javax.swing.JFrame {
        */   
        public ConsultaClienteModal(java.awt.Frame parent, boolean modal) {
            super(parent, modal);
+            ImageIcon img = new ImageIcon(MenuInicial.class.getResource("/images/background/mini-icon.png"));
+            this.setIconImage(img.getImage());
            initComponents();
            this.setLocationRelativeTo(null);
            this.getContentPane().setBackground(Color.PINK);
@@ -7252,6 +7264,8 @@ public class MenuInicial extends javax.swing.JFrame {
        */   
        public ConsultaFuncionarioModal(java.awt.Frame parent, boolean modal) {
            super(parent, modal);
+            ImageIcon img = new ImageIcon(MenuInicial.class.getResource("/images/background/mini-icon.png"));
+            this.setIconImage(img.getImage());
            initComponents();
            this.setLocationRelativeTo(null);
            this.getContentPane().setBackground(Color.PINK);
@@ -7657,6 +7671,8 @@ public class MenuInicial extends javax.swing.JFrame {
        */   
        public ConsultaProdutoModal(java.awt.Frame parent, boolean modal) {
            super(parent, modal);
+            ImageIcon img = new ImageIcon(MenuInicial.class.getResource("/images/background/mini-icon.png"));
+            this.setIconImage(img.getImage());
            initComponents();
            this.setLocationRelativeTo(null);
            this.getContentPane().setBackground(Color.PINK);
@@ -8078,6 +8094,8 @@ public class MenuInicial extends javax.swing.JFrame {
        */   
        public ConsultaFornecedorModal(java.awt.Frame parent, boolean modal) {
            super(parent, modal);
+            ImageIcon img = new ImageIcon(MenuInicial.class.getResource("/images/background/mini-icon.png"));
+            this.setIconImage(img.getImage());
            initComponents();
            this.setLocationRelativeTo(null);
            this.getContentPane().setBackground(Color.PINK);
@@ -8481,6 +8499,8 @@ public class MenuInicial extends javax.swing.JFrame {
        */   
        public ConsultaFornecimentoModal(java.awt.Frame parent, boolean modal) {
             super(parent, modal);
+            ImageIcon img = new ImageIcon(MenuInicial.class.getResource("/images/background/mini-icon.png"));
+            this.setIconImage(img.getImage());
             initComponents();
             this.setLocationRelativeTo(null);
             this.getContentPane().setBackground(Color.PINK);
