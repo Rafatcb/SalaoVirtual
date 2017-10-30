@@ -24,6 +24,8 @@ import salaovirtual.Servico;
 import salaovirtual.Venda;
 
 /**
+ * Classe referente ao cadastro dos objetos em arquivo
+ * 
  * @author Rafael Tavares
  */
 public class Cadastro {    

@@ -3,13 +3,23 @@
  */
 package gui;
 
+import gui.tableModel.AgendaTableModel;
+import gui.tableModel.ProdutoVendaTableModel;
+import gui.tableModel.ForcedListSelectionModel;
+import gui.tableModel.CadastroProdutoFornecimentoTableModel;
+import gui.tableModel.ConsultaClienteTableModel;
+import gui.tableModel.ConsultaFornecedorTableModel;
+import gui.tableModel.ConsultaFuncionarioTableModel;
+import gui.tableModel.ServicoTableModel;
 import exceptions.ChaveNulaException;
 import exceptions.DataInvalidaException;
 import exceptions.EstadoServicoInvalidoException;
 import exceptions.ObjetoJaCadastradoException;
 import exceptions.TipoDeCartaoInvalidoException;
+import gui.tableModel.ConsultaProdutoTableModel;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.lang.Integer.parseInt;
@@ -451,6 +461,7 @@ public class MenuInicial extends javax.swing.JFrame {
         tblAgenda = new javax.swing.JTable();
         btnAgendarServico = new javax.swing.JButton();
         btnCancelarServico = new javax.swing.JButton();
+        btnAlterarServico = new javax.swing.JButton();
         pnlSubMenu = new javax.swing.JPanel();
         btnMenuFornecedor = new javax.swing.JButton();
         btnMenuFuncionario = new javax.swing.JButton();
@@ -827,7 +838,7 @@ public class MenuInicial extends javax.swing.JFrame {
             }
         });
         pnlAgenda.add(btnAgendarServico);
-        btnAgendarServico.setBounds(440, 480, 163, 68);
+        btnAgendarServico.setBounds(360, 460, 163, 68);
 
         btnCancelarServico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/agenda/botaoCancelarServico.png"))); // NOI18N
         btnCancelarServico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -851,7 +862,31 @@ public class MenuInicial extends javax.swing.JFrame {
             }
         });
         pnlAgenda.add(btnCancelarServico);
-        btnCancelarServico.setBounds(730, 480, 163, 68);
+        btnCancelarServico.setBounds(770, 460, 163, 68);
+
+        btnAlterarServico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/agenda/botaoAlterarServico.png"))); // NOI18N
+        btnAlterarServico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAlterarServico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAlterarServicoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAlterarServicoMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnAlterarServicoMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnAlterarServicoMouseReleased(evt);
+            }
+        });
+        btnAlterarServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarServicoActionPerformed(evt);
+            }
+        });
+        pnlAgenda.add(btnAlterarServico);
+        btnAlterarServico.setBounds(570, 460, 163, 68);
 
         getContentPane().add(pnlAgenda);
         pnlAgenda.setBounds(12, 109, 1300, 590);
@@ -3367,6 +3402,10 @@ public class MenuInicial extends javax.swing.JFrame {
             pnlSubMenu.setVisible(false);
             pnlCadastroCliente.setVisible(true);
         }
+        else {
+            ConsultaClienteModal consulta = new ConsultaClienteModal(this, true);
+            consulta.setVisible(true);
+        }
     }//GEN-LAST:event_btnMenuClienteActionPerformed
 
     private void ftxtCadastroClienteTelefoneFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtCadastroClienteTelefoneFocusGained
@@ -3525,6 +3564,10 @@ public class MenuInicial extends javax.swing.JFrame {
         if (this.isCadastro()) {
             pnlSubMenu.setVisible(false);
             pnlCadastroFuncionario.setVisible(true);
+        }
+        else {
+            ConsultaFuncionarioModal consulta = new ConsultaFuncionarioModal(this, true);
+            consulta.setVisible(true);
         }
     }//GEN-LAST:event_btnMenuFuncionarioActionPerformed
 
@@ -3692,6 +3735,10 @@ public class MenuInicial extends javax.swing.JFrame {
             pnlSubMenu.setVisible(false);
             pnlCadastroProduto.setVisible(true);
         }
+        else {
+            ConsultaProdutoModal consulta = new ConsultaProdutoModal(this, true);
+            consulta.setVisible(true);
+        }
     }//GEN-LAST:event_btnMenuProdutoActionPerformed
 
     private void ftxtCadastrarProdutoValorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtCadastrarProdutoValorFocusGained
@@ -3813,6 +3860,10 @@ public class MenuInicial extends javax.swing.JFrame {
         if (this.isCadastro()) {
             pnlSubMenu.setVisible(false);
             pnlCadastroFornecedor.setVisible(true);
+        }
+        else {
+            ConsultaFornecedorModal consulta = new ConsultaFornecedorModal(this, true);
+            consulta.setVisible(true);
         }
     }//GEN-LAST:event_btnMenuFornecedorActionPerformed
 
@@ -4225,6 +4276,10 @@ public class MenuInicial extends javax.swing.JFrame {
             pnlSubMenu.setVisible(false);
             pnlCadastroFornecimento.setVisible(true);
         }
+        else {
+            ConsultaFornecimentoModal consulta = new ConsultaFornecimentoModal(this, true);
+            consulta.setVisible(true);
+        }
     }//GEN-LAST:event_btnMenuFornecimentoActionPerformed
 
     private void txtCadastroFornecimentoProdutoCodigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCadastroFornecimentoProdutoCodigoFocusLost
@@ -4318,7 +4373,8 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastroFornecimentoConsultarFornecedorMouseReleased
 
     private void btnCadastroFornecimentoConsultarFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroFornecimentoConsultarFornecedorActionPerformed
-        // TODO add your handling code here:
+        ConsultaFornecedorModal consulta = new ConsultaFornecedorModal(this, true);
+        consulta.setVisible(true);
     }//GEN-LAST:event_btnCadastroFornecimentoConsultarFornecedorActionPerformed
 
     private void btnCadastroFornecimentoConsultarProdutoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastroFornecimentoConsultarProdutoMouseEntered
@@ -4342,7 +4398,8 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastroFornecimentoConsultarProdutoMouseReleased
 
     private void btnCadastroFornecimentoConsultarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroFornecimentoConsultarProdutoActionPerformed
-        // TODO add your handling code here:
+        ConsultaProdutoModal consulta = new ConsultaProdutoModal(this, true);
+        consulta.setVisible(true);
     }//GEN-LAST:event_btnCadastroFornecimentoConsultarProdutoActionPerformed
 
     private void btnFinalizarFornecimentoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFinalizarFornecimentoMouseEntered
@@ -4487,6 +4544,40 @@ public class MenuInicial extends javax.swing.JFrame {
     private void pnlCadastroFornecimentoComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlCadastroFornecimentoComponentShown
         limparTelaCadastroFornecimento();
     }//GEN-LAST:event_pnlCadastroFornecimentoComponentShown
+
+    private void btnAlterarServicoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarServicoMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/agenda/botaoAlterarServico_Hover.png"));
+        btnAlterarServico.setIcon(i);
+    }//GEN-LAST:event_btnAlterarServicoMouseEntered
+
+    private void btnAlterarServicoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarServicoMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/agenda/botaoAlterarServico.png"));
+        btnAlterarServico.setIcon(i);
+    }//GEN-LAST:event_btnAlterarServicoMouseExited
+
+    private void btnAlterarServicoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarServicoMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/agenda/botaoAlterarServico_Pressed.png"));
+        btnAlterarServico.setIcon(i);
+    }//GEN-LAST:event_btnAlterarServicoMousePressed
+
+    private void btnAlterarServicoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarServicoMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/agenda/botaoAlterarServico_Hover.png"));
+        btnAlterarServico.setIcon(i);
+    }//GEN-LAST:event_btnAlterarServicoMouseReleased
+
+    private void btnAlterarServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarServicoActionPerformed
+        int linha = tblAgenda.getSelectedRow();
+        if (linha == -1)
+        {
+            this.setMensagemDialog("Nenhum serviço foi selecionado");
+            MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Serviço não selecionado");
+            dialog.setVisible(true);
+        }
+        else
+        {
+            // tem uma linha selecionada
+        }
+    }//GEN-LAST:event_btnAlterarServicoActionPerformed
 
     /**
      * Método main do Menu Inicial
@@ -5962,11 +6053,13 @@ public class MenuInicial extends javax.swing.JFrame {
        }                                                 
 
        private void btnConsultarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {                                                        
-           // TODO add your handling code here:
+           ConsultaFuncionarioModal consulta = new ConsultaFuncionarioModal(this.getParent(), true);
+           consulta.setVisible(true);
        }                                                       
 
        private void btnConsultarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                    
-           // TODO add your handling code here:
+           ConsultaClienteModal consulta = new ConsultaClienteModal(this.getParent(), true);
+           consulta.setVisible(true);
        }                                                   
 
        private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {                                       
@@ -6701,12 +6794,2023 @@ public class MenuInicial extends javax.swing.JFrame {
     }
     
     
+    /**
+    * Classe interna para um JDialog para consulta de clientes
+    * 
+    * @author Rafael Tavares
+    */ 
+   public class ConsultaClienteModal extends javax.swing.JDialog {
+       List<Cliente> clientes;
+
+       /**
+       * Construtor da classe
+       * @param parent
+       * @param modal 
+       */   
+       public ConsultaClienteModal(java.awt.Frame parent, boolean modal) {
+           super(parent, modal);
+           initComponents();
+           this.setLocationRelativeTo(null);
+           this.getContentPane().setBackground(Color.PINK);
+           txtPadrao.setVisible(false);
+           clientes = new ArrayList();
+           tblConsultaCliente.setSelectionModel(new ForcedListSelectionModel());
+           tblConsultaCliente.setModel(new ConsultaClienteTableModel(clientes));
+           gerarTabela();
+
+       }
+
+       /**
+        * Método para auxiliar a gerar uma nova tabela
+        */
+       private void gerarTabela() {
+           tblConsultaCliente.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+           tblConsultaCliente.getColumnModel().getColumn(0).setMaxWidth(65);
+           tblConsultaCliente.getColumnModel().getColumn(3).setMaxWidth(160);
+           tblConsultaCliente.getColumnModel().getColumn(3).setPreferredWidth(160);
+           tblConsultaCliente.getColumnModel().getColumn(5).setMaxWidth(140);
+           tblConsultaCliente.getColumnModel().getColumn(5).setPreferredWidth(140);
+       }
+
+       /**
+        * This method is called from within the constructor to initialize the form.
+        * WARNING: Do NOT modify this code. The content of this method is always
+        * regenerated by the Form Editor.
+        */
+       @SuppressWarnings("unchecked")
+       // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+       private void initComponents() {
+
+           btnOk = new javax.swing.JButton();
+           jLabel1 = new javax.swing.JLabel();
+           txtCodigo = new javax.swing.JTextField();
+           chbCodigo = new javax.swing.JCheckBox();
+           txtNome = new javax.swing.JTextField();
+           chbNome = new javax.swing.JCheckBox();
+           txtCpf = new javax.swing.JTextField();
+           chbCpf = new javax.swing.JCheckBox();
+           jScrollPane1 = new javax.swing.JScrollPane();
+           tblConsultaCliente = new javax.swing.JTable();
+           btnConsultar = new javax.swing.JButton();
+           txtPadrao = new javax.swing.JTextField();
+
+           setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+           setTitle("Consulta de Cliente");
+           setResizable(false);
+
+           btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"))); // NOI18N
+           btnOk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+           btnOk.addMouseListener(new java.awt.event.MouseAdapter() {
+               public void mouseEntered(java.awt.event.MouseEvent evt) {
+                   btnOkMouseEntered(evt);
+               }
+               public void mouseExited(java.awt.event.MouseEvent evt) {
+                   btnOkMouseExited(evt);
+               }
+               public void mousePressed(java.awt.event.MouseEvent evt) {
+                   btnOkMousePressed(evt);
+               }
+               public void mouseReleased(java.awt.event.MouseEvent evt) {
+                   btnOkMouseReleased(evt);
+               }
+           });
+           btnOk.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   btnOkActionPerformed(evt);
+               }
+           });
+
+           jLabel1.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
+           jLabel1.setText("Cliente");
+
+           txtCodigo.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtCodigo.setEnabled(false);
+
+           chbCodigo.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           chbCodigo.setText("Código");
+           chbCodigo.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   chbCodigoActionPerformed(evt);
+               }
+           });
+
+           txtNome.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtNome.setEnabled(false);
+
+           chbNome.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           chbNome.setText("Nome");
+           chbNome.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   chbNomeActionPerformed(evt);
+               }
+           });
+
+           txtCpf.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtCpf.setEnabled(false);
+
+           chbCpf.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           chbCpf.setText("CPF");
+           chbCpf.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   chbCpfActionPerformed(evt);
+               }
+           });
+
+           tblConsultaCliente.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           tblConsultaCliente.setModel(new javax.swing.table.DefaultTableModel(
+               new Object [][] {
+                   {null, null, null, null},
+                   {null, null, null, null},
+                   {null, null, null, null},
+                   {null, null, null, null}
+               },
+               new String [] {
+                   "Title 1", "Title 2", "Title 3", "Title 4"
+               }
+           ));
+           jScrollPane1.setViewportView(tblConsultaCliente);
+
+           btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio.png"))); // NOI18N
+           btnConsultar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+           btnConsultar.addMouseListener(new java.awt.event.MouseAdapter() {
+               public void mouseEntered(java.awt.event.MouseEvent evt) {
+                   btnConsultarMouseEntered(evt);
+               }
+               public void mouseExited(java.awt.event.MouseEvent evt) {
+                   btnConsultarMouseExited(evt);
+               }
+               public void mousePressed(java.awt.event.MouseEvent evt) {
+                   btnConsultarMousePressed(evt);
+               }
+               public void mouseReleased(java.awt.event.MouseEvent evt) {
+                   btnConsultarMouseReleased(evt);
+               }
+           });
+           btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   btnConsultarActionPerformed(evt);
+               }
+           });
+
+           txtPadrao.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtPadrao.setFocusable(false);
+
+           javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+           getContentPane().setLayout(layout);
+           layout.setHorizontalGroup(
+               layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(layout.createSequentialGroup()
+                   .addContainerGap()
+                   .addComponent(jScrollPane1)
+                   .addContainerGap())
+               .addGroup(layout.createSequentialGroup()
+                   .addContainerGap()
+                   .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 178, Short.MAX_VALUE)
+                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                               .addComponent(txtCodigo)
+                               .addComponent(chbCodigo))
+                           .addGap(44, 44, 44)
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                               .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                               .addGroup(layout.createSequentialGroup()
+                                   .addGap(74, 74, 74)
+                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                       .addComponent(jLabel1)
+                                       .addComponent(chbNome))))
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                               .addGroup(layout.createSequentialGroup()
+                                   .addGap(37, 37, 37)
+                                   .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                   .addComponent(chbCpf)
+                                   .addGap(69, 69, 69))))
+                       .addGroup(layout.createSequentialGroup()
+                           .addGap(180, 180, 180)
+                           .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                   .addGap(138, 138, 138))
+               .addGroup(layout.createSequentialGroup()
+                   .addGap(371, 371, 371)
+                   .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+           );
+           layout.setVerticalGroup(
+               layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                       .addGroup(layout.createSequentialGroup()
+                           .addGap(135, 135, 135)
+                           .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addGap(33, 33, 33))
+                       .addGroup(layout.createSequentialGroup()
+                           .addContainerGap()
+                           .addComponent(jLabel1)
+                           .addGap(18, 18, 18)
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                               .addComponent(txtNome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                               .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                   .addGroup(layout.createSequentialGroup()
+                                       .addComponent(chbCpf)
+                                       .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                       .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                   .addGroup(layout.createSequentialGroup()
+                                       .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                           .addComponent(chbCodigo)
+                                           .addComponent(chbNome))
+                                       .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                       .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                           .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addGap(18, 18, 18)))
+                   .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                   .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addContainerGap(34, Short.MAX_VALUE))
+           );
+
+           pack();
+       }// </editor-fold>                        
+
+       private void btnOkMouseEntered(java.awt.event.MouseEvent evt) {                                   
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+           btnOk.setIcon(i);
+       }                                  
+
+       private void btnOkMouseExited(java.awt.event.MouseEvent evt) {                                  
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"));
+           btnOk.setIcon(i);
+       }                                 
+
+       private void btnOkMousePressed(java.awt.event.MouseEvent evt) {                                   
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Pressed.png"));
+           btnOk.setIcon(i);
+       }                                  
+
+       private void btnOkMouseReleased(java.awt.event.MouseEvent evt) {                                    
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+           btnOk.setIcon(i);
+       }                                   
+
+       private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {                                      
+           this.dispose();
+       }                                     
+
+       private void btnConsultarMouseEntered(java.awt.event.MouseEvent evt) {                                          
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Hover.png"));
+           btnConsultar.setIcon(i);
+       }                                         
+
+       private void btnConsultarMouseExited(java.awt.event.MouseEvent evt) {                                         
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio.png"));
+           btnConsultar.setIcon(i);
+       }                                        
+
+       private void btnConsultarMousePressed(java.awt.event.MouseEvent evt) {                                          
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Pressed.png"));
+           btnConsultar.setIcon(i);
+       }                                         
+
+       private void btnConsultarMouseReleased(java.awt.event.MouseEvent evt) {                                           
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Hover.png"));
+           btnConsultar.setIcon(i);
+       }                                          
+
+       private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {                                             
+           Consulta con = new Consulta();
+           Border bordaVermelha = BorderFactory.createLineBorder(Color.red);
+           Border bordaPadrao = txtPadrao.getBorder();
+           txtCodigo.setBorder(bordaPadrao);
+           txtCpf.setBorder(bordaPadrao);
+           txtNome.setBorder(bordaPadrao);
+           if (chbCodigo.isSelected()) {
+                if (txtCodigo.getText().length() == 0) {
+                     txtCodigo.setBorder(bordaVermelha);
+                     MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o código", "Erro - Código não informado");
+                     m.setVisible(true);
+                }
+                else {
+                    try {
+                        int cod = Integer.parseInt(txtCodigo.getText());
+                        clientes = new ArrayList();
+                        clientes.add(con.encontrarCliente(cod));
+                        if (clientes.isEmpty()) {
+                            MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Nenhum cliente foi encontrado", 
+                                    "Nenhum cliente encontrado");
+                            m.setVisible(true);
+                            tblConsultaCliente.setModel(null);
+                            gerarTabela();
+                        }
+                        else {
+                            tblConsultaCliente.setModel(new ConsultaClienteTableModel(clientes));
+                            gerarTabela();
+                        }
+                    } catch (NumberFormatException e) {
+                       txtCodigo.setBorder(bordaVermelha);
+                       MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe um código válido", "Erro - Código inválido");
+                       m.setVisible(true);
+                    } catch (NullPointerException ex) {
+                        MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Nenhum cliente foi encontrado", 
+                                "Nenhum cliente encontrado");
+                        m.setVisible(true);
+                    }
+                }
+           }
+           else if (chbCpf.isSelected()) {
+               if (txtCpf.getText().length() == 0) {
+                   txtCpf.setBorder(bordaVermelha);
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe um CPF válido", "Erro - CPF inválido");
+                   m.setVisible(true);
+               }
+               else {
+                   try {
+                        clientes = new ArrayList();
+                        clientes.add(con.encontrarClienteCpf(txtCpf.getText()));
+                        tblConsultaCliente.setModel(new ConsultaClienteTableModel(clientes));
+                        gerarTabela();
+                         if (clientes.isEmpty()) {
+                              MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Nenhum cliente foi encontrado", 
+                                      "Nenhum cliente encontrado");
+                              m.setVisible(true);
+                         } 
+                    } catch (NullPointerException ex) {
+                        MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Nenhum cliente foi encontrado", 
+                                "Nenhum cliente encontrado");
+                        m.setVisible(true);
+                    }
+               }
+           }
+           else if (chbNome.isSelected()) {
+               if (txtNome.getText().length() == 0) {
+                   txtNome.setBorder(bordaVermelha);
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe um nome", "Erro - Nome não informado");
+                   m.setVisible(true);
+               }
+               else {         
+                   try {
+                        clientes = new ArrayList();
+                        clientes = con.encontrarClienteNome(txtNome.getText());
+                        tblConsultaCliente.setModel(new ConsultaClienteTableModel(clientes));
+                        gerarTabela();
+                         if (clientes.isEmpty()) {
+                              MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Nenhum cliente foi encontrado", 
+                                      "Nenhum cliente encontrado");
+                              m.setVisible(true);
+                         }
+                    } catch (NullPointerException e) {
+                        MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Nenhum cliente foi encontrado", 
+                                "Nenhum cliente encontrado");
+                        m.setVisible(true);
+                    }
+               }
+           }
+           else {
+               MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Selecione algum filtro de busca", "Erro - Nenhum filtro foi selecionado");
+               m.setVisible(true);
+           }
+       }                                            
+
+       private void chbCodigoActionPerformed(java.awt.event.ActionEvent evt) {                                          
+           if (chbCodigo.isSelected()) {
+               chbCpf.setSelected(false);
+               chbNome.setSelected(false);
+               txtNome.setText("");
+               txtCpf.setText("");
+               txtNome.setEnabled(false);
+               txtCpf.setEnabled(false);
+               txtCodigo.setEnabled(true);
+           }
+           else {
+               txtCodigo.setEnabled(false);
+           }
+       }                                         
+
+       private void chbCpfActionPerformed(java.awt.event.ActionEvent evt) {                                       
+           if (chbCpf.isSelected()) {
+               chbCodigo.setSelected(false);
+               chbNome.setSelected(false);
+               txtCodigo.setText("");
+               txtNome.setText("");
+               txtCpf.setEnabled(true);
+               txtCodigo.setEnabled(false);
+               txtNome.setEnabled(false);
+           }
+           else {
+               txtCpf.setEnabled(false);
+           }
+       }                                      
+
+       private void chbNomeActionPerformed(java.awt.event.ActionEvent evt) {                                        
+           if (chbNome.isSelected()) {
+               chbCodigo.setSelected(false);
+               chbCpf.setSelected(false);
+               txtCodigo.setEnabled(false);
+               txtCpf.setEnabled(false);
+               txtCodigo.setText("");
+               txtCpf.setText("");
+               txtNome.setEnabled(true);
+               txtCodigo.setEnabled(false);
+               txtCpf.setEnabled(false);
+           }
+           else {
+               txtNome.setEnabled(false);
+           }
+       }      
+    
+        // Variables declaration - do not modify                     
+        private javax.swing.JButton btnConsultar;
+        private javax.swing.JButton btnOk;
+        private javax.swing.JCheckBox chbCodigo;
+        private javax.swing.JCheckBox chbCpf;
+        private javax.swing.JCheckBox chbNome;
+        private javax.swing.JLabel jLabel1;
+        private javax.swing.JScrollPane jScrollPane1;
+        private javax.swing.JTable tblConsultaCliente;
+        private javax.swing.JTextField txtCodigo;
+        private javax.swing.JTextField txtCpf;
+        private javax.swing.JTextField txtNome;
+        private javax.swing.JTextField txtPadrao;
+        // End of variables declaration     
+   }
+
+   
+   /**
+    * Classe interna para um JDialog para consulta de funcionarios
+    * 
+    * @author Rafael Tavares
+    */ 
+   public class ConsultaFuncionarioModal extends javax.swing.JDialog {
+       List<Funcionario> funcionarios;
+
+       /**
+       * Construtor da classe
+       * @param parent
+       * @param modal 
+       */   
+       public ConsultaFuncionarioModal(java.awt.Frame parent, boolean modal) {
+           super(parent, modal);
+           initComponents();
+           this.setLocationRelativeTo(null);
+           this.getContentPane().setBackground(Color.PINK);
+           txtPadrao.setVisible(false);
+           funcionarios = new ArrayList();
+           tblConsultaFuncionario.setSelectionModel(new ForcedListSelectionModel());
+           tblConsultaFuncionario.setModel(new ConsultaFuncionarioTableModel(funcionarios));
+           gerarTabela();
+
+       }
+
+       /**
+        * Método para auxiliar a gerar uma nova tabela
+        */
+       private void gerarTabela() {
+           tblConsultaFuncionario.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+           tblConsultaFuncionario.getColumnModel().getColumn(0).setMaxWidth(100);
+           tblConsultaFuncionario.getColumnModel().getColumn(0).setMaxWidth(100);
+           tblConsultaFuncionario.getColumnModel().getColumn(1).setMaxWidth(150);
+           tblConsultaFuncionario.getColumnModel().getColumn(1).setPreferredWidth(150);
+           tblConsultaFuncionario.getColumnModel().getColumn(2).setMaxWidth(200);
+           tblConsultaFuncionario.getColumnModel().getColumn(2).setPreferredWidth(200);
+       }
+
+       /**
+        * This method is called from within the constructor to initialize the form.
+        * WARNING: Do NOT modify this code. The content of this method is always
+        * regenerated by the Form Editor.
+        */
+        @SuppressWarnings("unchecked")
+        // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+        private void initComponents() {
+
+            btnOk = new javax.swing.JButton();
+            jLabel1 = new javax.swing.JLabel();
+            txtLogin = new javax.swing.JTextField();
+            chbCodigo = new javax.swing.JCheckBox();
+            txtNome = new javax.swing.JTextField();
+            chbNome = new javax.swing.JCheckBox();
+            txtCpf = new javax.swing.JTextField();
+            chbCpf = new javax.swing.JCheckBox();
+            jScrollPane1 = new javax.swing.JScrollPane();
+            tblConsultaFuncionario = new javax.swing.JTable();
+            btnConsultar = new javax.swing.JButton();
+            txtPadrao = new javax.swing.JTextField();
+
+            setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            setTitle("Consulta de Cliente");
+            setResizable(false);
+
+            btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"))); // NOI18N
+            btnOk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnOk.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btnOkMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btnOkMouseExited(evt);
+                }
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    btnOkMousePressed(evt);
+                }
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    btnOkMouseReleased(evt);
+                }
+            });
+            btnOk.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnOkActionPerformed(evt);
+                }
+            });
+
+            jLabel1.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
+            jLabel1.setText("Fúncionário");
+
+            txtLogin.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            txtLogin.setEnabled(false);
+
+            chbCodigo.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            chbCodigo.setText("Login");
+            chbCodigo.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    chbCodigoActionPerformed(evt);
+                }
+            });
+
+            txtNome.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            txtNome.setEnabled(false);
+
+            chbNome.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            chbNome.setText("Nome");
+            chbNome.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    chbNomeActionPerformed(evt);
+                }
+            });
+
+            txtCpf.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            txtCpf.setEnabled(false);
+
+            chbCpf.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            chbCpf.setText("CPF");
+            chbCpf.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    chbCpfActionPerformed(evt);
+                }
+            });
+
+            tblConsultaFuncionario.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            tblConsultaFuncionario.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null}
+                },
+                new String [] {
+                    "Title 1", "Title 2", "Title 3", "Title 4"
+                }
+            ));
+            jScrollPane1.setViewportView(tblConsultaFuncionario);
+
+            btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio.png"))); // NOI18N
+            btnConsultar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnConsultar.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btnConsultarMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btnConsultarMouseExited(evt);
+                }
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    btnConsultarMousePressed(evt);
+                }
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    btnConsultarMouseReleased(evt);
+                }
+            });
+            btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnConsultarActionPerformed(evt);
+                }
+            });
+
+            txtPadrao.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            txtPadrao.setFocusable(false);
+
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jScrollPane1)
+                            .addContainerGap())
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 422, Short.MAX_VALUE)
+                            .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(429, 429, 429))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(44, 44, 44))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(chbCodigo)
+                                    .addGap(84, 84, 84)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(74, 74, 74)
+                                    .addComponent(jLabel1))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(95, 95, 95)
+                                    .addComponent(chbNome)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(37, 37, 37)
+                                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(chbCpf)
+                                    .addGap(69, 69, 69)))
+                            .addGap(181, 181, 181))))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(422, 422, 422))
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(135, 135, 135)
+                            .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(33, 33, 33))
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel1)
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtNome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(chbCpf)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(chbCodigo)
+                                            .addComponent(chbNome))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(23, Short.MAX_VALUE))
+            );
+
+            pack();
+        }// </editor-fold>                                             
+
+       private void btnOkMouseEntered(java.awt.event.MouseEvent evt) {                                   
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+           btnOk.setIcon(i);
+       }                                  
+
+       private void btnOkMouseExited(java.awt.event.MouseEvent evt) {                                  
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"));
+           btnOk.setIcon(i);
+       }                                 
+
+       private void btnOkMousePressed(java.awt.event.MouseEvent evt) {                                   
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Pressed.png"));
+           btnOk.setIcon(i);
+       }                                  
+
+       private void btnOkMouseReleased(java.awt.event.MouseEvent evt) {                                    
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+           btnOk.setIcon(i);
+       }                                   
+
+       private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {                                      
+           this.dispose();
+       }                                     
+
+       private void btnConsultarMouseEntered(java.awt.event.MouseEvent evt) {                                          
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Hover.png"));
+           btnConsultar.setIcon(i);
+       }                                         
+
+       private void btnConsultarMouseExited(java.awt.event.MouseEvent evt) {                                         
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio.png"));
+           btnConsultar.setIcon(i);
+       }                                        
+
+       private void btnConsultarMousePressed(java.awt.event.MouseEvent evt) {                                          
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Pressed.png"));
+           btnConsultar.setIcon(i);
+       }                                         
+
+       private void btnConsultarMouseReleased(java.awt.event.MouseEvent evt) {                                           
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Hover.png"));
+           btnConsultar.setIcon(i);
+       }                                          
+
+       private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {                                             
+           Consulta con = new Consulta();
+           Border bordaVermelha = BorderFactory.createLineBorder(Color.red);
+           Border bordaPadrao = txtPadrao.getBorder();
+           txtLogin.setBorder(bordaPadrao);
+           txtCpf.setBorder(bordaPadrao);
+           txtNome.setBorder(bordaPadrao);
+           if (chbCodigo.isSelected()) {
+              if (txtLogin.getText().length() == 0) {
+                   txtLogin.setBorder(bordaVermelha);
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o login", "Erro - Login não informado");
+                   m.setVisible(true);
+              }
+              else {
+                   funcionarios = new ArrayList();
+                   funcionarios.add(con.encontrarFuncionarioLogin(txtLogin.getText()));
+                   tblConsultaFuncionario.setModel(new ConsultaFuncionarioTableModel(funcionarios));
+                   gerarTabela();
+              }
+           }
+           else if (chbCpf.isSelected()) {
+               if (txtCpf.getText().length() == 0) {
+                   txtCpf.setBorder(bordaVermelha);
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe um CPF válido", "Erro - CPF inválido");
+                   m.setVisible(true);
+               }
+               else {
+                   funcionarios = new ArrayList();
+                   funcionarios.add(con.encontrarFuncionarioCpf(txtCpf.getText()));
+                   tblConsultaFuncionario.setModel(new ConsultaFuncionarioTableModel(funcionarios));
+                   gerarTabela();
+               }
+           }
+           else if (chbNome.isSelected()) {
+               if (txtNome.getText().length() == 0) {
+                   txtNome.setBorder(bordaVermelha);
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Selecione algum filtro de busca", "Erro - Nenhum filtro foi selecionado");
+                   m.setVisible(true);
+               }
+               else {                    
+                   funcionarios = new ArrayList();
+                   funcionarios = con.encontrarFuncionarioNome(txtNome.getText());
+                   tblConsultaFuncionario.setModel(new ConsultaFuncionarioTableModel(funcionarios));
+                   gerarTabela();
+               }
+           }
+           else {
+               MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Selecione algum filtro de busca", "Erro - Nenhum filtro foi selecionado");
+               m.setVisible(true);
+           }
+       }                                            
+
+       private void chbCodigoActionPerformed(java.awt.event.ActionEvent evt) {                                          
+           if (chbCodigo.isSelected()) {
+               chbCpf.setSelected(false);
+               chbNome.setSelected(false);
+               txtNome.setText("");
+               txtCpf.setText("");
+               txtNome.setEnabled(false);
+               txtCpf.setEnabled(false);
+               txtLogin.setEnabled(true);
+           }
+           else {
+               txtLogin.setEnabled(false);
+           }
+       }                                         
+
+       private void chbCpfActionPerformed(java.awt.event.ActionEvent evt) {                                       
+           if (chbCpf.isSelected()) {
+               chbCodigo.setSelected(false);
+               chbNome.setSelected(false);
+               txtLogin.setText("");
+               txtNome.setText("");
+               txtCpf.setEnabled(true);
+               txtLogin.setEnabled(false);
+               txtNome.setEnabled(false);
+           }
+           else {
+               txtCpf.setEnabled(false);
+           }
+       }                                      
+
+       private void chbNomeActionPerformed(java.awt.event.ActionEvent evt) {                                        
+           if (chbNome.isSelected()) {
+               chbCodigo.setSelected(false);
+               chbCpf.setSelected(false);
+               txtLogin.setEnabled(false);
+               txtCpf.setEnabled(false);
+               txtLogin.setText("");
+               txtCpf.setText("");
+               txtNome.setEnabled(true);
+               txtLogin.setEnabled(false);
+               txtCpf.setEnabled(false);
+           }
+           else {
+               txtNome.setEnabled(false);
+           }
+       }                      
+    
+        // Variables declaration - do not modify                     
+        private javax.swing.JButton btnConsultar;
+        private javax.swing.JButton btnOk;
+        private javax.swing.JCheckBox chbCodigo;
+        private javax.swing.JCheckBox chbCpf;
+        private javax.swing.JCheckBox chbNome;
+        private javax.swing.JLabel jLabel1;
+        private javax.swing.JScrollPane jScrollPane1;
+        private javax.swing.JTable tblConsultaFuncionario;
+        private javax.swing.JTextField txtCpf;
+        private javax.swing.JTextField txtLogin;
+        private javax.swing.JTextField txtNome;
+        private javax.swing.JTextField txtPadrao;
+        // End of variables declaration                   
+    }  
+   
+   
+   
+   /**
+    * Classe interna para um JDialog para consulta de produtos
+    * 
+    * @author Rafael Tavares
+    */ 
+   public class ConsultaProdutoModal extends javax.swing.JDialog {
+       List<Produto> produtos;
+
+       /**
+       * Construtor da classe
+       * @param parent
+       * @param modal 
+       */   
+       public ConsultaProdutoModal(java.awt.Frame parent, boolean modal) {
+           super(parent, modal);
+           initComponents();
+           this.setLocationRelativeTo(null);
+           this.getContentPane().setBackground(Color.PINK);
+           txtPadrao.setVisible(false);
+           produtos = new ArrayList();
+           tblConsultaProduto.setSelectionModel(new ForcedListSelectionModel());
+           tblConsultaProduto.setModel(new ConsultaProdutoTableModel(produtos));
+           gerarTabela();
+
+       }
+
+       /**
+        * Método para auxiliar a gerar uma nova tabela
+        */
+       private void gerarTabela() {
+           tblConsultaProduto.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+           tblConsultaProduto.getColumnModel().getColumn(0).setMaxWidth(65);
+           tblConsultaProduto.getColumnModel().getColumn(4).setMaxWidth(100);
+           tblConsultaProduto.getColumnModel().getColumn(4).setPreferredWidth(100);
+           tblConsultaProduto.getColumnModel().getColumn(5).setMaxWidth(110);
+           tblConsultaProduto.getColumnModel().getColumn(5).setPreferredWidth(110);
+           tblConsultaProduto.getColumnModel().getColumn(6).setMaxWidth(140);
+           tblConsultaProduto.getColumnModel().getColumn(6).setPreferredWidth(140);
+       }
+
+       /**
+        * This method is called from within the constructor to initialize the form.
+        * WARNING: Do NOT modify this code. The content of this method is always
+        * regenerated by the Form Editor.
+        */
+       @SuppressWarnings("unchecked")
+       // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+       private void initComponents() {
+
+           btnOk = new javax.swing.JButton();
+           jLabel1 = new javax.swing.JLabel();
+           txtCodigo = new javax.swing.JTextField();
+           chbCodigo = new javax.swing.JCheckBox();
+           txtNome = new javax.swing.JTextField();
+           chbNome = new javax.swing.JCheckBox();
+           txtMarca = new javax.swing.JTextField();
+           chbMarca = new javax.swing.JCheckBox();
+           jScrollPane1 = new javax.swing.JScrollPane();
+           tblConsultaProduto = new javax.swing.JTable();
+           btnConsultar = new javax.swing.JButton();
+           txtPadrao = new javax.swing.JTextField();
+
+           setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+           setTitle("Consulta de Cliente");
+           setResizable(false);
+
+           btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"))); // NOI18N
+           btnOk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+           btnOk.addMouseListener(new java.awt.event.MouseAdapter() {
+               public void mouseEntered(java.awt.event.MouseEvent evt) {
+                   btnOkMouseEntered(evt);
+               }
+               public void mouseExited(java.awt.event.MouseEvent evt) {
+                   btnOkMouseExited(evt);
+               }
+               public void mousePressed(java.awt.event.MouseEvent evt) {
+                   btnOkMousePressed(evt);
+               }
+               public void mouseReleased(java.awt.event.MouseEvent evt) {
+                   btnOkMouseReleased(evt);
+               }
+           });
+           btnOk.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   btnOkActionPerformed(evt);
+               }
+           });
+
+           jLabel1.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
+           jLabel1.setText("Produto");
+
+           txtCodigo.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtCodigo.setEnabled(false);
+
+           chbCodigo.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           chbCodigo.setText("Código");
+           chbCodigo.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   chbCodigoActionPerformed(evt);
+               }
+           });
+
+           txtNome.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtNome.setEnabled(false);
+
+           chbNome.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           chbNome.setText("Nome");
+           chbNome.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   chbNomeActionPerformed(evt);
+               }
+           });
+
+           txtMarca.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtMarca.setEnabled(false);
+
+           chbMarca.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           chbMarca.setText("Marca");
+           chbMarca.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   chbMarcaActionPerformed(evt);
+               }
+           });
+
+           tblConsultaProduto.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           tblConsultaProduto.setModel(new javax.swing.table.DefaultTableModel(
+               new Object [][] {
+                   {null, null, null, null},
+                   {null, null, null, null},
+                   {null, null, null, null},
+                   {null, null, null, null}
+               },
+               new String [] {
+                   "Title 1", "Title 2", "Title 3", "Title 4"
+               }
+           ));
+           jScrollPane1.setViewportView(tblConsultaProduto);
+
+           btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio.png"))); // NOI18N
+           btnConsultar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+           btnConsultar.addMouseListener(new java.awt.event.MouseAdapter() {
+               public void mouseEntered(java.awt.event.MouseEvent evt) {
+                   btnConsultarMouseEntered(evt);
+               }
+               public void mouseExited(java.awt.event.MouseEvent evt) {
+                   btnConsultarMouseExited(evt);
+               }
+               public void mousePressed(java.awt.event.MouseEvent evt) {
+                   btnConsultarMousePressed(evt);
+               }
+               public void mouseReleased(java.awt.event.MouseEvent evt) {
+                   btnConsultarMouseReleased(evt);
+               }
+           });
+           btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   btnConsultarActionPerformed(evt);
+               }
+           });
+
+           txtPadrao.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtPadrao.setFocusable(false);
+
+           javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+           getContentPane().setLayout(layout);
+           layout.setHorizontalGroup(
+               layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(layout.createSequentialGroup()
+                   .addContainerGap()
+                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                       .addGroup(layout.createSequentialGroup()
+                           .addComponent(jScrollPane1)
+                           .addContainerGap())
+                       .addGroup(layout.createSequentialGroup()
+                           .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 422, Short.MAX_VALUE)
+                           .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addGap(429, 429, 429))
+                       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                           .addGap(0, 0, Short.MAX_VALUE)
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                       .addComponent(chbCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                       .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                       .addGroup(layout.createSequentialGroup()
+                                           .addGap(43, 43, 43)
+                                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                               .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                               .addGroup(layout.createSequentialGroup()
+                                                   .addGap(74, 74, 74)
+                                                   .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                       .addGroup(layout.createSequentialGroup()
+                                           .addGap(126, 126, 126)
+                                           .addComponent(chbNome)))
+                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                       .addGroup(layout.createSequentialGroup()
+                                           .addGap(37, 37, 37)
+                                           .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                       .addGroup(layout.createSequentialGroup()
+                                           .addGap(91, 91, 91)
+                                           .addComponent(chbMarca)))
+                                   .addGap(181, 181, 181))
+                               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                   .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                   .addGap(422, 422, 422))))))
+           );
+           layout.setVerticalGroup(
+               layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                       .addGroup(layout.createSequentialGroup()
+                           .addGap(135, 135, 135)
+                           .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addGap(33, 33, 33))
+                       .addGroup(layout.createSequentialGroup()
+                           .addContainerGap()
+                           .addComponent(jLabel1)
+                           .addGap(18, 18, 18)
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                               .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                   .addComponent(txtNome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                   .addGroup(layout.createSequentialGroup()
+                                       .addComponent(chbMarca)
+                                       .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                       .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                               .addGroup(layout.createSequentialGroup()
+                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                       .addComponent(chbCodigo)
+                                       .addComponent(chbNome))
+                                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                   .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                           .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addGap(18, 18, 18)))
+                   .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addGap(18, 18, 18)
+                   .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addContainerGap(23, Short.MAX_VALUE))
+           );
+
+           pack();
+       }// </editor-fold>                        
+
+       private void btnOkMouseEntered(java.awt.event.MouseEvent evt) {                                   
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+           btnOk.setIcon(i);
+       }                                  
+
+       private void btnOkMouseExited(java.awt.event.MouseEvent evt) {                                  
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"));
+           btnOk.setIcon(i);
+       }                                 
+
+       private void btnOkMousePressed(java.awt.event.MouseEvent evt) {                                   
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Pressed.png"));
+           btnOk.setIcon(i);
+       }                                  
+
+       private void btnOkMouseReleased(java.awt.event.MouseEvent evt) {                                    
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+           btnOk.setIcon(i);
+       }                                   
+
+       private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {                                      
+           this.dispose();
+       }                                     
+
+       private void btnConsultarMouseEntered(java.awt.event.MouseEvent evt) {                                          
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Hover.png"));
+           btnConsultar.setIcon(i);
+       }                                         
+
+       private void btnConsultarMouseExited(java.awt.event.MouseEvent evt) {                                         
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio.png"));
+           btnConsultar.setIcon(i);
+       }                                        
+
+       private void btnConsultarMousePressed(java.awt.event.MouseEvent evt) {                                          
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Pressed.png"));
+           btnConsultar.setIcon(i);
+       }                                         
+
+       private void btnConsultarMouseReleased(java.awt.event.MouseEvent evt) {                                           
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Hover.png"));
+           btnConsultar.setIcon(i);
+       }                                          
+
+       private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {                                             
+           Consulta con = new Consulta();
+           Border bordaVermelha = BorderFactory.createLineBorder(Color.red);
+           Border bordaPadrao = txtPadrao.getBorder();
+           txtCodigo.setBorder(bordaPadrao);
+           txtMarca.setBorder(bordaPadrao);
+           txtNome.setBorder(bordaPadrao);
+           if (chbCodigo.isSelected()) {
+              if (txtCodigo.getText().length() == 0) {
+                   txtCodigo.setBorder(bordaVermelha);
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o código", "Erro - Código não informado");
+                   m.setVisible(true);
+              }
+              else {
+                   try {
+                       produtos = new ArrayList();
+                       produtos.add(con.encontrarProduto(Integer.parseInt(txtCodigo.getText())));
+                       tblConsultaProduto.setModel(new ConsultaProdutoTableModel(produtos));
+                       gerarTabela();
+                   } catch (NumberFormatException e) {
+                       txtCodigo.setBorder(bordaVermelha);
+                       MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe um código válido", "Erro - Código inválido");
+                       m.setVisible(true);
+                   }
+              }
+           }
+           else if (chbMarca.isSelected()) {
+               if (txtMarca.getText().length() == 0) {
+                   txtMarca.setBorder(bordaVermelha);
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe uma marca válida", "Erro - Marca inválida");
+                   m.setVisible(true);
+               } else if (chbNome.isSelected()) {
+                   if (txtNome.getText().length() == 0) {
+                       txtNome.setBorder(bordaVermelha);
+                       MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o nome do produto", "Erro - Nome não informado");
+                       m.setVisible(true);
+                   }
+                   else {
+                       List<Produto> produtosTemp = new ArrayList();
+                       produtos = new ArrayList();
+                       produtosTemp = (con.encontrarProdutoNome(txtNome.getText()));
+                       for (int i = 0; i < produtosTemp.size(); i++) {
+                           if (produtosTemp.get(i).getMarca().equals(txtMarca.getText())) {
+                               produtos.add(produtosTemp.get(i));
+                           }
+                       }
+                       tblConsultaProduto.setModel(new ConsultaProdutoTableModel(produtos));
+                       gerarTabela();
+                   }
+               }
+               else {
+                   produtos = new ArrayList();
+                   produtos = (con.encontrarProdutoMarca(txtMarca.getText()));
+                   tblConsultaProduto.setModel(new ConsultaProdutoTableModel(produtos));
+                   gerarTabela();
+               }
+           }
+           else if (chbNome.isSelected()) {
+               if (txtNome.getText().length() == 0) {
+                   txtNome.setBorder(bordaVermelha);
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o nome do produto", "Erro - Nome não informado");
+                   m.setVisible(true);
+               }
+               else {                    
+                   produtos = new ArrayList();
+                   produtos = con.encontrarProdutoNome(txtNome.getText());
+                   tblConsultaProduto.setModel(new ConsultaProdutoTableModel(produtos));
+                   gerarTabela();
+               }
+           }
+           else {
+               MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Selecione algum filtro de busca", "Erro - Nenhum filtro foi selecionado");
+               m.setVisible(true);
+           }
+       }                                            
+
+       private void chbCodigoActionPerformed(java.awt.event.ActionEvent evt) {                                          
+           if (chbCodigo.isSelected()) {
+               chbMarca.setSelected(false);
+               chbNome.setSelected(false);
+               txtNome.setText("");
+               txtMarca.setText("");
+               txtNome.setEnabled(false);
+               txtMarca.setEnabled(false);
+               txtCodigo.setEnabled(true);
+           }
+           else {
+               txtCodigo.setEnabled(false);
+           }
+       }                                         
+
+       private void chbMarcaActionPerformed(java.awt.event.ActionEvent evt) {                                         
+           if (chbMarca.isSelected()) {
+               chbCodigo.setSelected(false);
+               txtCodigo.setText("");
+               txtCodigo.setEnabled(false);
+               txtMarca.setEnabled(true);
+           }
+           else {
+               txtMarca.setEnabled(false);
+           }
+       }                                        
+
+       private void chbNomeActionPerformed(java.awt.event.ActionEvent evt) {                                        
+           if (chbNome.isSelected()) {
+               chbCodigo.setSelected(false);
+               txtCodigo.setEnabled(false);
+               txtCodigo.setText("");
+               txtNome.setEnabled(true);
+           }
+           else {
+               txtNome.setEnabled(false);
+           }
+       }
+   
+        // Variables declaration - do not modify                     
+        private javax.swing.JButton btnConsultar;
+        private javax.swing.JButton btnOk;
+        private javax.swing.JCheckBox chbCodigo;
+        private javax.swing.JCheckBox chbMarca;
+        private javax.swing.JCheckBox chbNome;
+        private javax.swing.JLabel jLabel1;
+        private javax.swing.JScrollPane jScrollPane1;
+        private javax.swing.JTable tblConsultaProduto;
+        private javax.swing.JTextField txtCodigo;
+        private javax.swing.JTextField txtMarca;
+        private javax.swing.JTextField txtNome;
+        private javax.swing.JTextField txtPadrao;
+        // End of variables declaration               
+   }
+   
+   
+   /**
+    * Classe interna para um JDialog para consulta de fornecedores
+    * 
+    * @author Rafael Tavares
+    */ 
+   public class ConsultaFornecedorModal extends javax.swing.JDialog {
+       List<Fornecedor> fornecedores;
+
+       /**
+       * Construtor da classeh
+       * @param parent
+       * @param modal 
+       */   
+       public ConsultaFornecedorModal(java.awt.Frame parent, boolean modal) {
+           super(parent, modal);
+           initComponents();
+           this.setLocationRelativeTo(null);
+           this.getContentPane().setBackground(Color.PINK);
+           txtPadrao.setVisible(false);
+           fornecedores = new ArrayList();
+           tblConsultaFuncionario.setSelectionModel(new ForcedListSelectionModel());
+           tblConsultaFuncionario.setModel(new ConsultaFornecedorTableModel(fornecedores));
+           gerarTabela();
+
+       }
+
+       /**
+        * Método para auxiliar a gerar uma nova tabela
+        */
+       private void gerarTabela() {
+           tblConsultaFuncionario.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+           tblConsultaFuncionario.getColumnModel().getColumn(0).setMaxWidth(65);
+           tblConsultaFuncionario.getColumnModel().getColumn(3).setMaxWidth(160);
+           tblConsultaFuncionario.getColumnModel().getColumn(3).setPreferredWidth(160);
+       }
+
+       /**
+        * This method is called from within the constructor to initialize the form.
+        * WARNING: Do NOT modify this code. The content of this method is always
+        * regenerated by the Form Editor.
+        */
+       @SuppressWarnings("unchecked")
+       // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+       private void initComponents() {
+
+           btnOk = new javax.swing.JButton();
+           jLabel1 = new javax.swing.JLabel();
+           txtCodigo = new javax.swing.JTextField();
+           chbCodigo = new javax.swing.JCheckBox();
+           txtNome = new javax.swing.JTextField();
+           chbNome = new javax.swing.JCheckBox();
+           txtCpnj = new javax.swing.JTextField();
+           chbCnpj = new javax.swing.JCheckBox();
+           jScrollPane1 = new javax.swing.JScrollPane();
+           tblConsultaFuncionario = new javax.swing.JTable();
+           btnConsultar = new javax.swing.JButton();
+           txtPadrao = new javax.swing.JTextField();
+
+           setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+           setTitle("Consulta de Cliente");
+           setResizable(false);
+
+           btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"))); // NOI18N
+           btnOk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+           btnOk.addMouseListener(new java.awt.event.MouseAdapter() {
+               public void mouseEntered(java.awt.event.MouseEvent evt) {
+                   btnOkMouseEntered(evt);
+               }
+               public void mouseExited(java.awt.event.MouseEvent evt) {
+                   btnOkMouseExited(evt);
+               }
+               public void mousePressed(java.awt.event.MouseEvent evt) {
+                   btnOkMousePressed(evt);
+               }
+               public void mouseReleased(java.awt.event.MouseEvent evt) {
+                   btnOkMouseReleased(evt);
+               }
+           });
+           btnOk.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   btnOkActionPerformed(evt);
+               }
+           });
+
+           jLabel1.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
+           jLabel1.setText("Fornecedor");
+
+           txtCodigo.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtCodigo.setEnabled(false);
+
+           chbCodigo.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           chbCodigo.setText("Código");
+           chbCodigo.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   chbCodigoActionPerformed(evt);
+               }
+           });
+
+           txtNome.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtNome.setEnabled(false);
+
+           chbNome.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           chbNome.setText("Nome");
+           chbNome.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   chbNomeActionPerformed(evt);
+               }
+           });
+
+           txtCpnj.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtCpnj.setEnabled(false);
+
+           chbCnpj.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           chbCnpj.setText("CNPJ");
+           chbCnpj.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   chbCnpjActionPerformed(evt);
+               }
+           });
+
+           tblConsultaFuncionario.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           tblConsultaFuncionario.setModel(new javax.swing.table.DefaultTableModel(
+               new Object [][] {
+                   {null, null, null, null},
+                   {null, null, null, null},
+                   {null, null, null, null},
+                   {null, null, null, null}
+               },
+               new String [] {
+                   "Title 1", "Title 2", "Title 3", "Title 4"
+               }
+           ));
+           jScrollPane1.setViewportView(tblConsultaFuncionario);
+
+           btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio.png"))); // NOI18N
+           btnConsultar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+           btnConsultar.addMouseListener(new java.awt.event.MouseAdapter() {
+               public void mouseEntered(java.awt.event.MouseEvent evt) {
+                   btnConsultarMouseEntered(evt);
+               }
+               public void mouseExited(java.awt.event.MouseEvent evt) {
+                   btnConsultarMouseExited(evt);
+               }
+               public void mousePressed(java.awt.event.MouseEvent evt) {
+                   btnConsultarMousePressed(evt);
+               }
+               public void mouseReleased(java.awt.event.MouseEvent evt) {
+                   btnConsultarMouseReleased(evt);
+               }
+           });
+           btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   btnConsultarActionPerformed(evt);
+               }
+           });
+
+           txtPadrao.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtPadrao.setFocusable(false);
+
+           javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+           getContentPane().setLayout(layout);
+           layout.setHorizontalGroup(
+               layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(layout.createSequentialGroup()
+                   .addContainerGap()
+                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                       .addGroup(layout.createSequentialGroup()
+                           .addComponent(jScrollPane1)
+                           .addContainerGap())
+                       .addGroup(layout.createSequentialGroup()
+                           .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 272, Short.MAX_VALUE)
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                               .addGroup(layout.createSequentialGroup()
+                                   .addGap(220, 220, 220)
+                                   .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                   .addGap(248, 248, 248))
+                               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                       .addComponent(chbCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                       .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                       .addGroup(layout.createSequentialGroup()
+                                           .addGap(84, 84, 84)
+                                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                               .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                               .addGroup(layout.createSequentialGroup()
+                                                   .addGap(74, 74, 74)
+                                                   .addComponent(jLabel1))))
+                                       .addGroup(layout.createSequentialGroup()
+                                           .addGap(166, 166, 166)
+                                           .addComponent(chbNome)))
+                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                       .addGroup(layout.createSequentialGroup()
+                                           .addGap(37, 37, 37)
+                                           .addComponent(txtCpnj, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                           .addComponent(chbCnpj)
+                                           .addGap(69, 69, 69)))))
+                           .addGap(222, 222, 222))))
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                   .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                   .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addGap(466, 466, 466))
+           );
+           layout.setVerticalGroup(
+               layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                       .addGroup(layout.createSequentialGroup()
+                           .addGap(135, 135, 135)
+                           .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addGap(33, 33, 33))
+                       .addGroup(layout.createSequentialGroup()
+                           .addContainerGap()
+                           .addComponent(jLabel1)
+                           .addGap(18, 18, 18)
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                               .addComponent(txtNome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                               .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                   .addGroup(layout.createSequentialGroup()
+                                       .addComponent(chbCnpj)
+                                       .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                       .addComponent(txtCpnj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                   .addGroup(layout.createSequentialGroup()
+                                       .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                           .addComponent(chbCodigo)
+                                           .addComponent(chbNome))
+                                       .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                       .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                           .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addGap(18, 18, 18)))
+                   .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addGap(18, 18, 18)
+                   .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addContainerGap(23, Short.MAX_VALUE))
+           );
+
+           pack();
+       }// </editor-fold>                        
+
+       private void btnOkMouseEntered(java.awt.event.MouseEvent evt) {                                   
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+           btnOk.setIcon(i);
+       }                                  
+
+       private void btnOkMouseExited(java.awt.event.MouseEvent evt) {                                  
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"));
+           btnOk.setIcon(i);
+       }                                 
+
+       private void btnOkMousePressed(java.awt.event.MouseEvent evt) {                                   
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Pressed.png"));
+           btnOk.setIcon(i);
+       }                                  
+
+       private void btnOkMouseReleased(java.awt.event.MouseEvent evt) {                                    
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+           btnOk.setIcon(i);
+       }                                   
+
+       private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {                                      
+           this.dispose();
+       }                                     
+
+       private void btnConsultarMouseEntered(java.awt.event.MouseEvent evt) {                                          
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Hover.png"));
+           btnConsultar.setIcon(i);
+       }                                         
+
+       private void btnConsultarMouseExited(java.awt.event.MouseEvent evt) {                                         
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio.png"));
+           btnConsultar.setIcon(i);
+       }                                        
+
+       private void btnConsultarMousePressed(java.awt.event.MouseEvent evt) {                                          
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Pressed.png"));
+           btnConsultar.setIcon(i);
+       }                                         
+
+       private void btnConsultarMouseReleased(java.awt.event.MouseEvent evt) {                                           
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Hover.png"));
+           btnConsultar.setIcon(i);
+       }                                          
+
+       private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {                                             
+           Consulta con = new Consulta();
+           Border bordaVermelha = BorderFactory.createLineBorder(Color.red);
+           Border bordaPadrao = txtPadrao.getBorder();
+           txtCodigo.setBorder(bordaPadrao);
+           txtCpnj.setBorder(bordaPadrao);
+           txtNome.setBorder(bordaPadrao);
+           if (chbCodigo.isSelected()) {
+              if (txtCodigo.getText().length() == 0) {
+                   txtCodigo.setBorder(bordaVermelha);
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o login", "Erro - Login não informado");
+                   m.setVisible(true);
+              }
+              else {
+                   fornecedores = new ArrayList();
+                   fornecedores.add(con.encontrarFornecedor(Integer.parseInt(txtCodigo.getText())));
+                   tblConsultaFuncionario.setModel(new ConsultaFornecedorTableModel(fornecedores));
+                   gerarTabela();
+              }
+           }
+           else if (chbCnpj.isSelected()) {
+               if (txtCpnj.getText().length() == 0) {
+                   txtCpnj.setBorder(bordaVermelha);
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe um CNPJ válido", "Erro - CPF inválido");
+                   m.setVisible(true);
+               }
+               else {
+                   fornecedores = new ArrayList();
+                   fornecedores.add(con.encontrarFornecedorCnpj(txtCpnj.getText()));
+                   tblConsultaFuncionario.setModel(new ConsultaFornecedorTableModel(fornecedores));
+                   gerarTabela();
+               }
+           }
+           else if (chbNome.isSelected()) {
+               if (txtNome.getText().length() == 0) {
+                   txtNome.setBorder(bordaVermelha);
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o nome do fornecedor", "Erro - Nome não fornecido");
+                   m.setVisible(true);
+               }
+               else {                    
+                   fornecedores = new ArrayList();
+                   fornecedores = con.encontrarFornecedorNome(txtNome.getText());
+                   tblConsultaFuncionario.setModel(new ConsultaFornecedorTableModel(fornecedores));
+                   gerarTabela();
+               }
+           }
+           else {
+               MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Selecione algum filtro de busca", "Erro - Nenhum filtro foi selecionado");
+               m.setVisible(true);
+           }
+       }                                            
+
+       private void chbCodigoActionPerformed(java.awt.event.ActionEvent evt) {                                          
+           if (chbCodigo.isSelected()) {
+               chbCnpj.setSelected(false);
+               chbNome.setSelected(false);
+               txtNome.setText("");
+               txtCpnj.setText("");
+               txtNome.setEnabled(false);
+               txtCpnj.setEnabled(false);
+               txtCodigo.setEnabled(true);
+           }
+           else {
+               txtCodigo.setEnabled(false);
+           }
+       }                                         
+
+       private void chbCnpjActionPerformed(java.awt.event.ActionEvent evt) {                                        
+           if (chbCnpj.isSelected()) {
+               chbCodigo.setSelected(false);
+               chbNome.setSelected(false);
+               txtCodigo.setText("");
+               txtNome.setText("");
+               txtCpnj.setEnabled(true);
+               txtCodigo.setEnabled(false);
+               txtNome.setEnabled(false);
+           }
+           else {
+               txtCpnj.setEnabled(false);
+           }
+       }                                       
+
+       private void chbNomeActionPerformed(java.awt.event.ActionEvent evt) {                                        
+           if (chbNome.isSelected()) {
+               chbCodigo.setSelected(false);
+               chbCnpj.setSelected(false);
+               txtCodigo.setEnabled(false);
+               txtCpnj.setEnabled(false);
+               txtCodigo.setText("");
+               txtCpnj.setText("");
+               txtNome.setEnabled(true);
+               txtCodigo.setEnabled(false);
+               txtCpnj.setEnabled(false);
+           }
+           else {
+               txtNome.setEnabled(false);
+           }
+       }        
+    
+        // Variables declaration - do not modify                     
+        private javax.swing.JButton btnConsultar;
+        private javax.swing.JButton btnOk;
+        private javax.swing.JCheckBox chbCnpj;
+        private javax.swing.JCheckBox chbCodigo;
+        private javax.swing.JCheckBox chbNome;
+        private javax.swing.JLabel jLabel1;
+        private javax.swing.JScrollPane jScrollPane1;
+        private javax.swing.JTable tblConsultaFuncionario;
+        private javax.swing.JTextField txtCodigo;
+        private javax.swing.JTextField txtCpnj;
+        private javax.swing.JTextField txtNome;
+        private javax.swing.JTextField txtPadrao;
+        // End of variables declaration    
+   }
+   
+   /**
+    * Classe interna para um JDialog para consulta de fornecimento
+    * 
+    * @author Rafael Tavares
+    */ 
+   public class ConsultaFornecimentoModal extends javax.swing.JDialog {
+       Compra fornecimento;
+       List<Produto> produtos;
+
+       /**
+       * Construtor da classe
+       * @param parent
+       * @param modal 
+       */   
+       public ConsultaFornecimentoModal(java.awt.Frame parent, boolean modal) {
+            super(parent, modal);
+            initComponents();
+            this.setLocationRelativeTo(null);
+            this.getContentPane().setBackground(Color.PINK);
+            tblConsultaFornecimento.setSelectionModel(new ForcedListSelectionModel());
+            tblConsultaFornecimento.setModel(new CadastroProdutoFornecimentoTableModel(null, null, null));
+            txtCodigoFornecedor.setDisabledTextColor(Color.BLACK);
+            txtData.setDisabledTextColor(Color.BLACK);
+            txtNomeFornecedor.setDisabledTextColor(Color.BLACK);
+            txtValorTotal.setDisabledTextColor(Color.BLACK);
+            txtCodigo.setDisabledTextColor(Color.BLACK);
+            gerarTabela();
+
+       }
+
+       /**
+        * Método para auxiliar a gerar uma nova tabela
+        */
+       private void gerarTabela() {
+           tblConsultaFornecimento.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+           tblConsultaFornecimento.getColumnModel().getColumn(0).setMaxWidth(65);
+           tblConsultaFornecimento.getColumnModel().getColumn(5).setMaxWidth(130);
+           tblConsultaFornecimento.getColumnModel().getColumn(5).setPreferredWidth(130);
+           tblConsultaFornecimento.getColumnModel().getColumn(6).setMaxWidth(130);
+           tblConsultaFornecimento.getColumnModel().getColumn(6).setPreferredWidth(130);
+           tblConsultaFornecimento.getColumnModel().getColumn(7).setMaxWidth(130);
+           tblConsultaFornecimento.getColumnModel().getColumn(7).setPreferredWidth(130);
+       }
+
+       /**
+        * This method is called from within the constructor to initialize the form.
+        * WARNING: Do NOT modify this code. The content of this method is always
+        * regenerated by the Form Editor.
+        */
+       @SuppressWarnings("unchecked")
+       // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+       private void initComponents() {
+
+           btnOk = new javax.swing.JButton();
+           jLabel1 = new javax.swing.JLabel();
+           txtCodigo = new javax.swing.JTextField();
+           jScrollPane1 = new javax.swing.JScrollPane();
+           tblConsultaFornecimento = new javax.swing.JTable();
+           btnConsultar = new javax.swing.JButton();
+           jLabel2 = new javax.swing.JLabel();
+           txtData = new javax.swing.JTextField();
+           jLabel3 = new javax.swing.JLabel();
+           txtValorTotal = new javax.swing.JTextField();
+           jLabel4 = new javax.swing.JLabel();
+           txtCodigoFornecedor = new javax.swing.JTextField();
+           jLabel5 = new javax.swing.JLabel();
+           txtNomeFornecedor = new javax.swing.JTextField();
+
+           setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+           setTitle("Consulta de Cliente");
+           setResizable(false);
+
+           btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"))); // NOI18N
+           btnOk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+           btnOk.addMouseListener(new java.awt.event.MouseAdapter() {
+               public void mouseEntered(java.awt.event.MouseEvent evt) {
+                   btnOkMouseEntered(evt);
+               }
+               public void mouseExited(java.awt.event.MouseEvent evt) {
+                   btnOkMouseExited(evt);
+               }
+               public void mousePressed(java.awt.event.MouseEvent evt) {
+                   btnOkMousePressed(evt);
+               }
+               public void mouseReleased(java.awt.event.MouseEvent evt) {
+                   btnOkMouseReleased(evt);
+               }
+           });
+           btnOk.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   btnOkActionPerformed(evt);
+               }
+           });
+
+           jLabel1.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
+           jLabel1.setText("Fornecimento");
+
+           txtCodigo.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+
+           tblConsultaFornecimento.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           tblConsultaFornecimento.setModel(new javax.swing.table.DefaultTableModel(
+               new Object [][] {
+                   {null, null, null, null},
+                   {null, null, null, null},
+                   {null, null, null, null},
+                   {null, null, null, null}
+               },
+               new String [] {
+                   "Title 1", "Title 2", "Title 3", "Title 4"
+               }
+           ));
+           jScrollPane1.setViewportView(tblConsultaFornecimento);
+
+           btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio.png"))); // NOI18N
+           btnConsultar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+           btnConsultar.addMouseListener(new java.awt.event.MouseAdapter() {
+               public void mouseEntered(java.awt.event.MouseEvent evt) {
+                   btnConsultarMouseEntered(evt);
+               }
+               public void mouseExited(java.awt.event.MouseEvent evt) {
+                   btnConsultarMouseExited(evt);
+               }
+               public void mousePressed(java.awt.event.MouseEvent evt) {
+                   btnConsultarMousePressed(evt);
+               }
+               public void mouseReleased(java.awt.event.MouseEvent evt) {
+                   btnConsultarMouseReleased(evt);
+               }
+           });
+           btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   btnConsultarActionPerformed(evt);
+               }
+           });
+
+           jLabel2.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           jLabel2.setText("Código");
+
+           txtData.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtData.setEnabled(false);
+
+           jLabel3.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           jLabel3.setText("Data");
+
+           txtValorTotal.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtValorTotal.setEnabled(false);
+
+           jLabel4.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           jLabel4.setText("Valor Total");
+
+           txtCodigoFornecedor.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtCodigoFornecedor.setEnabled(false);
+
+           jLabel5.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           jLabel5.setText("Fornecedor");
+
+           txtNomeFornecedor.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           txtNomeFornecedor.setEnabled(false);
+
+           javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+           getContentPane().setLayout(layout);
+           layout.setHorizontalGroup(
+               layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(layout.createSequentialGroup()
+                   .addContainerGap()
+                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                       .addGroup(layout.createSequentialGroup()
+                           .addComponent(jScrollPane1)
+                           .addContainerGap())
+                       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                           .addGap(0, 211, Short.MAX_VALUE)
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                   .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                   .addGap(466, 466, 466))
+                               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                       .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                       .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                   .addGap(18, 18, 18)
+                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                       .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                       .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                       .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                       .addComponent(txtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                   .addGap(18, 18, 18)
+                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                       .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                       .addGroup(layout.createSequentialGroup()
+                                           .addComponent(txtCodigoFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                           .addComponent(txtNomeFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                   .addGap(178, 178, 178))
+                               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                   .addComponent(jLabel1)
+                                   .addGap(485, 485, 485))
+                               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                   .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                   .addGap(473, 473, 473))))))
+           );
+           layout.setVerticalGroup(
+               layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                   .addContainerGap()
+                   .addComponent(jLabel1)
+                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                       .addGroup(layout.createSequentialGroup()
+                           .addComponent(jLabel5)
+                           .addGap(27, 27, 27))
+                       .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                           .addGroup(layout.createSequentialGroup()
+                               .addComponent(jLabel2)
+                               .addGap(3, 3, 3)
+                               .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                           .addGroup(layout.createSequentialGroup()
+                               .addComponent(jLabel3)
+                               .addGap(3, 3, 3)
+                               .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                       .addGroup(layout.createSequentialGroup()
+                           .addComponent(jLabel4)
+                           .addGap(3, 3, 3)
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                               .addComponent(txtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                               .addComponent(txtCodigoFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                               .addComponent(txtNomeFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                   .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                   .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addGap(18, 18, 18)
+                   .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+           );
+
+           pack();
+       }// </editor-fold>                        
+
+       private void btnOkMouseEntered(java.awt.event.MouseEvent evt) {                                   
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+           btnOk.setIcon(i);
+       }                                  
+
+       private void btnOkMouseExited(java.awt.event.MouseEvent evt) {                                  
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"));
+           btnOk.setIcon(i);
+       }                                 
+
+       private void btnOkMousePressed(java.awt.event.MouseEvent evt) {                                   
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Pressed.png"));
+           btnOk.setIcon(i);
+       }                                  
+
+       private void btnOkMouseReleased(java.awt.event.MouseEvent evt) {                                    
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+           btnOk.setIcon(i);
+       }                                   
+
+       private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {                                      
+           this.dispose();
+       }                                     
+
+       private void btnConsultarMouseEntered(java.awt.event.MouseEvent evt) {                                          
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Hover.png"));
+           btnConsultar.setIcon(i);
+       }                                         
+
+       private void btnConsultarMouseExited(java.awt.event.MouseEvent evt) {                                         
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio.png"));
+           btnConsultar.setIcon(i);
+       }                                        
+
+       private void btnConsultarMousePressed(java.awt.event.MouseEvent evt) {                                          
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Pressed.png"));
+           btnConsultar.setIcon(i);
+       }                                         
+
+       private void btnConsultarMouseReleased(java.awt.event.MouseEvent evt) {                                           
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio_Hover.png"));
+           btnConsultar.setIcon(i);
+       }                                          
+
+       private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {                                             
+           Consulta con = new Consulta();
+           Border bordaVermelha = BorderFactory.createLineBorder(Color.red);
+           Border bordaPadrao = txtValorTotal.getBorder();
+           txtCodigo.setBorder(bordaPadrao);
+           if (txtCodigo.getText().length() == 0) {
+                txtCodigo.setBorder(bordaVermelha);
+                MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o código", "Erro - Código não informado");
+                m.setVisible(true);
+           }
+           else {
+               try{
+                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                fornecimento = con.encontrarCompra(Integer.parseInt(txtCodigo.getText()));
+                txtCodigoFornecedor.setText(Integer.toString(fornecimento.getFornecedor().getCodigo()));
+                txtData.setText(df.format(fornecimento.getData()));
+                txtNomeFornecedor.setText(fornecimento.getFornecedor().getNome());
+                txtValorTotal.setText(String.format("%.2f", (fornecimento.getValorTotal())));
+                produtos = new ArrayList();
+                for (int i = 0; i < fornecimento.getProdutos().size(); i++) {
+                    produtos.add(con.encontrarProduto(fornecimento.getProdutos().get(i)));
+                }
+                tblConsultaFornecimento.setModel(new CadastroProdutoFornecimentoTableModel(produtos, fornecimento.getQuantidade(), fornecimento.getValores()));
+                gerarTabela();
+               } catch (NullPointerException e) {
+                    MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Fornecimento não encontrado", "Erro - Fornecimento não encontrado");
+                    m.setVisible(true);
+                    txtCodigoFornecedor.setText("");
+                    txtData.setText("");
+                    txtNomeFornecedor.setText("");
+                    txtValorTotal.setText("");
+                    txtCodigo.setText("");
+                    tblConsultaFornecimento.setModel(new CadastroProdutoFornecimentoTableModel(null, null, null));
+               }
+           }
+       }                
+
+       // Variables declaration - do not modify                     
+       private javax.swing.JButton btnConsultar;
+       private javax.swing.JButton btnOk;
+       private javax.swing.JLabel jLabel1;
+       private javax.swing.JLabel jLabel2;
+       private javax.swing.JLabel jLabel3;
+       private javax.swing.JLabel jLabel4;
+       private javax.swing.JLabel jLabel5;
+       private javax.swing.JScrollPane jScrollPane1;
+       private javax.swing.JTable tblConsultaFornecimento;
+       private javax.swing.JTextField txtCodigo;
+       private javax.swing.JTextField txtCodigoFornecedor;
+       private javax.swing.JTextField txtData;
+       private javax.swing.JTextField txtNomeFornecedor;
+       private javax.swing.JTextField txtValorTotal;
+       // End of variables declaration                   
+   }
+   
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarProdutoVenda;
     private javax.swing.JButton btnAdicionarSerivocVenda;
     private javax.swing.JButton btnAgendarServico;
+    private javax.swing.JButton btnAlterarServico;
     private javax.swing.JButton btnCadastrarCliente;
     private javax.swing.JButton btnCadastrarFornecedor;
     private javax.swing.JButton btnCadastrarFuncionario;

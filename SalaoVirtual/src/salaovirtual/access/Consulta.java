@@ -34,6 +34,7 @@ import salaovirtual.Venda;
 
 /**
  * Classe referente à consulta de objetos em arquivo
+ * 
  * @author Rafael Tavares
  */
 public class Consulta {  
@@ -142,7 +143,11 @@ public class Consulta {
                     f.setNumero(parseInt(valor[6]));
                     f.setCidade(valor[7]);
                     f.setEstado(valor[8]);
-                    f.setComplemento(valor[9]);
+                    try {
+                        f.setComplemento(valor[9]);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        f.setComplemento("");
+                    }
                     fornecedores.add(f);
                 }
                 linha = entrada.readLine();
@@ -182,7 +187,11 @@ public class Consulta {
                     f.setNumero(parseInt(valor[6]));
                     f.setCidade(valor[7]);
                     f.setEstado(valor[8]);
-                    f.setComplemento(valor[9]);
+                    try {
+                        f.setComplemento(valor[9]);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        f.setComplemento("");
+                    }
                     arq.close();
                     entrada.close();
                     return f;
