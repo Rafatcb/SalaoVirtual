@@ -34,7 +34,6 @@ public class AgendaTableModel extends AbstractTableModel {
         }
     }
     
-    
     /**
      * Retorna o nome da coluna - também conhecido como Header
      * Polimorfismo: Sobrescrita

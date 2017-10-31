@@ -25,9 +25,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.lang.Integer.parseInt;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -43,6 +46,7 @@ import salaovirtual.Funcionario;
 import salaovirtual.Produto;
 import salaovirtual.Servico;
 import salaovirtual.Venda;
+import salaovirtual.access.Alteracao;
 import salaovirtual.access.Cadastro;
 import salaovirtual.access.Consulta;
 
@@ -3274,18 +3278,12 @@ public class MenuInicial extends javax.swing.JFrame {
                     v.addServico(s);
                 }
                 int aux = 0, quantidade = 0;
+                Alteracao alt = new Alteracao();
                 for (Produto p : listaProdutoVenda) {
                     quantidade = (int) tblProdutoVenda.getModel().getValueAt(aux, 5);
                     v.addProduto(p, quantidade);
-/* --------------------------------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------------------------------- */
-                    // Aqui atualizaria o estoque do produto //
-/* --------------------------------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------------------------------- */
+                    p.setQtdEstoque(p.getQtdEstoque() - quantidade);
+                    alt.alterarProduto(p);
                     aux ++;
                 }
                 Cadastro cad = new Cadastro();
@@ -4304,6 +4302,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 txtCadastroFornecimentoProdutoValorTotal.setText("");
             }
         } catch (NumberFormatException | NullPointerException e){
+            System.out.println((Arrays.toString(txtCadastroFornecimentoProdutoCodigo.getText().toCharArray())));
             limparProdutoFornecimento();
         }       
     }//GEN-LAST:event_txtCadastroFornecimentoProdutoCodigoFocusLost
@@ -4460,20 +4459,16 @@ public class MenuInicial extends javax.swing.JFrame {
                 c.setData();
                 try {
                     c.setFornecedor(fornecedorFornecimento);
+                    Alteracao alt = new Alteracao();
                     for (int i = 0; i < listaCadastroFornecimentoProduto.size(); i++) {
                         c.addProduto(listaCadastroFornecimentoProduto.get(i).getCodigo(), listaCadastroFornecimentoValor.get(i), listaCadastroFornecimentoQuantidade.get(i));
+                        System.out.println(listaCadastroFornecimentoProduto.get(i).toString());
+                        listaCadastroFornecimentoProduto.get(i).setQtdEstoque(listaCadastroFornecimentoProduto.get(i).getQtdEstoque() + listaCadastroFornecimentoQuantidade.get(i));
+                        System.out.println(listaCadastroFornecimentoProduto.get(i).toString());
+                        alt.alterarProduto(listaCadastroFornecimentoProduto.get(i));
                     }
                     c.setValorTotal(valorTotalFornecimento);
                     cad.gravarCompra(c);
-/* --------------------------------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------------------------------- */
-                    // Aqui atualizaria o estoque do produto //
-/* --------------------------------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------------------------------- */
                     this.setMensagemDialog("O fornecimento foi cadastrado com sucesso");
                     MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Fornecimento cadastrado");
                     dialog.setVisible(true);
@@ -4575,7 +4570,26 @@ public class MenuInicial extends javax.swing.JFrame {
         }
         else
         {
-            // tem uma linha selecionada
+            Consulta con = new Consulta();
+            Servico servicoAntigo = con.encontrarServico((Integer) tblAgenda.getValueAt(linha, 0));
+            AlterarServicoModal alterar = new AlterarServicoModal(this, true, servicoAntigo);
+            alterar.setVisible(true);
+            try{
+                if (servicoAntigo.toString().equals(alterar.getNovo().toString())) {
+                    this.setMensagemDialog("Nenhuma informação foi modificada pelo usuário");
+                    MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Serviço não modificado");
+                    dialog.setVisible(true);
+                }
+                else {
+                    tblAgenda.setModel(new AgendaTableModel());
+                    gerarTabelaAgenda();
+                    this.setMensagemDialog("As informações foram alteradas");
+                    MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Sucesso - Serviço modificado");
+                    dialog.setVisible(true);
+                }
+            } catch (NullPointerException e) {
+                    //
+            }
         }
     }//GEN-LAST:event_btnAlterarServicoActionPerformed
 
@@ -5715,7 +5729,12 @@ public class MenuInicial extends javax.swing.JFrame {
                 }
             });
 
-            txtLoginFuncionario.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            txtLoginFuncionario.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N 
+            txtLoginFuncionario.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusLost(java.awt.event.FocusEvent evt) {
+                    txtLoginFuncionarioFocusLost(evt);
+                }
+            });
 
             jLabel5.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
             jLabel5.setText("Login do Funcionário");
@@ -5724,6 +5743,11 @@ public class MenuInicial extends javax.swing.JFrame {
             jLabel8.setText("Informações adicionais da venda");
 
             txtCodigoCliente.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            txtCodigoCliente.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusLost(java.awt.event.FocusEvent evt) {
+                    txtCodigoClienteFocusLost(evt);
+                }
+            });
 
             jLabel6.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
             jLabel6.setText("Nome");
@@ -6066,7 +6090,27 @@ public class MenuInicial extends javax.swing.JFrame {
        private void btnConsultarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                    
            ConsultaClienteModal consulta = new ConsultaClienteModal(this.getParent(), true);
            consulta.setVisible(true);
-       }                                                   
+       }           
+       
+       private void txtCodigoClienteFocusLost(java.awt.event.FocusEvent evt) {                                                
+            Consulta con = new Consulta();
+            try {
+                setCliente(con.encontrarCliente(Integer.parseInt(txtCodigoCliente.getText())));
+                txtNomeCliente.setText(getCliente().getNome());
+            } catch (NumberFormatException | NullPointerException e){
+                txtNomeCliente.setText("");
+            }
+        }     
+       
+       private void txtLoginFuncionarioFocusLost(java.awt.event.FocusEvent evt) {                                                
+            Consulta con = new Consulta();
+            try {
+                setFuncionario(con.encontrarFuncionarioLogin(txtLoginFuncionario.getText()));
+                txtNomeFuncionario.setText(getFuncionario().getNome());
+            } catch (NumberFormatException | NullPointerException e){
+                txtNomeFuncionario.setText("");
+            }
+        }          
 
        private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {                                       
            Border bordaVermelha = BorderFactory.createLineBorder(Color.red);
@@ -8823,6 +8867,554 @@ public class MenuInicial extends javax.swing.JFrame {
        private javax.swing.JTextField txtValorTotal;
        // End of variables declaration                   
    }
+   
+   
+   /**
+    * JDialog para alterar as informações de um serviço existente
+    *
+    * @author Rafael Tavares
+    */
+   public class AlterarServicoModal extends javax.swing.JDialog {
+       private Servico novo;
+
+       /**
+        * Cria um novo JDialog para o AlterarServicoModal
+        * @param parent
+        * @param modal
+        */
+       public AlterarServicoModal(java.awt.Frame parent, boolean modal, Servico s) {
+           super(parent, modal);
+           initComponents();
+           SimpleDateFormat df = new SimpleDateFormat();
+           txtCodigoCliente.setText(Integer.toString(s.getCliente().getCodigo()));
+           txtCodigoServico.setText(Integer.toString(s.getCodigo()));
+           txtLoginFuncionario.setText(s.getFuncionario().getLogin());
+           txtNomeServico.setText(s.getNome());
+           ftxtData.setText(df.format(s.getData()));
+           txtValor.setText(Float.toString(s.getValor()));
+           this.getContentPane().setBackground(Color.PINK);
+
+           this.setLocationRelativeTo(null);
+       }
+
+       /**
+        * Retorna o serviço novo
+        * @return novo
+        */
+       public Servico getNovo() {
+           return this.novo;
+       }
+
+       /**
+        * Define o serviço novo
+        * @param n 
+        */
+       private void setNovo (Servico n) {
+           this.novo = n;
+       }
+
+       /**
+        * This method is called from within the constructor to initialize the form.
+        * WARNING: Do NOT modify this code. The content of this method is always
+        * regenerated by the Form Editor.
+        */
+        @SuppressWarnings("unchecked")
+        // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+        private void initComponents() {
+
+            btnCadastrar = new javax.swing.JButton();
+            btnCancelar = new javax.swing.JButton();
+            jLabel2 = new javax.swing.JLabel();
+            txtNomeServico = new javax.swing.JTextField();
+            txtCodigoCliente = new javax.swing.JTextField();
+            jLabel3 = new javax.swing.JLabel();
+            btnConsultarCliente = new javax.swing.JButton();
+            jLabel4 = new javax.swing.JLabel();
+            txtCodigoServico = new javax.swing.JTextField();
+            btnConsultarFuncionario = new javax.swing.JButton();
+            txtLoginFuncionario = new javax.swing.JTextField();
+            jLabel5 = new javax.swing.JLabel();
+            jLabel6 = new javax.swing.JLabel();
+            ftxtData = new javax.swing.JFormattedTextField();
+            jLabel7 = new javax.swing.JLabel();
+            jLabel8 = new javax.swing.JLabel();
+            cmbEstado = new javax.swing.JComboBox<>();
+            txtValor = new javax.swing.JTextField();
+
+            setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            setTitle("Cadastrar Serviço");
+            setBackground(new java.awt.Color(249, 180, 209));
+
+            btnCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/agenda/botaoAlterarServicoGrande.png"))); // NOI18N
+            btnCadastrar.setToolTipText("");
+            btnCadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnCadastrar.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btnCadastrarMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btnCadastrarMouseExited(evt);
+                }
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    btnCadastrarMousePressed(evt);
+                }
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    btnCadastrarMouseReleased(evt);
+                }
+            });
+            btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnCadastrarActionPerformed(evt);
+                }
+            });
+
+            btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoCancelarCadastro.png"))); // NOI18N
+            btnCancelar.setToolTipText("");
+            btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btnCancelarMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btnCancelarMouseExited(evt);
+                }
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    btnCancelarMousePressed(evt);
+                }
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    btnCancelarMouseReleased(evt);
+                }
+            });
+            btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnCancelarActionPerformed(evt);
+                }
+            });
+
+            jLabel2.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel2.setText("Nome do Serviço");
+
+            txtNomeServico.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+
+            txtCodigoCliente.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+
+            jLabel3.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel3.setText("Código do Cliente");
+
+            btnConsultarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar.png"))); // NOI18N
+            btnConsultarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnConsultarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btnConsultarClienteMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btnConsultarClienteMouseExited(evt);
+                }
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    btnConsultarClienteMousePressed(evt);
+                }
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    btnConsultarClienteMouseReleased(evt);
+                }
+            });
+            btnConsultarCliente.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnConsultarClienteActionPerformed(evt);
+                }
+            });
+
+            jLabel4.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel4.setText("Código");
+
+            txtCodigoServico.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            txtCodigoServico.setEnabled(false);
+            txtCodigoServico.setFocusable(false);
+
+            btnConsultarFuncionario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar.png"))); // NOI18N
+            btnConsultarFuncionario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnConsultarFuncionario.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btnConsultarFuncionarioMouseEntered(evt);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btnConsultarFuncionarioMouseExited(evt);
+                }
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    btnConsultarFuncionarioMousePressed(evt);
+                }
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    btnConsultarFuncionarioMouseReleased(evt);
+                }
+            });
+            btnConsultarFuncionario.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnConsultarFuncionarioActionPerformed(evt);
+                }
+            });
+
+            txtLoginFuncionario.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+
+            jLabel5.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel5.setText("Login do Funcionário");
+
+            jLabel6.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel6.setText("Valor");
+
+            ftxtData.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            ftxtData.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusGained(java.awt.event.FocusEvent evt) {
+                    ftxtDataFocusGained(evt);
+                }
+            });
+
+            jLabel7.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel7.setText("Data");
+
+            jLabel8.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel8.setText("Estado");
+
+            cmbEstado.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agendado", "Realizado" }));
+
+            txtValor.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(28, 28, 28)
+                    .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(28, 28, 28))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(69, 69, 69)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(txtLoginFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnConsultarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel5))
+                            .addGap(38, 38, 38)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(txtCodigoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnConsultarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel3)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtCodigoServico, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(29, 29, 29)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtNomeServico, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2))
+                            .addGap(26, 26, 26)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel6)
+                                .addComponent(txtValor))))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel8)
+                            .addGap(77, 77, 77))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(29, 29, 29)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(ftxtData, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(54, 54, 54)
+                            .addComponent(jLabel7)))
+                    .addGap(107, 107, 107))
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(44, 44, 44)
+                            .addComponent(jLabel6))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(69, 69, 69)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtNomeServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCodigoServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGap(13, 13, 13)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel7)
+                        .addComponent(jLabel8))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(ftxtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(25, 25, 25)
+                            .addComponent(btnConsultarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel5))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtCodigoCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnConsultarCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtLoginFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(28, 28, 28))
+            );
+
+            pack();
+        }// </editor-fold>                                
+
+       private void btnCadastrarMouseEntered(java.awt.event.MouseEvent evt) {                                          
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/agenda/botaoAlterarServicoGrande_Hover.png"));
+           btnCadastrar.setIcon(i);
+       }                                         
+
+       private void btnCadastrarMouseExited(java.awt.event.MouseEvent evt) {                                         
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/agenda/botaoAlterarServicoGrande.png"));
+           btnCadastrar.setIcon(i);
+       }                                        
+
+       private void btnCadastrarMousePressed(java.awt.event.MouseEvent evt) {                                          
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/agenda/botaoAlterarServicoGrande_Pressed.png"));
+           btnCadastrar.setIcon(i);
+       }                                         
+
+       private void btnCadastrarMouseReleased(java.awt.event.MouseEvent evt) {                                           
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/agenda/botaoAlterarServicoGrande_Hover.png"));
+           btnCadastrar.setIcon(i);
+       }                                          
+
+       private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {                                         
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCancelarCadastro_Hover.png"));
+           btnCancelar.setIcon(i);
+       }                                        
+
+       private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {                                        
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCancelarCadastro.png"));
+           btnCancelar.setIcon(i);
+       }                                       
+
+       private void btnCancelarMousePressed(java.awt.event.MouseEvent evt) {                                         
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCancelarCadastro_Pressed.png"));
+           btnCancelar.setIcon(i);
+       }                                        
+
+       private void btnCancelarMouseReleased(java.awt.event.MouseEvent evt) {                                          
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCancelarCadastro_Hover.png"));
+           btnCancelar.setIcon(i);
+       }                                         
+
+       private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                            
+          this.dispose();
+       }                                           
+
+       private void btnConsultarFuncionarioMouseEntered(java.awt.event.MouseEvent evt) {                                                     
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar_Hover.png"));
+           btnConsultarFuncionario.setIcon(i);
+       }                                                    
+
+       private void btnConsultarFuncionarioMouseExited(java.awt.event.MouseEvent evt) {                                                    
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar.png"));
+           btnConsultarFuncionario.setIcon(i);
+       }                                                   
+
+       private void btnConsultarFuncionarioMousePressed(java.awt.event.MouseEvent evt) {                                                     
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar_Pressed.png"));
+           btnConsultarFuncionario.setIcon(i);
+       }                                                    
+
+       private void btnConsultarFuncionarioMouseReleased(java.awt.event.MouseEvent evt) {                                                      
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar_Pressed.png"));
+           btnConsultarFuncionario.setIcon(i);
+       }                                                     
+
+       private void btnConsultarClienteMouseEntered(java.awt.event.MouseEvent evt) {                                                 
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar_Hover.png"));
+           btnConsultarCliente.setIcon(i);
+       }                                                
+
+       private void btnConsultarClienteMouseExited(java.awt.event.MouseEvent evt) {                                                
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar.png"));
+           btnConsultarCliente.setIcon(i);
+       }                                               
+
+       private void btnConsultarClienteMousePressed(java.awt.event.MouseEvent evt) {                                                 
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar_Pressed.png"));
+           btnConsultarCliente.setIcon(i);
+       }                                                
+
+       private void btnConsultarClienteMouseReleased(java.awt.event.MouseEvent evt) {                                                  
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoConsultar_Hover.png"));
+           btnConsultarCliente.setIcon(i);
+       }                                                 
+
+       private void btnConsultarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {                                                        
+           // TODO add your handling code here:
+       }                                                       
+
+       private void btnConsultarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                    
+           // TODO add your handling code here:
+       }                                                   
+
+       private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {                                             
+          Border bordaVermelha = BorderFactory.createLineBorder(Color.red);
+               Border bordaPadrao = txtCodigoServico.getBorder();
+               int aux = 0;
+               if (txtCodigoCliente.getText().equals("")) {
+                   txtCodigoCliente.setBorder(bordaVermelha);
+                   aux = 1;
+               }
+               else {
+                   txtCodigoCliente.setBorder(bordaPadrao);
+               }
+               if (txtLoginFuncionario.getText().equals("")) {
+                   txtLoginFuncionario.setBorder(bordaVermelha);
+                   aux = 1;
+               }
+               else {
+                   txtLoginFuncionario.setBorder(bordaPadrao);
+               }
+               if (txtNomeServico.getText().equals("")) {
+                   txtNomeServico.setBorder(bordaVermelha);
+                   aux = 1;
+               }
+               else {
+                   txtNomeServico.setBorder(bordaPadrao);
+               }
+               if (ftxtData.getText().equals("")) {
+                   ftxtData.setBorder(bordaVermelha);
+                   aux = 1;
+               }
+               else {
+                   ftxtData.setBorder(bordaPadrao);
+               }
+               if (txtValor.getText().equals("")) {
+                   txtValor.setBorder(bordaVermelha);
+                   aux = 1;
+               }
+               else {
+                   txtValor.setBorder(bordaPadrao);
+               }
+               if (aux == 1) {
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Preencha todos os campos para "
+                           + "o cadastro", "Erro - Preencha os campos");
+                   m.setVisible(true);
+               }
+               else {
+                   Consulta con = new Consulta();
+                   Funcionario f = con.encontrarFuncionarioLogin(txtLoginFuncionario.getText());
+                   if (f == null) {
+                       txtLoginFuncionario.setBorder(bordaVermelha);
+                       MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Funcionário não encontrado, "
+                               + "verifique o Login" + txtLoginFuncionario.getText() + ".", "Erro - Funcionário inválido");
+                       m.setVisible(true);
+                   }
+                   else {
+                       Cliente c = con.encontrarCliente(parseInt(txtCodigoCliente.getText()));
+                       if (c == null) {
+                           txtCodigoCliente.setBorder(bordaVermelha);
+                           MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Cliente não encontrado, "
+                                   + "verifique o Código", "Erro - Cliente inválido");
+                           m.setVisible(true);
+                       }
+                       else {
+                           /* Aqui todos os dados foram preenchidos, Cliente e Funcionário são existentes */
+                           try {
+                               DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm");
+                               Date data = df.parse(ftxtData.getText());
+
+                               try{
+                                   Float valor = Float.parseFloat(txtValor.getText());
+                                   Alteracao alt = new Alteracao();
+                                   this.novo = new Servico(txtNomeServico.getText());
+                                   this.getNovo().setCodigo(Integer.parseInt(txtCodigoServico.getText()));
+                                   this.getNovo().setValor(valor);
+                                   try { // Então, agenda
+                                       this.getNovo().setCliente(c);
+                                       this.getNovo().setFuncionario(f);
+                                       this.getNovo().setData(data);
+                                       this.getNovo().setEstado((String) cmbEstado.getSelectedItem());
+                                       alt.alterarServico(this.getNovo());
+                                       dispose();
+                                   } catch (EstadoServicoInvalidoException ex) {
+                                       //
+                                   }
+                               } catch (NumberFormatException e) {
+                                   txtValor.setBorder(bordaVermelha);
+                                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Valor informado"
+                                           + " inválido: " + txtValor.getText(), "Erro - Valor inválido");
+                                   m.setVisible(true);
+                               }
+                           } catch (ParseException ex) {
+                               ftxtData.setBorder(bordaVermelha);
+                               MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Data (" 
+                                       + ftxtData.getText() + ") inválida", "Erro - Data inválida");
+                               m.setVisible(true);
+                           } 
+                       }
+                   }
+
+               }
+       }                                      
+
+       private void ftxtDataFocusGained(java.awt.event.FocusEvent evt) {                                     
+           MaskFormatter mask;
+           try {
+               mask = new MaskFormatter("##/##/## ##:##");
+               mask.install(ftxtData);
+           } catch (ParseException ex) {
+               //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }          
+
+       // Variables declaration - do not modify                     
+       private javax.swing.JButton btnCadastrar;
+       private javax.swing.JButton btnCancelar;
+       private javax.swing.JButton btnConsultarCliente;
+       private javax.swing.JButton btnConsultarFuncionario;
+       private javax.swing.JComboBox<String> cmbEstado;
+       private javax.swing.JFormattedTextField ftxtData;
+       private javax.swing.JLabel jLabel2;
+       private javax.swing.JLabel jLabel3;
+       private javax.swing.JLabel jLabel4;
+       private javax.swing.JLabel jLabel5;
+       private javax.swing.JLabel jLabel6;
+       private javax.swing.JLabel jLabel7;
+       private javax.swing.JLabel jLabel8;
+       private javax.swing.JTextField txtValor;
+       private javax.swing.JTextField txtCodigoCliente;
+       private javax.swing.JTextField txtCodigoServico;
+       private javax.swing.JTextField txtLoginFuncionario;
+       private javax.swing.JTextField txtNomeServico;
+       // End of variables declaration   
+   }
+   
    
     
     

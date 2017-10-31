@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Classe de log, armazena em arquivo
  */
 package logs;
 
@@ -15,8 +13,9 @@ import java.io.IOException;
 import java.util.Vector;
 
 /**
+ * Classe de log, armazena em arquivo
  *
- * @author faad2
+ * @author Fábio Augusto
  */
 public class ArquivoLog {
     File arquivo;
@@ -24,9 +23,19 @@ public class ArquivoLog {
     BufferedReader buffRead;
     FileWriter fileWrite;
     BufferedWriter buffWrite;
+    
+    /**
+     * Construtor
+     * @param erros 
+     */
     public ArquivoLog(String erros){
         EscreverLog(erros);
     }
+    
+    /**
+     * Método para escrever o erro no arquivo
+     * @param erros 
+     */
     private void EscreverLog(String erros){
         try {
             arquivo = new File("Exceptions.log");
@@ -55,6 +64,5 @@ public class ArquivoLog {
         } catch (IOException er){
             System.exit(0);
         }
-        
     }
 }
