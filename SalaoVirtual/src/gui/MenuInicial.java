@@ -20,6 +20,9 @@ import gui.tableModel.ConsultaProdutoTableModel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Graphics2D;
+import java.awt.SplashScreen;
+import static java.awt.SplashScreen.getSplashScreen;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,7 +62,8 @@ import salaovirtual.access.Consulta;
  * @author Rafael Tavares
  */
 public class MenuInicial extends javax.swing.JFrame {
-    private static final Logger LOG = Logger.getLogger( MenuInicial.class.getName() );
+    private static final Logger LOG = Logger.getLogger(MenuInicial.class.getName());
+    final SplashScreen splash = SplashScreen.getSplashScreen();
 
     private List<Servico> listaServicoVenda;
     private List<Produto> listaProdutoVenda;
@@ -84,15 +88,12 @@ public class MenuInicial extends javax.swing.JFrame {
         LOG.setLevel(Level.INFO);
         try {
             LOG.setUseParentHandlers(false);
-            FileHandler fh;  
-            fh = new FileHandler("salao.log");
+            FileHandler fh = new FileHandler("salao.log", true);
             LOG.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();  
             fh.setFormatter(formatter);
-        } catch (IOException ex) {
-            Logger.getLogger(MenuInicial.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            Logger.getLogger(MenuInicial.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | SecurityException ex) {
+            LOG.log(Level.SEVERE, null, ex);
         } 
         LoginModal login = new LoginModal(this, true);
         login.setVisible(true);
@@ -119,8 +120,6 @@ public class MenuInicial extends javax.swing.JFrame {
         tblAgenda.setModel(new AgendaTableModel());
         gerarTabelaAgenda();
         tblServico.setSelectionModel(new ForcedListSelectionModel());
-        tblServico.setModel(new ServicoTableModel());
-        gerarTabelaServico();
         tblCadastroFornecimentoProduto.setSelectionModel(new ForcedListSelectionModel());
         tblCadastroFornecimentoProduto.setModel(new CadastroProdutoFornecimentoTableModel(listaCadastroFornecimentoProduto,listaCadastroFornecimentoQuantidade,listaCadastroFornecimentoValor));
         gerarTabelaCadastroFornecimentoProduto();
@@ -1044,6 +1043,11 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlServico.setAutoscrolls(true);
         pnlServico.setOpaque(false);
         pnlServico.setPreferredSize(new java.awt.Dimension(1290, 645));
+        pnlServico.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                pnlServicoComponentShown(evt);
+            }
+        });
         pnlServico.setLayout(null);
 
         jScrollPane2.setOpaque(false);
@@ -1166,7 +1170,7 @@ public class MenuInicial extends javax.swing.JFrame {
         cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agendado", "Realizado", "Cancelado" }));
         cmbEstado.setEnabled(false);
         pnlServico.add(cmbEstado);
-        cmbEstado.setBounds(127, 96, 106, 24);
+        cmbEstado.setBounds(117, 96, 140, 24);
 
         chkLoginFuncionario.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
         chkLoginFuncionario.setText("Login Funcionário");
@@ -2914,7 +2918,27 @@ public class MenuInicial extends javax.swing.JFrame {
         }
         else
         {
-            // tem uma linha selecionada
+            this.setMensagemDialog("<html>Você deseja cancelar o serviço " + tblAgenda.getValueAt(linha, 2) + " para o cliente " 
+                    + tblAgenda.getValueAt(linha, 4) + " em " + tblAgenda.getValueAt(linha, 1) + "?</html>");
+            MensagemOkCancelModal msg = new MensagemOkCancelModal(this, true, this.getMensagemDialog(), "Cancelamento de serviço");
+            msg.setVisible(true);
+            if (msg.isConfirmado()) {
+                Consulta con = new Consulta();
+                Servico s = con.encontrarServico((Integer) tblAgenda.getValueAt(linha,0));
+                try {
+                    s.setEstado("Cancelado");
+                } catch (EstadoServicoInvalidoException ex) {
+                    LOG.log(Level.SEVERE, null, ex);
+                }
+                Alteracao alt = new Alteracao();
+                alt.alterarServico(s);
+                LOG.log(Level.WARNING, "Servi\u00e7o de c\u00f3digo {0} cancelado pelo funcion\u00e1rio de logado como {1}", new Object[]{tblAgenda.getValueAt(linha, 0), this.getFuncionario().getLogin()});
+                tblAgenda.setModel(new AgendaTableModel());
+                gerarTabelaAgenda();
+                this.setMensagemDialog("Serviço cancelado com sucesso");
+                MensagemOkModal modal = new MensagemOkModal(this,true, this.getMensagemDialog(), "Sucesso - Serviço Cancelado");
+                modal.setVisible(true);
+            }
         }
     }//GEN-LAST:event_btnCancelarServicoActionPerformed
 
@@ -3080,7 +3104,7 @@ public class MenuInicial extends javax.swing.JFrame {
             this.setMensagemDialog("Você deseja remover " + tblProdutoVenda.getModel().getValueAt(linha, 1) + "?");
             MensagemOkCancelModal dialog = new MensagemOkCancelModal(this, true, this.getMensagemDialog(), "Confirmar - Remover produto");
             dialog.setVisible(true);
-            if (dialog.getConfirmado()) {
+            if (dialog.isConfirmado()) {
                 float valorTotalProduto = (Float) tblProdutoVenda.getModel().getValueAt(linha, 6);
                 valorTotalVenda -= valorTotalProduto;
                 lblValorTotalVenda.setText("R$ " + valorTotalVenda);
@@ -3130,7 +3154,7 @@ public class MenuInicial extends javax.swing.JFrame {
                     + " para " + tblServicoVenda.getModel().getValueAt(linha, 5) + "?");
             MensagemOkCancelModal dialog = new MensagemOkCancelModal(this, true, this.getMensagemDialog(), "Confirmar - Remover serviço");
             dialog.setVisible(true);
-            if (dialog.getConfirmado()) {
+            if (dialog.isConfirmado()) {
                 String texto = (String) tblServicoVenda.getModel().getValueAt(linha, 4);
                 String[] valorTexto = texto.split(" ");
                 Float valorServico = Float.parseFloat(valorTexto[1].replace(',', '.'));
@@ -3425,7 +3449,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("###.###.###-##");
             mask.install(ftxtCadastroClienteCpf);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtCadastroClienteCpfFocusGained
 
@@ -3446,7 +3470,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("(##) #####-####");
             mask.install(ftxtCadastroClienteTelefone);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtCadastroClienteTelefoneFocusGained
 
@@ -3456,7 +3480,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("##/##/####");
             mask.install(ftxtCadastroClienteData);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtCadastroClienteDataFocusGained
 
@@ -3567,7 +3591,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe um número válido");
                 dialog.setVisible(true);
             } catch (ArrayIndexOutOfBoundsException ex1) {
-                //
+                LOG.log(Level.SEVERE, null, ex1);
             }
         }
     }//GEN-LAST:event_btnCadastrarFuncionarioActionPerformed
@@ -3578,7 +3602,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("###.###.###-##");
             mask.install(ftxtCadastroFuncionarioCpf);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtCadastroFuncionarioCpfFocusGained
 
@@ -3588,7 +3612,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("(##) #####-####");
             mask.install(ftxtCadastroFuncionarioTelefone);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtCadastroFuncionarioTelefoneFocusGained
 
@@ -3613,7 +3637,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("###");
             mask.install(ftxtCadastroFuncionarioNumero);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtCadastroFuncionarioNumeroFocusGained
 
@@ -3627,7 +3651,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("###");
             mask.install(ftxtCadastrarProdutoEstoque);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtCadastrarProdutoEstoqueFocusGained
 
@@ -3757,7 +3781,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("####.##");
             mask.install(ftxtCadastrarProdutoQtdUnitaria);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtCadastrarProdutoQtdUnitariaFocusGained
 
@@ -3767,7 +3791,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("###");
             mask.install(ftxtCadastrarProdutoEstoqueMin);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtCadastrarProdutoEstoqueMinFocusGained
 
@@ -3788,7 +3812,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("R$ ###.##");
             mask.install(ftxtCadastrarProdutoValor);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtCadastrarProdutoValorFocusGained
 
@@ -3882,7 +3906,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("##.###.###/####-##");
             mask.install(ftxtCadastroFornecedorCnpj);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtCadastroFornecedorCnpjFocusGained
 
@@ -3896,7 +3920,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("###");
             mask.install(ftxtCadastroFornecedorNumero);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtCadastroFornecedorNumeroFocusGained
 
@@ -3917,7 +3941,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("(##) #####-####");
             mask.install(ftxtCadastroFornecedorTelefone);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+           LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtCadastroFornecedorTelefoneFocusGained
 
@@ -4153,7 +4177,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("R$ ###.##");
             mask.install(ftxtValorFim);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtValorFimFocusGained
 
@@ -4163,7 +4187,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("R$ ###.##");
             mask.install(ftxtValorInicio);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtValorInicioFocusGained
 
@@ -4173,7 +4197,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("##/##/##");
             mask.install(ftxtDataInicio);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtDataInicioFocusGained
 
@@ -4183,7 +4207,7 @@ public class MenuInicial extends javax.swing.JFrame {
             mask = new MaskFormatter("##/##/##");
             mask.install(ftxtDataFim);
         } catch (ParseException ex) {
-            //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ftxtDataFimFocusGained
 
@@ -4574,7 +4598,7 @@ public class MenuInicial extends javax.swing.JFrame {
             this.setMensagemDialog("Você deseja remover " + tblCadastroFornecimentoProduto.getModel().getValueAt(linha, 1) + "?");
             MensagemOkCancelModal dialog = new MensagemOkCancelModal(this, true, this.getMensagemDialog(), "Confirmar - Remover produto");
             dialog.setVisible(true);
-            if (dialog.getConfirmado()) {
+            if (dialog.isConfirmado()) {
                 float valorTotalProduto = (Float) tblCadastroFornecimentoProduto.getModel().getValueAt(linha, 7);
                 valorTotalFornecimento -= valorTotalProduto;
                 lblCadastroFornecimentoValorTotal.setText("R$ " + valorTotalFornecimento);
@@ -4650,10 +4674,15 @@ public class MenuInicial extends javax.swing.JFrame {
                     dialog.setVisible(true);
                 }
             } catch (NullPointerException e) {
-                    //
+                LOG.log(Level.SEVERE, null, e);
             }
         }
     }//GEN-LAST:event_btnAlterarServicoActionPerformed
+
+    private void pnlServicoComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlServicoComponentShown
+        tblServico.setModel(new ServicoTableModel());
+        gerarTabelaServico();
+    }//GEN-LAST:event_pnlServicoComponentShown
 
     /**
      * Método main do Menu Inicial
@@ -4672,15 +4701,11 @@ public class MenuInicial extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            LOG.log(Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
@@ -5159,11 +5184,13 @@ public class MenuInicial extends javax.swing.JFrame {
         }                                                    
 
         private void btnConsultarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) { 
-            // TODO add your handling code here:
+            ConsultaFuncionarioModal consulta = new ConsultaFuncionarioModal(this.getParent(), true);
+            consulta.setVisible(true);
         }                                                       
 
         private void btnConsultarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                    
-            // TODO add your handling code here:
+            ConsultaClienteModal consulta = new ConsultaClienteModal(this.getParent(), true);
+            consulta.setVisible(true);
         }                                                   
 
         private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {                                             
@@ -5272,7 +5299,7 @@ public class MenuInicial extends javax.swing.JFrame {
                                     cad.gravarServico(s);
                                     dispose();
                                 } catch (DataInvalidaException | EstadoServicoInvalidoException | ChaveNulaException ex) {
-                                    //
+                                    LOG.log(Level.SEVERE, null, ex);
                                 }
                             } catch (NumberFormatException e) {
                                 ftxtValor.setBorder(bordaVermelha);
@@ -5300,7 +5327,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 mask = new MaskFormatter("##/##/## ##:##");
                 mask.install(ftxtData);
             } catch (ParseException ex) {
-                //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+                LOG.log(Level.SEVERE, null, ex);
             }
         }                                 
 
@@ -5310,7 +5337,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 mask = new MaskFormatter("R$ ###.##");
                 mask.install(ftxtValor);
             } catch (ParseException ex) {
-                //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+                LOG.log(Level.SEVERE, null, ex);
             }
         }    
 
@@ -5506,7 +5533,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 txtQtdParcelas.setEnabled(false);
                valorTotal = cartao.getTaxa() * valorOriginal;
            } catch (TipoDeCartaoInvalidoException ex) {
-               //
+               LOG.log(Level.SEVERE, null, ex);
            }
            this.txtLoginFuncionario.setText(f.getLogin());
            this.txtNomeFuncionario.setText(f.getNome());
@@ -6331,7 +6358,7 @@ public class MenuInicial extends javax.swing.JFrame {
                lblValorTotal.setText("Valor Total: R$ " + String.format("%.2f", cartao.getValorTotal()));                                       
                calcValorParcela();
            } catch (TipoDeCartaoInvalidoException ex) {
-               //
+              LOG.log(Level.SEVERE, null, ex);
            }
        }       
        
@@ -6352,7 +6379,7 @@ public class MenuInicial extends javax.swing.JFrame {
                lblValorTotal.setText("Valor Total: R$ " + String.format("%.2f", cartao.getValorTotal()));
                calcValorParcela();
            } catch (TipoDeCartaoInvalidoException ex) {
-               //
+               LOG.log(Level.SEVERE, null, ex);
            }
        }                                         
 
@@ -6433,7 +6460,7 @@ public class MenuInicial extends javax.swing.JFrame {
         * Retorna se o JDialog foi confirmado - true
         * @return Confirmado - true, cancelado - false
         */
-       public boolean getConfirmado() {
+       public boolean isConfirmado() {
            return this.confirmado;
        }
 
@@ -9465,7 +9492,7 @@ public class MenuInicial extends javax.swing.JFrame {
                                        alt.alterarServico(this.getNovo());
                                        dispose();
                                    } catch (EstadoServicoInvalidoException ex) {
-                                       //
+                                       LOG.log(Level.SEVERE, null, ex);
                                    }
                                } catch (NumberFormatException e) {
                                     LOG.info("Alterar serviço Modal - Valor informado inválido.");
@@ -9493,7 +9520,7 @@ public class MenuInicial extends javax.swing.JFrame {
                mask = new MaskFormatter("##/##/## ##:##");
                mask.install(ftxtData);
            } catch (ParseException ex) {
-               //Logger.getLogger(CadastroServicoModal.class.getName()).log(Level.SEVERE, null, ex);
+               LOG.log(Level.SEVERE, null, ex);
            }
        }          
 

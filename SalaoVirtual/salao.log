@@ -1,4 +1,18 @@
-out 31, 2017 9:37:15 AM gui.MenuInicial$LoginModal btnOkActionPerformed
-GRAVE: Login Modal - Login testelogin e/ou senha inválidos.
-out 31, 2017 9:37:18 AM gui.MenuInicial$LoginModal btnOkActionPerformed
+﻿out 31, 2017 9:59:41 AM gui.MenuInicial$LoginModal btnOkActionPerformed
+GRAVE: Login Modal - Login igojdio e/ou senha inválidos.
+out 31, 2017 10:20:22 AM gui.MenuInicial$LoginModal btnOkActionPerformed
 GRAVE: Login Modal - Login rafatcb e/ou senha inválidos.
+out 31, 2017 10:24:34 AM gui.MenuInicial$CadastroServicoModal btnCadastrarActionPerformed
+INFORMAÇÕES: Cadastrar serviço Modal - Data informada inválida.
+out 31, 2017 10:25:44 AM gui.MenuInicial btnAlterarServicoActionPerformed
+INFORMAÇÕES: Alterar serviço - Nenhum serviço foi selecionado.
+out 31, 2017 10:25:52 AM gui.MenuInicial btnAlterarServicoActionPerformed
+INFORMAÇÕES: Alterar serviço - O serviço de código1 foi alterado.
+out 31, 2017 10:27:49 AM gui.MenuInicial$LoginModal btnOkActionPerformed
+GRAVE: Login Modal - Login login e/ou senha inválidos.
+out 31, 2017 10:35:15 AM gui.MenuInicial btnCadastrarClienteActionPerformed
+INFORMAÇÕES: Cadastrar cliente - Preencha todos os campos.
+out 31, 2017 10:48:16 AM gui.MenuInicial btnCadastroFornecimentoAddProdutoActionPerformed
+INFORMAÇÕES: Adicionar produto ao fornecimento - Insira um valor válido.
+out 31, 2017 12:57:21 PM gui.MenuInicial btnCancelarServicoActionPerformed
+ADVERTÊNCIA: Serviço de código 7 cancelado pelo funcionário de logado como login
