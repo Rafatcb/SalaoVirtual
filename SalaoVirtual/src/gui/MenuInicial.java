@@ -23,16 +23,19 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import static java.lang.Integer.parseInt;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.border.Border;
@@ -56,6 +59,7 @@ import salaovirtual.access.Consulta;
  * @author Rafael Tavares
  */
 public class MenuInicial extends javax.swing.JFrame {
+    private static final Logger LOG = Logger.getLogger( MenuInicial.class.getName() );
 
     private List<Servico> listaServicoVenda;
     private List<Produto> listaProdutoVenda;
@@ -77,6 +81,19 @@ public class MenuInicial extends javax.swing.JFrame {
      * Cria um novo JFrame Menu Inicial
      */
     public MenuInicial() {
+        LOG.setLevel(Level.INFO);
+        try {
+            LOG.setUseParentHandlers(false);
+            FileHandler fh;  
+            fh = new FileHandler("salao.log");
+            LOG.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();  
+            fh.setFormatter(formatter);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuInicial.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(MenuInicial.class.getName()).log(Level.SEVERE, null, ex);
+        } 
         LoginModal login = new LoginModal(this, true);
         login.setVisible(true);
         if (!login.isLogado()) {  // this returns true only if the user logged in
@@ -2976,12 +2993,14 @@ public class MenuInicial extends javax.swing.JFrame {
             this.setMensagemDialog("Preencha todos os campos");
             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Preencha todos os campos");
             dialog.setVisible(true);
+            LOG.info("Adicionar produto à venda - Preencha todos os campos.");
         }
         else if (txtProdutoVendaNome.getText().length() == 0) {
             txtProdutoVendaCodigo.setBorder(bordaVermelha);
             this.setMensagemDialog("Informe um código válido para o produto");
             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe um código válido");
             dialog.setVisible(true);
+            LOG.info("Adicionar produto à venda - Informe um código válido.");
         }
         else {
             if (txtProdutoVendaValorTotal.getText().length() == 0) {
@@ -2989,14 +3008,16 @@ public class MenuInicial extends javax.swing.JFrame {
                 this.setMensagemDialog("Informe uma quantidade válida para o produto");
                 MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe uma quantidade válido");
                 dialog.setVisible(true);
+                LOG.info("Adicionar produto à venda - Informe uma quantidade válida.");
             }
             else {
                 if (Integer.parseInt(txtProdutoVendaQuantidade.getText()) > produtoVenda.getQtdEstoque()) {
                     txtProdutoVendaQuantidade.setBorder(bordaVermelha);
                     this.setMensagemDialog("Quantidade informada (" + txtProdutoVendaQuantidade.getText() + 
                             ") superior ao estoque (" + produtoVenda.getQtdEstoque() + ")");
-                    MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Quantidade insuficiente");
+                    MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Quantidade insuficiente.");
                     dialog.setVisible(true);
+                    LOG.log(Level.WARNING, "Adicionar produto \u00e0 venda - Quantidade do produto de c\u00f3digo {0} em estoque \u00e9 {1}. Usu\u00e1rio tentou adicionar {2} \u00e0 venda.", new Object[]{txtProdutoVendaCodigo.getText(), produtoVenda.getQtdEstoque(), txtProdutoVendaQuantidade.getText()});
                 }
                 else {
                     aux = 0;
@@ -3007,6 +3028,7 @@ public class MenuInicial extends javax.swing.JFrame {
                             this.setMensagemDialog("O produto já foi adicionado na venda");
                             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Produto já adicionado");
                             dialog.setVisible(true);
+                            LOG.info("Adicionar produto à venda - O produto já foi adicionado à venda.");
                             break;
                         }
                     }
@@ -3051,6 +3073,7 @@ public class MenuInicial extends javax.swing.JFrame {
             this.setMensagemDialog("Nenhum produto foi selecionado");
             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Produto não selecionado");
             dialog.setVisible(true);
+            LOG.info("Remover produto da venda - Nenhum produto foi selecionado.");
         }
         else
         {
@@ -3061,6 +3084,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 float valorTotalProduto = (Float) tblProdutoVenda.getModel().getValueAt(linha, 6);
                 valorTotalVenda -= valorTotalProduto;
                 lblValorTotalVenda.setText("R$ " + valorTotalVenda);
+                LOG.log(Level.WARNING, "Remover produto da venda - O produto de c\u00f3digo {0} em quantidade {1} foi removido da venda.", new Object[]{listaProdutoVenda.get(linha).getCodigo(), listaProdutoVendaQuantidade.get(linha)});
                 listaProdutoVenda.remove(linha);
                 listaProdutoVendaQuantidade.remove(linha);
                 gerarTabelaProdutoVenda(listaProdutoVenda, listaProdutoVendaQuantidade);
@@ -3098,6 +3122,7 @@ public class MenuInicial extends javax.swing.JFrame {
             this.setMensagemDialog("Nenhum serviço foi selecionado");
             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Serviço não selecionado");
             dialog.setVisible(true);
+            LOG.info("Remover serviço da venda - Nenhum serviço foi selecionado");
         }
         else
         {
@@ -3109,6 +3134,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 String texto = (String) tblServicoVenda.getModel().getValueAt(linha, 4);
                 String[] valorTexto = texto.split(" ");
                 Float valorServico = Float.parseFloat(valorTexto[1].replace(',', '.'));
+                LOG.log(Level.WARNING, "Remover servi\u00e7o da venda - O servi\u00e7o de c\u00f3digo {0} foi removido da venda.", listaServicoVenda.get(linha).getCodigo());
                 valorTotalVenda -= valorServico;
                 lblValorTotalVenda.setText("R$ " + valorTotalVenda);
                 listaServicoVenda.remove(linha);
@@ -3152,6 +3178,7 @@ public class MenuInicial extends javax.swing.JFrame {
                     this.setMensagemDialog("O serviço já foi adicionado na venda");
                     MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Serviço já adicionado");
                     dialog.setVisible(true);
+                    LOG.log(Level.INFO, "Adicionar servi\u00e7o \u00e0 venda - O servi\u00e7o de c\u00f3digo {0} j\u00e1 foi adicionado \u00e0 venda.", txtServicoVendaCodigo.getText());
                     break;
                 }
             }
@@ -3168,11 +3195,13 @@ public class MenuInicial extends javax.swing.JFrame {
             txtServicoVendaCodigo.setBorder(bordaVermelha);
             if (txtServicoVendaCodigo.getText().length() > 0) { 
                 this.setMensagemDialog("Informe um código válido para o serviço");
+                LOG.info("Adicionar serviço à venda - Informe um código válido para o serviço.");
                 MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe um código válido");
                 dialog.setVisible(true);
             }
             else {
                 this.setMensagemDialog("Informe o código do serviço");
+                LOG.info("Adicionar serviço à venda - Informe o código do serviço.");
                 MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe o código");
                 dialog.setVisible(true);
             }
@@ -3259,7 +3288,8 @@ public class MenuInicial extends javax.swing.JFrame {
         if (tblProdutoVenda.getRowCount() == 0) {
            if (tblServicoVenda.getRowCount() == 0) {
                 this.setMensagemDialog("Nenhum produto ou serviço foi adicionado à venda");
-                MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Insira um produto ou serviço");
+                LOG.info("Finalizar venda - Nenhum produto ou serviço foi adicionado à venda");
+                MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Insira um produto ou serviço.");
                 dialog.setVisible(true);
            } 
         }
@@ -3341,6 +3371,7 @@ public class MenuInicial extends javax.swing.JFrame {
             this.setMensagemDialog("Preencha todos os campos");
             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Preencha todos os campos");
             dialog.setVisible(true);
+            LOG.info("Cadastrar cliente - Preencha todos os campos.");
         }
         else {
             ftxtCadastroClienteTelefone.setBorder(bordaPadrao);
@@ -3366,6 +3397,7 @@ public class MenuInicial extends javax.swing.JFrame {
                     } catch (ObjetoJaCadastradoException ex) {
                         ftxtCadastroClienteCpf.setBorder(bordaVermelha);
                         this.setMensagemDialog("Este CPF já está cadastrado");
+                        LOG.log(Level.WARNING, "Cadastrar cliente - O CPF + {0} j\u00e1 est\u00e1 cadastrado.", ftxtCadastroClienteCpf.getText());
                         MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe um CPF válido");
                         dialog.setVisible(true);
                     }
@@ -3373,12 +3405,14 @@ public class MenuInicial extends javax.swing.JFrame {
                 else {
                     ftxtCadastroClienteData.setBorder(bordaVermelha);
                     this.setMensagemDialog("Informe uma data de nascimento válida");
+                    LOG.info("Cadastrar cliente - Informe uma data de nascimento válida.");
                     MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe uma data válida");
                     dialog.setVisible(true);
                 }
             } catch (ParseException e) {
                 ftxtCadastroClienteData.setBorder(bordaVermelha);
                 this.setMensagemDialog("Informe uma data de nascimento válida");
+                LOG.info("Cadastrar cliente - Informe uma data de nascimento válida.");
                 MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe uma data válida");
                 dialog.setVisible(true);
             }
@@ -3480,6 +3514,7 @@ public class MenuInicial extends javax.swing.JFrame {
         }
         if (aux == 1) {
             this.setMensagemDialog("Preencha todos os campos");
+            LOG.info("Cadastrar funcionário - Preencha todos os campos.");
             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Preencha todos os campos");
             dialog.setVisible(true);
         }
@@ -3515,16 +3550,19 @@ public class MenuInicial extends javax.swing.JFrame {
                     txtCadastroFuncionarioLogin.setBorder(bordaVermelha);
                     ftxtCadastroFuncionarioCpf.setBorder(bordaVermelha);
                     this.setMensagemDialog("Login ou CPF já cadastrados");
+                    LOG.log(Level.WARNING, "Cadastrar funcion\u00e1rio - Login ({0}) ou CPF ({1}) j\u00e1 cadastrados.", new Object[]{txtCadastroFuncionarioLogin.getText(), ftxtCadastroFuncionarioCpf.getText()});
                     MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Login ou CPF já cadastrados");
                     dialog.setVisible(true);
                 } catch (ChaveNulaException ex) {
                     txtCadastroFuncionarioLogin.setBorder(bordaVermelha);
+                    LOG.info("Cadastrar funcionário - Informe o login.");
                     this.setMensagemDialog("Informe o login");
                     MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe um login válido");
                     dialog.setVisible(true);
                 }
             } catch (NumberFormatException ex) {
                 ftxtCadastroFuncionarioNumero.setBorder(bordaVermelha);
+                LOG.info("Cadastrar funcionário - Informe um número de endereço válido.");
                 this.setMensagemDialog("Informe um número de endereço válido");
                 MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe um número válido");
                 dialog.setVisible(true);
@@ -3626,6 +3664,7 @@ public class MenuInicial extends javax.swing.JFrame {
             ftxtCadastrarProdutoValor.setBorder(bordaVermelha);
         }
         if (aux == 1) {
+            LOG.info("Cadastrar produto - Preencha todos os campos.");
             this.setMensagemDialog("Preencha todos os campos");
             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Preencha todos os campos");
             dialog.setVisible(true);
@@ -3663,24 +3702,28 @@ public class MenuInicial extends javax.swing.JFrame {
                             
                         } catch (NumberFormatException e2) {
                             ftxtCadastrarProdutoQtdUnitaria.setBorder(bordaVermelha);
+                            LOG.info("Cadastrar produto - Informe um valor válido.");
                             this.setMensagemDialog("Informe um valor válido");
                             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Valor inválido");
                             dialog.setVisible(true);
                         }
                     } catch (NumberFormatException e1) {
                         ftxtCadastrarProdutoQtdUnitaria.setBorder(bordaVermelha);
+                        LOG.info("Cadastrar produto - Informe uma quantidade unitária válida.");
                         this.setMensagemDialog("Informe uma quantidade unitária válida");
                         MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Quantidade unitária inválida");
                         dialog.setVisible(true);
                     }
                 } catch (NumberFormatException e) {
                     ftxtCadastrarProdutoEstoqueMin.setBorder(bordaVermelha);
+                    LOG.info("Cadastrar produto - Informe um estoque mínimo válido.");
                     this.setMensagemDialog("Informe um estoque mínimo válido");
                     MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Estoque mínimo inválido");
                     dialog.setVisible(true);
                 }
             } catch (NumberFormatException ex) {
                 ftxtCadastrarProdutoEstoque.setBorder(bordaVermelha);
+                LOG.info("Cadastrar produto - Informe um estoque válido.");
                 this.setMensagemDialog("Informe um estoque válido");
                 MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Estoque inválido");
                 dialog.setVisible(true);
@@ -3786,6 +3829,7 @@ public class MenuInicial extends javax.swing.JFrame {
             aux = 1;
         }
         if (aux == 1) {
+            LOG.info("Cadastrar fornecedor - Preencha todos os campos.");
             this.setMensagemDialog("Preencha todos os campos");
             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Preencha todos os campos");
             dialog.setVisible(true);
@@ -3817,12 +3861,14 @@ public class MenuInicial extends javax.swing.JFrame {
                     dialog.setVisible(true);
                 } catch (ObjetoJaCadastradoException ex) {
                     ftxtCadastroFornecedorCnpj.setBorder(bordaVermelha);
+                    LOG.log(Level.WARNING, "Cadastrar fornecedor - O CNPJ {0} j\u00e1 est\u00e1 cadastrado.", ftxtCadastroFornecedorCnpj.getText());
                     this.setMensagemDialog("O CNPJ já está cadastrado");
                     MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - CNPJ já cadastrado");
                     dialog.setVisible(true);
                 }
             } catch (NumberFormatException e) {
                 ftxtCadastroFornecedorNumero.setBorder(bordaVermelha);
+                LOG.info("Cadastrar fornecedor - Informe um número de endereço válido.");
                 this.setMensagemDialog("Informe um número de endereço válido");
                 MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Informe um número válido");
                 dialog.setVisible(true);
@@ -3898,12 +3944,14 @@ public class MenuInicial extends javax.swing.JFrame {
                 } catch (NumberFormatException ex) {
                     txtCodigoServico.setBorder(bordaVermelha);
                     this.setMensagemDialog("Insira um valor numérico válido");
+                    LOG.info("Consultar serviço - Insira um valor numérico válido.");
                     MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Código inválido");
                     dialog.setVisible(true);
                 }
             }
             else {
                 txtCodigoServico.setBorder(bordaVermelha);
+                LOG.info("Consultar serviço - Preencha todos os campos.");
                 this.setMensagemDialog("Preencha todos os campos");
                 MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Preencha todos os campos");
                 dialog.setVisible(true);
@@ -4012,10 +4060,12 @@ public class MenuInicial extends javax.swing.JFrame {
 
             if (aux1 == 1) {
                 this.setMensagemDialog("Preencha todos os campos");
+                LOG.info("Consultar serviço - Preencha todos os campos.");
                 MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Preencha todos os campos");
                 dialog.setVisible(true);
             }
             else if (aux2 == 1) {
+                LOG.info("Consultar serviço - Insira um valor ´valido nos campos.");
                 this.setMensagemDialog("Insira um valor válido nos campos");
                 MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Valores inválidos");
                 dialog.setVisible(true);
@@ -4226,6 +4276,7 @@ public class MenuInicial extends javax.swing.JFrame {
             txtCadastroFornecimentoProdutoCodigo.setBorder(bordaVermelha);
         }
         if (aux == 1) {
+            LOG.info("Adicionar produto ao fornecimento - Preencha todos os campos.");
             this.setMensagemDialog("Preencha todos os campos");
             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Preencha todos os campos");
             dialog.setVisible(true);
@@ -4233,6 +4284,7 @@ public class MenuInicial extends javax.swing.JFrame {
         else {
             if (txtCadastroFornecimentoProdutoNome.getText().length() == 0) {
                 txtCadastroFornecimentoProdutoCodigo.setBorder(bordaVermelha);
+                LOG.info("Adicionar produto ao fornecimento - Insira um código válido de produto.");
                 this.setMensagemDialog("Insira um código válido de produto");
                 MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Código inválido");
                 dialog.setVisible(true);
@@ -4255,12 +4307,14 @@ public class MenuInicial extends javax.swing.JFrame {
                         gerarTabelaCadastroFornecimentoProduto();
                     } catch (NumberFormatException ex) {
                         txtCadastroFornecimentoProdutoValor.setBorder(bordaVermelha);
+                        LOG.info("Adicionar produto ao fornecimento - Insira um valor válido.");
                         this.setMensagemDialog("Insira um valor válido");
                         MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Valor inválido");
                         dialog.setVisible(true);
                     }
                 } catch (NumberFormatException e) {
                     txtCadastroFornecimentoProdutoQuantidade.setBorder(bordaVermelha);
+                    LOG.info("Adicionar produto ao fornecimento - Insira uma quantidade válida.");
                     this.setMensagemDialog("Insira uma quantidade válida");
                     MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Quantidade inválida");
                     dialog.setVisible(true);
@@ -4429,6 +4483,7 @@ public class MenuInicial extends javax.swing.JFrame {
             txtCadastroFornecimentoProdutoCodigo.setBorder(bordaVermelha);
             txtCadastroFornecimentoProdutoValor.setBorder(bordaVermelha);
             txtCadastroFornecimentoProdutoQuantidade.setBorder(bordaVermelha);
+            LOG.info("Finalizar fornecimento - Nenhum produto foi adicionado.");
             this.setMensagemDialog("Nenhum produto foi adicionado");
             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Nenhum produto foi adicionado");
             dialog.setVisible(true);
@@ -4438,6 +4493,7 @@ public class MenuInicial extends javax.swing.JFrame {
             txtCadastroFornecimentoProdutoValor.setBorder(bordaPadrao);
             txtCadastroFornecimentoProdutoQuantidade.setBorder(bordaPadrao);
             txtCadastroFornecimentoFornecedorCodigo.setBorder(bordaVermelha);
+            LOG.info("Finalizar fornecimento - Informe um fornecedor.");
             this.setMensagemDialog("Informe um fornecedor");
             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Nenhum fornecedor foi adicionado");
             dialog.setVisible(true);
@@ -4448,6 +4504,7 @@ public class MenuInicial extends javax.swing.JFrame {
             txtCadastroFornecimentoProdutoQuantidade.setBorder(bordaPadrao);
             if (txtCadastroFornecimentoFornecedorNome.getText().length() == 0) {
                 txtCadastroFornecimentoFornecedorCodigo.setBorder(bordaVermelha);
+                LOG.info("Finalizar fornecimento - Informe um fornecedor válido.");
                 this.setMensagemDialog("Informe um fornecedor válido");
                 MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Fornecedor inválido");
                 dialog.setVisible(true);
@@ -4475,6 +4532,7 @@ public class MenuInicial extends javax.swing.JFrame {
                     limparTelaCadastroFornecimento();
                 } catch (ChaveNulaException ex) {
                     txtCadastroFornecimentoFornecedorCodigo.setBorder(bordaVermelha);
+                    LOG.info("Finalizar fornecimento - Informe um fornecedor válido.");
                     this.setMensagemDialog("Informe um fornecedor válido");
                     MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Fornecedor inválido");
                     dialog.setVisible(true);
@@ -4507,6 +4565,7 @@ public class MenuInicial extends javax.swing.JFrame {
     private void btnCadastroFornecimentoRemoverProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroFornecimentoRemoverProdutoActionPerformed
         int linha = tblCadastroFornecimentoProduto.getSelectedRow();
         if (linha == -1) {
+            LOG.info("Remover produto do fornecimento - Nenhum produto foi selecionado.");
             this.setMensagemDialog("Nenhum produto foi selecionado");
             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Produto não selecionado");
             dialog.setVisible(true);
@@ -4524,6 +4583,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 p = con.encontrarProduto((Integer) tblCadastroFornecimentoProduto.getModel().getValueAt(linha, 0));
                 valorTotalFornecimento -= listaCadastroFornecimentoValor.get(linha)*listaCadastroFornecimentoQuantidade.get(linha);
                 lblCadastroFornecimentoValorTotal.setText("R$ " + valorTotalFornecimento);
+                LOG.log(Level.WARNING, "Remover produto do fornecimento - O produto de c\u00f3digo {0} foi removido.", listaCadastroFornecimentoProduto.get(linha));
                 listaCadastroFornecimentoProduto.remove(linha);
                 listaCadastroFornecimentoQuantidade.remove(linha);
                 listaCadastroFornecimentoValor.remove(linha);
@@ -4564,6 +4624,7 @@ public class MenuInicial extends javax.swing.JFrame {
         int linha = tblAgenda.getSelectedRow();
         if (linha == -1)
         {
+            LOG.info("Alterar serviço - Nenhum serviço foi selecionado.");
             this.setMensagemDialog("Nenhum serviço foi selecionado");
             MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Serviço não selecionado");
             dialog.setVisible(true);
@@ -4583,6 +4644,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 else {
                     tblAgenda.setModel(new AgendaTableModel());
                     gerarTabelaAgenda();
+                    LOG.log(Level.INFO, "Alterar servi\u00e7o - O servi\u00e7o de c\u00f3digo{0} foi alterado.", servicoAntigo.getCodigo());
                     this.setMensagemDialog("As informações foram alteradas");
                     MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Sucesso - Serviço modificado");
                     dialog.setVisible(true);
@@ -4646,6 +4708,7 @@ public class MenuInicial extends javax.swing.JFrame {
          * Construtor da classe
          * @param parent
          * @param modal 
+         * @param f 
          */
         public CadastroServicoModal(java.awt.Frame parent, boolean modal, Funcionario f) {
             super(parent, modal);
@@ -5145,6 +5208,7 @@ public class MenuInicial extends javax.swing.JFrame {
             if (aux == 1) {
                 MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Preencha todos os campos para "
                         + "o cadastro", "Erro - Preencha os campos");
+                LOG.info("Cadastrar serviço Modal - Nenhum serviço foi selecionado.");
                 m.setVisible(true);
             }
             else {
@@ -5154,11 +5218,13 @@ public class MenuInicial extends javax.swing.JFrame {
                     txtLoginFuncionario.setBorder(bordaVermelha);
                     MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Funcionário não encontrado, "
                             + "verifique o Login" + txtLoginFuncionario.getText() + ".", "Erro - Funcionário inválido");
+                    LOG.log(Level.WARNING, "Cadastrar servi\u00e7o Modal - Funcion\u00e1rio de login {0} n\u00e3o encontrado.", txtLoginFuncionario.getText());
                     m.setVisible(true);
                 }
                 else {
                     Cliente c = con.encontrarCliente(parseInt(txtCodigoCliente.getText()));
                     if (c == null) {
+                        LOG.log(Level.WARNING, "Cadastrar servi\u00e7o Modal - Cliente de c\u00f3digo {0} n\u00e3o encontrado.", txtCodigoCliente.getText());
                         txtCodigoCliente.setBorder(bordaVermelha);
                         MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Cliente não encontrado, "
                                 + "verifique o Código", "Erro - Cliente inválido");
@@ -5210,11 +5276,13 @@ public class MenuInicial extends javax.swing.JFrame {
                                 }
                             } catch (NumberFormatException e) {
                                 ftxtValor.setBorder(bordaVermelha);
+                                LOG.info("Cadastrar serviço Modal - Valor informado inválido.");
                                 MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Valor informado"
                                         + " inválido: " + ftxtValor.getText(), "Erro - Valor inválido");
                                 m.setVisible(true);
                             }
                         } catch (ParseException ex) {
+                            LOG.info("Cadastrar serviço Modal - Data informada inválida.");
                             ftxtData.setBorder(bordaVermelha);
                             MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Data (" 
                                     + ftxtData.getText() + ") inválida", "Erro - Data inválida");
@@ -6124,6 +6192,7 @@ public class MenuInicial extends javax.swing.JFrame {
            if (txtLoginFuncionario.getText().length() != 0) {
                this.setFuncionario(con.encontrarFuncionarioLogin(txtLoginFuncionario.getText()));
                if (funcionario == null) {
+                    LOG.log(Level.INFO, "Finalizar venda Modal - Login de funcion\u00e1rio {0} inv\u00e1lido.", txtLoginFuncionario.getText());
                     txtLoginFuncionario.setBorder(bordaVermelha);
                     MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Informe um login de funcionário válido",
                             "Erro - Login inválido");
@@ -6136,6 +6205,7 @@ public class MenuInicial extends javax.swing.JFrame {
                try{
                    this.setCliente(con.encontrarCliente(Integer.parseInt(txtCodigoCliente.getText())));
                    if (cliente == null) {
+                    LOG.log(Level.INFO, "Finalizar venda Modal - C\u00f3digo do cliente ({0}) inv\u00e1lido.", txtCodigoCliente.getText());
                         txtCodigoCliente.setBorder(bordaVermelha);
                         MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Informe um código de cliente válido",
                                 "Erro - Código inválido");
@@ -6144,6 +6214,7 @@ public class MenuInicial extends javax.swing.JFrame {
                    }
                    txtNomeCliente.setText(this.getCliente().getNome());
                } catch (NumberFormatException e) {
+                    LOG.log(Level.INFO, "Finalizar venda Modal - C\u00f3digo do cliente ({0}) inv\u00e1lido.", txtCodigoCliente.getText());
                     txtCodigoCliente.setBorder(bordaVermelha);
                     MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Informe um código de cliente válido",
                             "Erro - Código inválido");
@@ -6166,12 +6237,14 @@ public class MenuInicial extends javax.swing.JFrame {
                              dispose();
                         }
                         else {
+                            LOG.info("Finalizar venda Modal - Quantidade de parcelas inválida.");
                             txtQtdParcelas.setBorder(bordaVermelha);
                             MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Informe uma quantidade de parcelas maior ou igual à um", 
                                     "Erro - Quantidade de parcelas inválida");
                             m.setVisible(true);
                         }
                     } catch (NumberFormatException ex) {
+                        LOG.info("Finalizar venda Modal - Quantidade de parcelas inválida.");
                         txtQtdParcelas.setBorder(bordaVermelha);
                         MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Informe uma quantidade de parcelas válida", 
                                 "Erro - Quantidade de parcelas inválida");
@@ -6179,6 +6252,7 @@ public class MenuInicial extends javax.swing.JFrame {
                     }
                }
                else {
+                    LOG.info("Finalizar venda Modal - Informe a quantidade de parcelas.");
                     txtQtdParcelas.setBorder(bordaVermelha);
                     MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Informe a quantidade de parcelas", 
                             "Erro - Quantidade de parcelas não informada");
@@ -6198,12 +6272,14 @@ public class MenuInicial extends javax.swing.JFrame {
                              dispose();
                          }
                          else {
+                            LOG.log(Level.WARNING, "Finalizar venda Modal - Valor recebido ({0}) insuficiente para + {1}.", new Object[]{txtValorRecebido.getText(), Float.toString(valorTotal)});
                              txtValorRecebido.setBorder(bordaVermelha);
                              MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "O valor recebido é menor que o "
                                      + "valor total da venda", "Erro - Valor recebido insuficiente");
                              m.setVisible(true);
                          }
                      } catch (NumberFormatException ex) {
+                        LOG.info("Finalizar venda Modal - Valor recebido inválido");
                          txtValorRecebido.setBorder(bordaVermelha);
                          MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Informe um valor recebido válido, somente números", 
                                  "Erro - Valor recebido inválido");
@@ -6211,6 +6287,7 @@ public class MenuInicial extends javax.swing.JFrame {
                      }
                }
                else {
+                    LOG.info("Finalizar venda Modal - Informe o valor recebido.");
                     txtValorRecebido.setBorder(bordaVermelha);
                     MensagemOkModal m = new MensagemOkModal(this.getParent(), true, "Informe o valor recebido", 
                             "Erro - Valor recebido não informado");
@@ -6776,6 +6853,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 ptxtSenha.setBorder(bordaPadrao);
             }
             if (aux == 1) {
+                LOG.warning("Login Modal - Preencha todos os campos.");
                 MensagemOkModal msg = new MensagemOkModal(this.getParent(), true, "Informe o Login e Senha", 
                         "Erro - Preencha todos os campos");
                 msg.setVisible(true);
@@ -6785,8 +6863,9 @@ public class MenuInicial extends javax.swing.JFrame {
                     Consulta con = new Consulta();
                     Funcionario f = con.encontrarFuncionarioLogin(txtLogin.getText());
                     if (!f.validarLoginSenha(senha)) {
+                        LOG.log(Level.SEVERE, "Login Modal - Login {0} e/ou senha inv\u00e1lidos.", txtLogin.getText());
                         MensagemOkModal msg = new MensagemOkModal(this.getParent(), true, "Login e/ou senha inválidos", 
-                                "Erro - Preencha todos os campos");
+                                "Erro - Login e/ou senha inválidos");
                         msg.setVisible(true);
                     }
                     else {
@@ -6795,6 +6874,7 @@ public class MenuInicial extends javax.swing.JFrame {
                         dispose();
                     }
                 } catch (NullPointerException ex) {
+                    LOG.log(Level.SEVERE, "Login Modal - Login {0} e/ou senha inv\u00e1lidos.", txtLogin.getText());
                     MensagemOkModal msg = new MensagemOkModal(this.getParent(), true, "Login e/ou senha inválidos", 
                             "Erro - Preencha todos os campos");
                     msg.setVisible(true);
@@ -7144,6 +7224,7 @@ public class MenuInicial extends javax.swing.JFrame {
            txtNome.setBorder(bordaPadrao);
            if (chbCodigo.isSelected()) {
                 if (txtCodigo.getText().length() == 0) {
+                    LOG.info("Consulta cliente Modal - Código não informado.");
                      txtCodigo.setBorder(bordaVermelha);
                      MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o código", "Erro - Código não informado");
                      m.setVisible(true);
@@ -7165,6 +7246,7 @@ public class MenuInicial extends javax.swing.JFrame {
                             gerarTabela();
                         }
                     } catch (NumberFormatException e) {
+                        LOG.info("Consulta cliente Modal - Código não inválido.");
                        txtCodigo.setBorder(bordaVermelha);
                        MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe um código válido", "Erro - Código inválido");
                        m.setVisible(true);
@@ -7178,6 +7260,7 @@ public class MenuInicial extends javax.swing.JFrame {
            else if (chbCpf.isSelected()) {
                if (txtCpf.getText().length() == 0) {
                    txtCpf.setBorder(bordaVermelha);
+                    LOG.info("Consulta cliente Modal - CPF inválido.");
                    MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe um CPF válido", "Erro - CPF inválido");
                    m.setVisible(true);
                }
@@ -7202,6 +7285,7 @@ public class MenuInicial extends javax.swing.JFrame {
            else if (chbNome.isSelected()) {
                if (txtNome.getText().length() == 0) {
                    txtNome.setBorder(bordaVermelha);
+                    LOG.info("Consulta cliente Modal - Nome não informado.");
                    MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe um nome", "Erro - Nome não informado");
                    m.setVisible(true);
                }
@@ -7224,6 +7308,7 @@ public class MenuInicial extends javax.swing.JFrame {
                }
            }
            else {
+                LOG.info("Consulta cliente Modal - Selecione algum filtro de busca.");
                MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Selecione algum filtro de busca", "Erro - Nenhum filtro foi selecionado");
                m.setVisible(true);
            }
@@ -7592,6 +7677,7 @@ public class MenuInicial extends javax.swing.JFrame {
            txtNome.setBorder(bordaPadrao);
            if (chbCodigo.isSelected()) {
               if (txtLogin.getText().length() == 0) {
+                    LOG.info("Consulta funcionário Modal - Login não informado.");
                    txtLogin.setBorder(bordaVermelha);
                    MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o login", "Erro - Login não informado");
                    m.setVisible(true);
@@ -7605,6 +7691,7 @@ public class MenuInicial extends javax.swing.JFrame {
            }
            else if (chbCpf.isSelected()) {
                if (txtCpf.getText().length() == 0) {
+                    LOG.info("Consulta funcionário Modal - CPF não informado.");
                    txtCpf.setBorder(bordaVermelha);
                    MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe um CPF válido", "Erro - CPF inválido");
                    m.setVisible(true);
@@ -7618,8 +7705,9 @@ public class MenuInicial extends javax.swing.JFrame {
            }
            else if (chbNome.isSelected()) {
                if (txtNome.getText().length() == 0) {
+                    LOG.info("Consulta funcionário Modal - Nome não informado.");
                    txtNome.setBorder(bordaVermelha);
-                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Selecione algum filtro de busca", "Erro - Nenhum filtro foi selecionado");
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Nome não informado", "Erro - Nome não informado");
                    m.setVisible(true);
                }
                else {                    
@@ -7630,6 +7718,7 @@ public class MenuInicial extends javax.swing.JFrame {
                }
            }
            else {
+                LOG.info("Consulta funcionário Modal - Selecione algum filtro de busca.");
                MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Selecione algum filtro de busca", "Erro - Nenhum filtro foi selecionado");
                m.setVisible(true);
            }
@@ -8001,6 +8090,7 @@ public class MenuInicial extends javax.swing.JFrame {
            if (chbCodigo.isSelected()) {
               if (txtCodigo.getText().length() == 0) {
                    txtCodigo.setBorder(bordaVermelha);
+                    LOG.info("Consulta produto Modal - Código não informado.");
                    MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o código", "Erro - Código não informado");
                    m.setVisible(true);
               }
@@ -8011,6 +8101,7 @@ public class MenuInicial extends javax.swing.JFrame {
                        tblConsultaProduto.setModel(new ConsultaProdutoTableModel(produtos));
                        gerarTabela();
                    } catch (NumberFormatException e) {
+                        LOG.info("Consulta produto Modal - Código inválido.");
                        txtCodigo.setBorder(bordaVermelha);
                        MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe um código válido", "Erro - Código inválido");
                        m.setVisible(true);
@@ -8019,11 +8110,13 @@ public class MenuInicial extends javax.swing.JFrame {
            }
            else if (chbMarca.isSelected()) {
                if (txtMarca.getText().length() == 0) {
+                    LOG.info("Consulta produto Modal - Marca não informada.");
                    txtMarca.setBorder(bordaVermelha);
-                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe uma marca válida", "Erro - Marca inválida");
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe a marca", "Erro - Marca não informada");
                    m.setVisible(true);
                } else if (chbNome.isSelected()) {
                    if (txtNome.getText().length() == 0) {
+                        LOG.info("Consulta produto Modal - Nome do produto não informado.");
                        txtNome.setBorder(bordaVermelha);
                        MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o nome do produto", "Erro - Nome não informado");
                        m.setVisible(true);
@@ -8050,6 +8143,7 @@ public class MenuInicial extends javax.swing.JFrame {
            }
            else if (chbNome.isSelected()) {
                if (txtNome.getText().length() == 0) {
+                    LOG.info("Consulta produto Modal - Nome não informado.");
                    txtNome.setBorder(bordaVermelha);
                    MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o nome do produto", "Erro - Nome não informado");
                    m.setVisible(true);
@@ -8062,6 +8156,7 @@ public class MenuInicial extends javax.swing.JFrame {
                }
            }
            else {
+                LOG.info("Consulta produto Modal - Selecione algum filtro de busca.");
                MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Selecione algum filtro de busca", "Erro - Nenhum filtro foi selecionado");
                m.setVisible(true);
            }
@@ -8421,8 +8516,9 @@ public class MenuInicial extends javax.swing.JFrame {
            txtNome.setBorder(bordaPadrao);
            if (chbCodigo.isSelected()) {
               if (txtCodigo.getText().length() == 0) {
+                    LOG.info("Consulta fornecedor Modal - Código não informado.");
                    txtCodigo.setBorder(bordaVermelha);
-                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o login", "Erro - Login não informado");
+                   MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o código", "Erro - Código não informado");
                    m.setVisible(true);
               }
               else {
@@ -8434,6 +8530,7 @@ public class MenuInicial extends javax.swing.JFrame {
            }
            else if (chbCnpj.isSelected()) {
                if (txtCpnj.getText().length() == 0) {
+                    LOG.info("Consulta fornecedor Modal - CNPJ inválido.");
                    txtCpnj.setBorder(bordaVermelha);
                    MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe um CNPJ válido", "Erro - CPF inválido");
                    m.setVisible(true);
@@ -8447,6 +8544,7 @@ public class MenuInicial extends javax.swing.JFrame {
            }
            else if (chbNome.isSelected()) {
                if (txtNome.getText().length() == 0) {
+                    LOG.info("Consulta fornecedor Modal - Nome não informado");
                    txtNome.setBorder(bordaVermelha);
                    MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o nome do fornecedor", "Erro - Nome não fornecido");
                    m.setVisible(true);
@@ -8819,24 +8917,25 @@ public class MenuInicial extends javax.swing.JFrame {
            Border bordaPadrao = txtValorTotal.getBorder();
            txtCodigo.setBorder(bordaPadrao);
            if (txtCodigo.getText().length() == 0) {
+                LOG.info("Consulta fornecimento Modal - Código não informado");
                 txtCodigo.setBorder(bordaVermelha);
                 MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Informe o código", "Erro - Código não informado");
                 m.setVisible(true);
            }
            else {
                try{
-                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-                fornecimento = con.encontrarCompra(Integer.parseInt(txtCodigo.getText()));
-                txtCodigoFornecedor.setText(Integer.toString(fornecimento.getFornecedor().getCodigo()));
-                txtData.setText(df.format(fornecimento.getData()));
-                txtNomeFornecedor.setText(fornecimento.getFornecedor().getNome());
-                txtValorTotal.setText(String.format("%.2f", (fornecimento.getValorTotal())));
-                produtos = new ArrayList();
-                for (int i = 0; i < fornecimento.getProdutos().size(); i++) {
-                    produtos.add(con.encontrarProduto(fornecimento.getProdutos().get(i)));
-                }
-                tblConsultaFornecimento.setModel(new CadastroProdutoFornecimentoTableModel(produtos, fornecimento.getQuantidade(), fornecimento.getValores()));
-                gerarTabela();
+                    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                    fornecimento = con.encontrarCompra(Integer.parseInt(txtCodigo.getText()));
+                    txtCodigoFornecedor.setText(Integer.toString(fornecimento.getFornecedor().getCodigo()));
+                    txtData.setText(df.format(fornecimento.getData()));
+                    txtNomeFornecedor.setText(fornecimento.getFornecedor().getNome());
+                    txtValorTotal.setText(String.format("%.2f", (fornecimento.getValorTotal())));
+                    produtos = new ArrayList();
+                    for (int i = 0; i < fornecimento.getProdutos().size(); i++) {
+                        produtos.add(con.encontrarProduto(fornecimento.getProdutos().get(i)));
+                    }
+                    tblConsultaFornecimento.setModel(new CadastroProdutoFornecimentoTableModel(produtos, fornecimento.getQuantidade(), fornecimento.getValores()));
+                    gerarTabela();
                } catch (NullPointerException e) {
                     MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Fornecimento não encontrado", "Erro - Fornecimento não encontrado");
                     m.setVisible(true);
@@ -9322,6 +9421,7 @@ public class MenuInicial extends javax.swing.JFrame {
                    txtValor.setBorder(bordaPadrao);
                }
                if (aux == 1) {
+                    LOG.info("Alterar serviço Modal - Preencha todos os campos.");
                    MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Preencha todos os campos para "
                            + "o cadastro", "Erro - Preencha os campos");
                    m.setVisible(true);
@@ -9330,6 +9430,7 @@ public class MenuInicial extends javax.swing.JFrame {
                    Consulta con = new Consulta();
                    Funcionario f = con.encontrarFuncionarioLogin(txtLoginFuncionario.getText());
                    if (f == null) {
+                        LOG.log(Level.WARNING, "Alterar servi\u00e7o Modal - Funcion\u00e1rio de login {0} n\u00e3o encontrado.", txtLoginFuncionario.getText());
                        txtLoginFuncionario.setBorder(bordaVermelha);
                        MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Funcionário não encontrado, "
                                + "verifique o Login" + txtLoginFuncionario.getText() + ".", "Erro - Funcionário inválido");
@@ -9338,6 +9439,7 @@ public class MenuInicial extends javax.swing.JFrame {
                    else {
                        Cliente c = con.encontrarCliente(parseInt(txtCodigoCliente.getText()));
                        if (c == null) {
+                        LOG.log(Level.WARNING, "Alterar servi\u00e7o Modal - Cliente de c\u00f3digo {0} n\u00e3o encontrado.", txtCodigoCliente.getText());
                            txtCodigoCliente.setBorder(bordaVermelha);
                            MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Cliente não encontrado, "
                                    + "verifique o Código", "Erro - Cliente inválido");
@@ -9366,12 +9468,14 @@ public class MenuInicial extends javax.swing.JFrame {
                                        //
                                    }
                                } catch (NumberFormatException e) {
+                                    LOG.info("Alterar serviço Modal - Valor informado inválido.");
                                    txtValor.setBorder(bordaVermelha);
                                    MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Valor informado"
                                            + " inválido: " + txtValor.getText(), "Erro - Valor inválido");
                                    m.setVisible(true);
                                }
                            } catch (ParseException ex) {
+                                LOG.info("Alterar serviço Modal - Data inválida.");
                                ftxtData.setBorder(bordaVermelha);
                                MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Data (" 
                                        + ftxtData.getText() + ") inválida", "Erro - Data inválida");
