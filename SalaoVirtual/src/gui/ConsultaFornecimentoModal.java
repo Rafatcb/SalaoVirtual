@@ -6,7 +6,7 @@
 package gui;
 
 import gui.tableModel.ForcedListSelectionModel;
-import gui.tableModel.CadastroProdutoFornecimentoTableModel;
+import gui.tableModel.ProdutoFornecimentoTableModel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
@@ -40,7 +40,7 @@ public class ConsultaFornecimentoModal extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(Color.PINK);
         tblConsultaFornecimento.setSelectionModel(new ForcedListSelectionModel());
-        tblConsultaFornecimento.setModel(new CadastroProdutoFornecimentoTableModel(null, null, null));
+        tblConsultaFornecimento.setModel(new ProdutoFornecimentoTableModel(null, null, null));
         gerarTabela();
         
     }
@@ -321,7 +321,7 @@ public class ConsultaFornecimentoModal extends javax.swing.JDialog {
              for (int i = 0; i < fornecimento.getProdutos().size(); i++) {
                  produtos.add(con.encontrarProduto(fornecimento.getProdutos().get(i)));
              }
-             tblConsultaFornecimento.setModel(new CadastroProdutoFornecimentoTableModel(produtos, fornecimento.getQuantidade(), fornecimento.getValores()));
+             tblConsultaFornecimento.setModel(new ProdutoFornecimentoTableModel(produtos, fornecimento.getQuantidade(), fornecimento.getValores()));
              gerarTabela();
             } catch (NullPointerException e) {
                 MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Fornecimento não encontrado", "Erro - Fornecimento não encontrado");

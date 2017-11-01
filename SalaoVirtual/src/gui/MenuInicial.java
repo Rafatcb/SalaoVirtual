@@ -6,7 +6,7 @@ package gui;
 import gui.tableModel.AgendaTableModel;
 import gui.tableModel.ProdutoVendaTableModel;
 import gui.tableModel.ForcedListSelectionModel;
-import gui.tableModel.CadastroProdutoFornecimentoTableModel;
+import gui.tableModel.ProdutoFornecimentoTableModel;
 import gui.tableModel.ConsultaClienteTableModel;
 import gui.tableModel.ConsultaFornecedorTableModel;
 import gui.tableModel.ConsultaFuncionarioTableModel;
@@ -16,16 +16,20 @@ import exceptions.DataInvalidaException;
 import exceptions.EstadoServicoInvalidoException;
 import exceptions.ObjetoJaCadastradoException;
 import exceptions.TipoDeCartaoInvalidoException;
+import gui.tableModel.ConsultaFornecimentoTableModel;
 import gui.tableModel.ConsultaProdutoTableModel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.SplashScreen;
 import static java.awt.SplashScreen.getSplashScreen;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import static java.lang.Integer.parseInt;
 import java.text.DateFormat;
@@ -41,6 +45,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.text.MaskFormatter;
 import salaovirtual.Cartao;
@@ -100,6 +105,7 @@ public class MenuInicial extends javax.swing.JFrame {
         if (!login.isLogado()) {  // this returns true only if the user logged in
             System.exit(0);
         }
+        
         initComponents();
         this.getContentPane().setBackground(Color.PINK);
         this.setSize(1316, 710);
@@ -121,7 +127,7 @@ public class MenuInicial extends javax.swing.JFrame {
         gerarTabelaAgenda();
         tblServico.setSelectionModel(new ForcedListSelectionModel());
         tblCadastroFornecimentoProduto.setSelectionModel(new ForcedListSelectionModel());
-        tblCadastroFornecimentoProduto.setModel(new CadastroProdutoFornecimentoTableModel(listaCadastroFornecimentoProduto,listaCadastroFornecimentoQuantidade,listaCadastroFornecimentoValor));
+        tblCadastroFornecimentoProduto.setModel(new ProdutoFornecimentoTableModel(listaCadastroFornecimentoProduto,listaCadastroFornecimentoQuantidade,listaCadastroFornecimentoValor));
         gerarTabelaCadastroFornecimentoProduto();
         List<Servico> sl = null;
         gerarTabelaServicoVenda(sl);
@@ -295,7 +301,7 @@ public class MenuInicial extends javax.swing.JFrame {
         listaCadastroFornecimentoValor = new ArrayList();
         lblCadastroFornecimentoValorTotal.setText("R$ 0.0");
         gerarTabelaCadastroFornecimentoProduto();
-        tblCadastroFornecimentoProduto.setModel( new CadastroProdutoFornecimentoTableModel(listaCadastroFornecimentoProduto, listaCadastroFornecimentoQuantidade, listaCadastroFornecimentoValor));
+        tblCadastroFornecimentoProduto.setModel(new ProdutoFornecimentoTableModel(listaCadastroFornecimentoProduto, listaCadastroFornecimentoQuantidade, listaCadastroFornecimentoValor));
         limparProdutoFornecimento();
         limparFornecedorFornecimento();
     }
@@ -4324,7 +4330,7 @@ public class MenuInicial extends javax.swing.JFrame {
                         listaCadastroFornecimentoProduto.add(produtoFornecimento);
                         listaCadastroFornecimentoQuantidade.add(quantidade);
                         listaCadastroFornecimentoValor.add(valor);
-                        tblCadastroFornecimentoProduto.setModel( new CadastroProdutoFornecimentoTableModel(listaCadastroFornecimentoProduto, listaCadastroFornecimentoQuantidade, listaCadastroFornecimentoValor));
+                        tblCadastroFornecimentoProduto.setModel(new ProdutoFornecimentoTableModel(listaCadastroFornecimentoProduto, listaCadastroFornecimentoQuantidade, listaCadastroFornecimentoValor));
                         valorTotalFornecimento += valor*quantidade;
                         lblCadastroFornecimentoValorTotal.setText("R$ " + valorTotalFornecimento);
                         limparProdutoFornecimento();
@@ -4380,7 +4386,6 @@ public class MenuInicial extends javax.swing.JFrame {
                 txtCadastroFornecimentoProdutoValorTotal.setText("");
             }
         } catch (NumberFormatException | NullPointerException e){
-            System.out.println((Arrays.toString(txtCadastroFornecimentoProdutoCodigo.getText().toCharArray())));
             limparProdutoFornecimento();
         }       
     }//GEN-LAST:event_txtCadastroFornecimentoProdutoCodigoFocusLost
@@ -4545,7 +4550,6 @@ public class MenuInicial extends javax.swing.JFrame {
                         c.addProduto(listaCadastroFornecimentoProduto.get(i).getCodigo(), listaCadastroFornecimentoValor.get(i), listaCadastroFornecimentoQuantidade.get(i));
                         System.out.println(listaCadastroFornecimentoProduto.get(i).toString());
                         listaCadastroFornecimentoProduto.get(i).setQtdEstoque(listaCadastroFornecimentoProduto.get(i).getQtdEstoque() + listaCadastroFornecimentoQuantidade.get(i));
-                        System.out.println(listaCadastroFornecimentoProduto.get(i).toString());
                         alt.alterarProduto(listaCadastroFornecimentoProduto.get(i));
                     }
                     c.setValorTotal(valorTotalFornecimento);
@@ -4611,7 +4615,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 listaCadastroFornecimentoProduto.remove(linha);
                 listaCadastroFornecimentoQuantidade.remove(linha);
                 listaCadastroFornecimentoValor.remove(linha);
-                tblCadastroFornecimentoProduto.setModel( new CadastroProdutoFornecimentoTableModel(listaCadastroFornecimentoProduto, listaCadastroFornecimentoQuantidade, listaCadastroFornecimentoValor));
+                tblCadastroFornecimentoProduto.setModel(new ProdutoFornecimentoTableModel(listaCadastroFornecimentoProduto, listaCadastroFornecimentoQuantidade, listaCadastroFornecimentoValor));
                 gerarTabelaCadastroFornecimentoProduto();
                 this.setMensagemDialog("Produto removido com sucesso!");
                 MensagemOkModal dialog2 = new MensagemOkModal(this, true, this.getMensagemDialog(), "Sucesso - Produto removido");
@@ -8267,8 +8271,8 @@ public class MenuInicial extends javax.swing.JFrame {
            this.getContentPane().setBackground(Color.PINK);
            txtPadrao.setVisible(false);
            fornecedores = new ArrayList();
-           tblConsultaFuncionario.setSelectionModel(new ForcedListSelectionModel());
-           tblConsultaFuncionario.setModel(new ConsultaFornecedorTableModel(fornecedores));
+           tblConsultaFornecedor.setSelectionModel(new ForcedListSelectionModel());
+           tblConsultaFornecedor.setModel(new ConsultaFornecedorTableModel(fornecedores));
            gerarTabela();
 
        }
@@ -8277,10 +8281,17 @@ public class MenuInicial extends javax.swing.JFrame {
         * Método para auxiliar a gerar uma nova tabela
         */
        private void gerarTabela() {
-           tblConsultaFuncionario.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
-           tblConsultaFuncionario.getColumnModel().getColumn(0).setMaxWidth(65);
-           tblConsultaFuncionario.getColumnModel().getColumn(3).setMaxWidth(160);
-           tblConsultaFuncionario.getColumnModel().getColumn(3).setPreferredWidth(160);
+           tblConsultaFornecedor.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+           tblConsultaFornecedor.getColumnModel().getColumn(0).setMaxWidth(65);
+           tblConsultaFornecedor.getColumnModel().getColumn(3).setMaxWidth(160);
+           tblConsultaFornecedor.getColumnModel().getColumn(3).setPreferredWidth(160);
+       }
+       
+       
+       private void doubleClickConsultaFornecedor() {
+           ConsultaFornecedorFornecimentoModal modal = new ConsultaFornecedorFornecimentoModal((Frame) this.getParent(), true,fornecedores.get(tblConsultaFornecedor.getSelectedRow()) );
+
+           modal.setVisible(true);
        }
 
        /**
@@ -8301,9 +8312,10 @@ public class MenuInicial extends javax.swing.JFrame {
            txtCpnj = new javax.swing.JTextField();
            chbCnpj = new javax.swing.JCheckBox();
            jScrollPane1 = new javax.swing.JScrollPane();
-           tblConsultaFuncionario = new javax.swing.JTable();
+           tblConsultaFornecedor = new javax.swing.JTable();
            btnConsultar = new javax.swing.JButton();
            txtPadrao = new javax.swing.JTextField();
+            jLabel2 = new javax.swing.JLabel();
 
            setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
            setTitle("Consulta de Cliente");
@@ -8367,8 +8379,8 @@ public class MenuInicial extends javax.swing.JFrame {
                }
            });
 
-           tblConsultaFuncionario.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
-           tblConsultaFuncionario.setModel(new javax.swing.table.DefaultTableModel(
+           tblConsultaFornecedor.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           tblConsultaFornecedor.setModel(new javax.swing.table.DefaultTableModel(
                new Object [][] {
                    {null, null, null, null},
                    {null, null, null, null},
@@ -8379,7 +8391,17 @@ public class MenuInicial extends javax.swing.JFrame {
                    "Title 1", "Title 2", "Title 3", "Title 4"
                }
            ));
-           jScrollPane1.setViewportView(tblConsultaFuncionario);
+           tblConsultaFornecedor.addMouseListener(new MouseAdapter() {
+                public void mousePressed(MouseEvent mouseEvent) {
+                JTable table =(JTable) mouseEvent.getSource();
+                Point point = mouseEvent.getPoint();
+                int row = table.rowAtPoint(point);
+                if ((mouseEvent.getClickCount() == 2) && (tblConsultaFornecedor.getSelectedRow() != -1)) {
+                    doubleClickConsultaFornecedor();
+                }
+            }
+});
+           jScrollPane1.setViewportView(tblConsultaFornecedor);
 
            btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoConsultaMedio.png"))); // NOI18N
            btnConsultar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -8406,90 +8428,80 @@ public class MenuInicial extends javax.swing.JFrame {
            txtPadrao.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
            txtPadrao.setFocusable(false);
 
+            jLabel2.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+            jLabel2.setText("Dê duplo clique em um fornecedor para mais informações");
+            getContentPane().add(jLabel2);
+            jLabel2.setBounds(10, 170, 490, 18);
+
            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-           getContentPane().setLayout(layout);
-           layout.setHorizontalGroup(
-               layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGroup(layout.createSequentialGroup()
-                   .addContainerGap()
-                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                       .addGroup(layout.createSequentialGroup()
-                           .addComponent(jScrollPane1)
-                           .addContainerGap())
-                       .addGroup(layout.createSequentialGroup()
-                           .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 272, Short.MAX_VALUE)
-                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                               .addGroup(layout.createSequentialGroup()
-                                   .addGap(220, 220, 220)
-                                   .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                   .addGap(248, 248, 248))
-                               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                       .addComponent(chbCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                       .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                       .addGroup(layout.createSequentialGroup()
-                                           .addGap(84, 84, 84)
-                                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                               .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                               .addGroup(layout.createSequentialGroup()
-                                                   .addGap(74, 74, 74)
-                                                   .addComponent(jLabel1))))
-                                       .addGroup(layout.createSequentialGroup()
-                                           .addGap(166, 166, 166)
-                                           .addComponent(chbNome)))
-                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                       .addGroup(layout.createSequentialGroup()
-                                           .addGap(37, 37, 37)
-                                           .addComponent(txtCpnj, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                           .addComponent(chbCnpj)
-                                           .addGap(69, 69, 69)))))
-                           .addGap(222, 222, 222))))
-               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                   .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                   .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                   .addGap(466, 466, 466))
-           );
-           layout.setVerticalGroup(
-               layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                       .addGroup(layout.createSequentialGroup()
-                           .addGap(135, 135, 135)
-                           .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                           .addGap(33, 33, 33))
-                       .addGroup(layout.createSequentialGroup()
-                           .addContainerGap()
-                           .addComponent(jLabel1)
-                           .addGap(18, 18, 18)
-                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                               .addComponent(txtNome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                               .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                   .addGroup(layout.createSequentialGroup()
-                                       .addComponent(chbCnpj)
-                                       .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                       .addComponent(txtCpnj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                   .addGroup(layout.createSequentialGroup()
-                                       .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                           .addComponent(chbCodigo)
-                                           .addComponent(chbNome))
-                                       .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                       .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                           .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                           .addGap(18, 18, 18)))
-                   .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                   .addGap(18, 18, 18)
-                   .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                   .addContainerGap(23, Short.MAX_VALUE))
-           );
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(531, 531, 531)
+                    .addComponent(jLabel1))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(290, 290, 290)
+                    .addComponent(chbCodigo)
+                    .addGap(166, 166, 166)
+                    .addComponent(chbNome)
+                    .addGap(166, 166, 166)
+                    .addComponent(chbCnpj))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(290, 290, 290)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(84, 84, 84)
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(37, 37, 37)
+                    .addComponent(txtCpnj, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(10, 10, 10)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(2, 2, 2)
+                            .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(10, 10, 10)
+                    .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(12, 12, 12)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(514, 514, 514)
+                    .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(13, 13, 13)
+                    .addComponent(jLabel1)
+                    .addGap(18, 18, 18)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(chbCodigo)
+                        .addComponent(chbNome)
+                        .addComponent(chbCnpj))
+                    .addGap(3, 3, 3)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCpnj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(23, 23, 23)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(6, 6, 6)
+                            .addComponent(txtPadrao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(11, 11, 11)
+                            .addComponent(jLabel2))
+                        .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(9, 9, 9)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+            );
 
            pack();
-       }// </editor-fold>                        
-
+       }// </editor-fold> 
+       
        private void btnOkMouseEntered(java.awt.event.MouseEvent evt) {                                   
            ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
            btnOk.setIcon(i);
@@ -8551,7 +8563,7 @@ public class MenuInicial extends javax.swing.JFrame {
               else {
                    fornecedores = new ArrayList();
                    fornecedores.add(con.encontrarFornecedor(Integer.parseInt(txtCodigo.getText())));
-                   tblConsultaFuncionario.setModel(new ConsultaFornecedorTableModel(fornecedores));
+                   tblConsultaFornecedor.setModel(new ConsultaFornecedorTableModel(fornecedores));
                    gerarTabela();
               }
            }
@@ -8565,7 +8577,7 @@ public class MenuInicial extends javax.swing.JFrame {
                else {
                    fornecedores = new ArrayList();
                    fornecedores.add(con.encontrarFornecedorCnpj(txtCpnj.getText()));
-                   tblConsultaFuncionario.setModel(new ConsultaFornecedorTableModel(fornecedores));
+                   tblConsultaFornecedor.setModel(new ConsultaFornecedorTableModel(fornecedores));
                    gerarTabela();
                }
            }
@@ -8579,7 +8591,7 @@ public class MenuInicial extends javax.swing.JFrame {
                else {                    
                    fornecedores = new ArrayList();
                    fornecedores = con.encontrarFornecedorNome(txtNome.getText());
-                   tblConsultaFuncionario.setModel(new ConsultaFornecedorTableModel(fornecedores));
+                   tblConsultaFornecedor.setModel(new ConsultaFornecedorTableModel(fornecedores));
                    gerarTabela();
                }
            }
@@ -8644,7 +8656,7 @@ public class MenuInicial extends javax.swing.JFrame {
         private javax.swing.JCheckBox chbNome;
         private javax.swing.JLabel jLabel1;
         private javax.swing.JScrollPane jScrollPane1;
-        private javax.swing.JTable tblConsultaFuncionario;
+        private javax.swing.JTable tblConsultaFornecedor;
         private javax.swing.JTextField txtCodigo;
         private javax.swing.JTextField txtCpnj;
         private javax.swing.JTextField txtNome;
@@ -8674,7 +8686,7 @@ public class MenuInicial extends javax.swing.JFrame {
             this.setLocationRelativeTo(null);
             this.getContentPane().setBackground(Color.PINK);
             tblConsultaFornecimento.setSelectionModel(new ForcedListSelectionModel());
-            tblConsultaFornecimento.setModel(new CadastroProdutoFornecimentoTableModel(null, null, null));
+            tblConsultaFornecimento.setModel(new ProdutoFornecimentoTableModel(null, null, null));
             txtCodigoFornecedor.setDisabledTextColor(Color.BLACK);
             txtData.setDisabledTextColor(Color.BLACK);
             txtNomeFornecedor.setDisabledTextColor(Color.BLACK);
@@ -8961,7 +8973,7 @@ public class MenuInicial extends javax.swing.JFrame {
                     for (int i = 0; i < fornecimento.getProdutos().size(); i++) {
                         produtos.add(con.encontrarProduto(fornecimento.getProdutos().get(i)));
                     }
-                    tblConsultaFornecimento.setModel(new CadastroProdutoFornecimentoTableModel(produtos, fornecimento.getQuantidade(), fornecimento.getValores()));
+                    tblConsultaFornecimento.setModel(new ProdutoFornecimentoTableModel(produtos, fornecimento.getQuantidade(), fornecimento.getValores()));
                     gerarTabela();
                } catch (NullPointerException e) {
                     MensagemOkModal m = new MensagemOkModal((Frame) this.getParent(), true, "Fornecimento não encontrado", "Erro - Fornecimento não encontrado");
@@ -8971,7 +8983,7 @@ public class MenuInicial extends javax.swing.JFrame {
                     txtNomeFornecedor.setText("");
                     txtValorTotal.setText("");
                     txtCodigo.setText("");
-                    tblConsultaFornecimento.setModel(new CadastroProdutoFornecimentoTableModel(null, null, null));
+                    tblConsultaFornecimento.setModel(new ProdutoFornecimentoTableModel(null, null, null));
                }
            }
        }                
@@ -9011,6 +9023,8 @@ public class MenuInicial extends javax.swing.JFrame {
        public AlterarServicoModal(java.awt.Frame parent, boolean modal, Servico s) {
            super(parent, modal);
            initComponents();
+            ImageIcon img = new ImageIcon(MenuInicial.class.getResource("/images/background/mini-icon.png"));
+            this.setIconImage(img.getImage());
            SimpleDateFormat df = new SimpleDateFormat();
            txtCodigoCliente.setText(Integer.toString(s.getCliente().getCodigo()));
            txtCodigoServico.setText(Integer.toString(s.getCodigo()));
@@ -9544,6 +9558,276 @@ public class MenuInicial extends javax.swing.JFrame {
        private javax.swing.JTextField txtLoginFuncionario;
        private javax.swing.JTextField txtNomeServico;
        // End of variables declaration   
+   }
+   
+   
+   /**
+    * Classe interna para um JDialog para consulta de fornecimento
+    * 
+    * @author Rafael Tavares
+    */ 
+   public class ConsultaFornecedorFornecimentoModal extends javax.swing.JDialog {
+       Fornecedor fornecedor;    
+       private List<Integer> quantidade; // quantidade de compra
+       private List<Produto> produtos; // produto de compra
+       private List<Float> valores; // valor de compra
+
+       /**
+       * Construtor da classe
+       * @param parent
+       * @param modal 
+       */   
+       public ConsultaFornecedorFornecimentoModal(java.awt.Frame parent, boolean modal, Fornecedor f) {
+           super(parent, modal);
+           initComponents();
+           ImageIcon img = new ImageIcon(MenuInicial.class.getResource("/images/background/mini-icon.png"));
+           this.setIconImage(img.getImage());
+           this.setLocationRelativeTo(null);
+           this.getContentPane().setBackground(Color.PINK);
+           this.setFornecedor(f);
+           tblFornecimento.setSelectionModel(new ForcedListSelectionModel());
+           tblFornecimento.setModel(new ConsultaFornecimentoTableModel(this.getFornecedor()));
+           gerarTabelaFornecimento();
+           tblFornecimentoProduto.setSelectionModel(new ForcedListSelectionModel());
+           tblFornecimentoProduto.setModel(new ProdutoFornecimentoTableModel(null, null, null));
+           gerarTabelaProduto();
+
+       }
+
+       /**
+        * Método para auxiliar a gerar uma nova tabela
+        */
+       private void gerarTabelaProduto() {
+           tblFornecimentoProduto.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+           tblFornecimentoProduto.getColumnModel().getColumn(0).setMaxWidth(65);
+           tblFornecimentoProduto.getColumnModel().getColumn(2).setMaxWidth(130);
+           tblFornecimentoProduto.getColumnModel().getColumn(2).setPreferredWidth(120);
+           tblFornecimentoProduto.getColumnModel().getColumn(4).setMaxWidth(120);
+           tblFornecimentoProduto.getColumnModel().getColumn(4).setPreferredWidth(120);
+           tblFornecimentoProduto.getColumnModel().getColumn(5).setMaxWidth(120);
+           tblFornecimentoProduto.getColumnModel().getColumn(5).setPreferredWidth(120);
+           tblFornecimentoProduto.getColumnModel().getColumn(6).setMaxWidth(120);
+           tblFornecimentoProduto.getColumnModel().getColumn(6).setPreferredWidth(120);
+           tblFornecimentoProduto.getColumnModel().getColumn(7).setMaxWidth(120);
+           tblFornecimentoProduto.getColumnModel().getColumn(7).setPreferredWidth(120);
+       }
+
+       /**
+        * Método para auxiliar a gerar uma nova tabela
+        */
+       private void gerarTabelaFornecimento() {
+           tblFornecimento.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+       }
+
+       /**
+        * Retorna o fornecedor que teve seus fornecimentos listados
+        * @return Fornecedor
+        */
+       public Fornecedor getFornecedor() {
+           return this.fornecedor;
+       }
+
+       /**
+        * Define o fornecedor a ter seus fornecimentos listados
+        * @param f 
+        */
+       public void setFornecedor(Fornecedor f) {
+           this.fornecedor = f;
+       }
+
+       /**
+        * This method is called from within the constructor to initialize the form.
+        * WARNING: Do NOT modify this code. The content of this method is always
+        * regenerated by the Form Editor.
+        */
+       @SuppressWarnings("unchecked")
+       // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+       private void initComponents() {
+
+           btnOk = new javax.swing.JButton();
+           jLabel1 = new javax.swing.JLabel();
+           jScrollPane1 = new javax.swing.JScrollPane();
+           tblFornecimento = new javax.swing.JTable();
+           jScrollPane2 = new javax.swing.JScrollPane();
+           tblFornecimentoProduto = new javax.swing.JTable();
+           jLabel6 = new javax.swing.JLabel();
+           jLabel7 = new javax.swing.JLabel();
+
+           setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+           setTitle("Consulta de Cliente");
+           setResizable(false);
+
+           btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"))); // NOI18N
+           btnOk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+           btnOk.addMouseListener(new java.awt.event.MouseAdapter() {
+               public void mouseEntered(java.awt.event.MouseEvent evt) {
+                   btnOkMouseEntered(evt);
+               }
+               public void mouseExited(java.awt.event.MouseEvent evt) {
+                   btnOkMouseExited(evt);
+               }
+               public void mousePressed(java.awt.event.MouseEvent evt) {
+                   btnOkMousePressed(evt);
+               }
+               public void mouseReleased(java.awt.event.MouseEvent evt) {
+                   btnOkMouseReleased(evt);
+               }
+           });
+           btnOk.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   btnOkActionPerformed(evt);
+               }
+           });
+
+           jLabel1.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
+           jLabel1.setText("Fornecimento");
+
+           tblFornecimento.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           tblFornecimento.setModel(new javax.swing.table.DefaultTableModel(
+               new Object [][] {
+                   {null, null, null, null},
+                   {null, null, null, null},
+                   {null, null, null, null},
+                   {null, null, null, null}
+               },
+               new String [] {
+                   "Title 1", "Title 2", "Title 3", "Title 4"
+               }
+           ));
+           tblFornecimento.addMouseListener(new java.awt.event.MouseAdapter() {
+               public void mouseClicked(java.awt.event.MouseEvent evt) {
+                   tblFornecimentoMouseClicked(evt);
+               }
+           });
+           jScrollPane1.setViewportView(tblFornecimento);
+
+           tblFornecimentoProduto.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           tblFornecimentoProduto.setModel(new javax.swing.table.DefaultTableModel(
+               new Object [][] {
+                   {null, null, null, null},
+                   {null, null, null, null},
+                   {null, null, null, null},
+                   {null, null, null, null}
+               },
+               new String [] {
+                   "Title 1", "Title 2", "Title 3", "Title 4"
+               }
+           ));
+           jScrollPane2.setViewportView(tblFornecimentoProduto);
+
+           jLabel6.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
+           jLabel6.setText("Produtos do Fornecimento");
+
+           jLabel7.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           jLabel7.setText("Selecione um fornecimento para ver os produtos fornecidos");
+
+           javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+           getContentPane().setLayout(layout);
+           layout.setHorizontalGroup(
+               layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(layout.createSequentialGroup()
+                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                       .addGroup(layout.createSequentialGroup()
+                           .addGap(496, 496, 496)
+                           .addComponent(jLabel1))
+                       .addGroup(layout.createSequentialGroup()
+                           .addGap(307, 307, 307)
+                           .addComponent(jLabel7)))
+                   .addGap(0, 306, Short.MAX_VALUE))
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                   .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                           .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addGap(480, 480, 480))
+                       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                           .addComponent(jLabel6)
+                           .addGap(428, 428, 428))
+                       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                           .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addGap(231, 231, 231))))
+               .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                   .addGroup(layout.createSequentialGroup()
+                       .addContainerGap()
+                       .addComponent(jScrollPane2)
+                       .addContainerGap()))
+           );
+           layout.setVerticalGroup(
+               layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                   .addContainerGap()
+                   .addComponent(jLabel1)
+                   .addGap(31, 31, 31)
+                   .addComponent(jLabel7)
+                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                   .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addGap(18, 18, 18)
+                   .addComponent(jLabel6)
+                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 234, Short.MAX_VALUE)
+                   .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addContainerGap())
+               .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                   .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                       .addContainerGap(314, Short.MAX_VALUE)
+                       .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                       .addGap(71, 71, 71)))
+           );
+
+           pack();
+       }// </editor-fold>                        
+
+       private void btnOkMouseEntered(java.awt.event.MouseEvent evt) {                                   
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+           btnOk.setIcon(i);
+       }                                  
+
+       private void btnOkMouseExited(java.awt.event.MouseEvent evt) {                                  
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"));
+           btnOk.setIcon(i);
+       }                                 
+
+       private void btnOkMousePressed(java.awt.event.MouseEvent evt) {                                   
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Pressed.png"));
+           btnOk.setIcon(i);
+       }                                  
+
+       private void btnOkMouseReleased(java.awt.event.MouseEvent evt) {                                    
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+           btnOk.setIcon(i);
+       }                                   
+
+       private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {                                      
+           this.dispose();
+       }                                     
+
+       private void tblFornecimentoMouseClicked(java.awt.event.MouseEvent evt) {                                             
+           if (tblFornecimento.getSelectedRow() != -1 ) {
+
+               Consulta con = new Consulta();
+               Compra c = con.encontrarCompra((Integer) tblFornecimento.getValueAt(tblFornecimento.getSelectedRow(), 0));
+               produtos = new ArrayList();
+               quantidade = new ArrayList();
+               valores = new ArrayList();
+               for (int i = 0; i < c.getProdutos().size(); i++) {
+                   produtos.add(con.encontrarProduto(c.getProdutos().get(i)));
+               }
+               quantidade = c.getQuantidade();
+               valores = c.getValores();
+               tblFornecimentoProduto.setModel(new ProdutoFornecimentoTableModel(produtos, quantidade, valores));
+               gerarTabelaProduto();
+           }
+       }                            
+
+       // Variables declaration - do not modify                     
+       private javax.swing.JButton btnOk;
+       private javax.swing.JLabel jLabel1;
+       private javax.swing.JLabel jLabel6;
+       private javax.swing.JLabel jLabel7;
+       private javax.swing.JScrollPane jScrollPane1;
+       private javax.swing.JScrollPane jScrollPane2;
+       private javax.swing.JTable tblFornecimento;
+       private javax.swing.JTable tblFornecimentoProduto;
+       // End of variables declaration                   
    }
    
    

@@ -1,19 +1,22 @@
 /*
- * Classe modelo da tabela de produtos no cadastro de fornecimento
+ * Classe modelo da tabela de produtos de fornecimento
  */
 package gui.tableModel;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import salaovirtual.Compra;
+import salaovirtual.Fornecedor;
 import salaovirtual.Produto;
+import salaovirtual.access.Consulta;
 
 /**
- * Classe modelo da tabela de produtos no cadastro de fornecimento
+ * Classe modelo da tabela de produtos de fornecimento
  *
  * @author Rafael Tavares
  */
-public class CadastroProdutoFornecimentoTableModel extends AbstractTableModel {
+public class ProdutoFornecimentoTableModel extends AbstractTableModel {
     private final String[] colunas = {"Cód. Prod.", "Nome do Produto", "Qtd. Unitária", "Marca", "Quantidade", "Valor Venda", "Valor Compra", "Valor Total"};
     private List<Integer> quantidade; // quantidade de compra
     private List<Produto> produtos; // produto de compra
@@ -25,7 +28,7 @@ public class CadastroProdutoFornecimentoTableModel extends AbstractTableModel {
      * @param quantidade - quantidade
      * @param v - valor
      */
-    public CadastroProdutoFornecimentoTableModel(List<Produto> p, List<Integer> quantidade, List<Float> v) {
+    public ProdutoFornecimentoTableModel(List<Produto> p, List<Integer> quantidade, List<Float> v) {
         try {
             if (p.isEmpty()) {
                 produtos = new ArrayList();

@@ -19,8 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import salaovirtual.Cartao;
 import salaovirtual.Cliente;
 import salaovirtual.Compra;
@@ -947,6 +945,7 @@ public class Consulta {
     
     /**
      * Retorna a compra identificada pelo código passado por parâmetro
+     * Polimorfismo: Sobrecarga
      * @param codigo
      * @return Compra
      */   
@@ -989,6 +988,47 @@ public class Consulta {
             return null;
         }
         return null;
+    }
+    
+    /**
+     * Retorna a compra identificada pelo fornecedor passado por parâmetro
+     * Polimorfismo: Sobrecarga
+     * @param f - Fornecedor
+     * @return Lista de Compras
+     */   
+    public List<Compra> encontrarCompra(Fornecedor f) {
+        try {
+            FileReader arq = new FileReader("Compra.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            linha = entrada.readLine();
+            List<Compra> lista = new ArrayList();
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            do {
+                String[] valor = linha.split(";");
+                if (parseInt(valor[3]) == f.getCodigo()) {
+                    Compra c = new Compra();
+                    c.setCodigo(parseInt(valor[0]));
+                    c.setValorTotal(parseFloat(valor[1]));
+                    c.setData(formato.parse(valor[2]));
+                    try {
+                        c.setFornecedor(this.encontrarFornecedor(parseInt(valor[3])));
+                    } catch (ChaveNulaException ex) {
+                        //Logger.getLogger(Consulta.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    this.encontrarCompraProdutos(c);
+                    lista.add(c);
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            arq.close();
+            entrada.close();
+            return lista;
+        } catch (FileNotFoundException ex) {
+            return null;
+        } catch (IOException | ParseException ex2) {
+            return null;
+        }
     }
     
     /**

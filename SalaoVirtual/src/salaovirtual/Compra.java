@@ -15,7 +15,8 @@ import java.util.List;
  * Classe referente à compra de produtos
  * 
  * <p>Atributos que merecem destaque para explicação:
- * <p>produtos: É um map onde a Key é o código, e Value é seu valor (preço)
+ * <p>produtos: É um uma lista do código dos produtos
+ * <p>valores: É um uma lista do valor dos produtos
  * <p>quantidade: É uma list que possui a mesma quantidade de elementos que o map, onde cada posição da lista é referente à
  * mesma posição do mapa (ao mesmo produto)
  * 

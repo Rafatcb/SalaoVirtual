@@ -14,7 +14,7 @@ import salaovirtual.Fornecedor;
  * @author Rafael Tavares
  */
 public class ConsultaFornecedorTableModel extends AbstractTableModel {
-    private final String[] colunas = {"Login", "CNPJ", "Nome", "Telefone", "Email","Endereço", "Cidade", "Estado"};
+    private final String[] colunas = {"Código", "CNPJ", "Nome", "Telefone", "Email","Endereço", "Cidade", "Estado"};
     private List<Fornecedor> fornecedores; // quantidade de compra
     
     /**

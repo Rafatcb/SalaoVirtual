@@ -49,16 +49,12 @@ public class Alteracao {
     public void alterarProduto (Produto novo) {
         try {
             Path caminho;
-                System.out.println("entrou");
             caminho = Paths.get("","Produto.csv");
-                System.out.println(caminho.toString());
             List<String> conteudoArquivo = new ArrayList<>(Files.readAllLines(caminho, StandardCharsets.UTF_8));
             String[] linha;
             for (int i = 0; i < conteudoArquivo.size(); i++) {
                 linha = conteudoArquivo.get(i).split(";");
-                System.out.println(linha[0]);
                 if (Integer.parseInt(linha[0]) == novo.getCodigo()) {
-                    System.out.println(novo.toString());
                     conteudoArquivo.set(i, novo.toString());
                     break;
                 }

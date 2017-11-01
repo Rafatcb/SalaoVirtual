@@ -16,3 +16,5 @@ out 31, 2017 10:48:16 AM gui.MenuInicial btnCadastroFornecimentoAddProdutoAction
 INFORMAÇÕES: Adicionar produto ao fornecimento - Insira um valor válido.
 out 31, 2017 12:57:21 PM gui.MenuInicial btnCancelarServicoActionPerformed
 ADVERTÊNCIA: Serviço de código 7 cancelado pelo funcionário de logado como login
+out 31, 2017 5:48:35 PM gui.MenuInicial btnRemoverServicoVendaActionPerformed
+INFORMAÇÕES: Remover serviço da venda - Nenhum serviço foi selecionado
