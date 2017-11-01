@@ -16,6 +16,11 @@ O sistema conta com funções como: agendamento, visualização de fornecedores 
 * Controle de Fornecedores
 * Controle de Produtos e Estoque
 ***
+### Acesso ao Sistema
+O acesso ao sistema se dá através de algum funcionário já cadastrado. Apesar das informações ficarem no arquivo correspondente, não é possível visualizar a senha através do mesmo, já que está criptografada. Portanto, para acessar o sistema, é recomendada a utilização do seguinte usuário:
+* **Login:** login
+* **Senha:** senha
+***
 ### Definição das Classes relacionadas ao Negócio
 * **Cliente**
   * **Atributos:** Código, CPF, Nome, Telefone, E-mail e Data de Nascimento.
