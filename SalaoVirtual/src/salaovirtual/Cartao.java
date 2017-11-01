@@ -3,7 +3,7 @@
  */
 package salaovirtual;
 
-import exceptions.TipoDeCartaoInvalidoException;
+import salaovirtual.exceptions.TipoDeCartaoInvalidoException;
 
 /**
  * Classe referente à forma de pagamento em cartão

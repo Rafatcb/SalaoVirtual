@@ -3,13 +3,14 @@
  */
 package salaovirtual;
 
-import exceptions.ChaveNulaException;
-import exceptions.ObjetoNaoInseridoException;
-import exceptions.QuantidadeInvalidaException;
+import salaovirtual.exceptions.ChaveNulaException;
+import salaovirtual.exceptions.ObjetoNaoInseridoException;
+import salaovirtual.exceptions.QuantidadeInvalidaException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import salaovirtual.interfaces.InterfaceCompra;
 
 /**
  * Classe referente à compra de produtos
@@ -22,7 +23,7 @@ import java.util.List;
  * 
  * @author Rafael Tavares
  */
-public class Compra {
+public class Compra implements InterfaceCompra {
     private int codigo;
     private Date data;
     private float valorTotal;
@@ -33,7 +34,9 @@ public class Compra {
     
     /**
      * Método para atualizar o valor total com base na lista de produtos existentes
+     * Polimorfismo: Sobrescrita
      */
+    @Override
     public void atualizarValorTotal() {
         valorTotal = 0;
         for (int i = 0; i < valores.size(); i++) {
@@ -48,6 +51,7 @@ public class Compra {
      * @param valor
      * @param quantidade
      */
+    @Override
     public void addProduto(Produto p, float valor, int quantidade) {
         try {
             if (quantidade <= 0) {
@@ -68,6 +72,7 @@ public class Compra {
      * @param valor
      * @param quantidade
      */
+    @Override
     public void addProduto(int codigo, float valor, int quantidade) {
         try {
             if (quantidade <= 0) {
@@ -199,7 +204,7 @@ public class Compra {
 
     /**
      * Define a data da compra
-     * Polimorfismo: Sobrecarga
+     * Sobrecarga
      * @param data 
      */
     public void setData(Date data) {
@@ -208,7 +213,7 @@ public class Compra {
 
     /**
      * Define a data da compra caso tenha sido no dia em que foi criada a classe
-     * Polimorfismo: Sobrecarga
+     * Sobrecarga
      */
     public void setData() {
         this.data = new Date();

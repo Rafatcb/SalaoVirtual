@@ -3,10 +3,11 @@
  */
 package salaovirtual;
 
-import exceptions.DataInvalidaException;
-import exceptions.EstadoServicoInvalidoException;
+import salaovirtual.exceptions.DataInvalidaException;
+import salaovirtual.exceptions.EstadoServicoInvalidoException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import salaovirtual.interfaces.InterfaceServico;
 
 
 /**
@@ -17,7 +18,7 @@ import java.util.Date;
  * 
  * @author Rafael Tavares
  */
-public class Servico implements Comparable<Servico> {
+public class Servico implements Comparable<Servico>, InterfaceServico {
     private int codigo;
     private String nome;
     private float valor;
@@ -30,11 +31,13 @@ public class Servico implements Comparable<Servico> {
      * Agenda o serviço que chamou este método para (respectivamente aos parâmetros) um cliente e 
      * um funcionário numa data especificada. 
      * A data deve ser posteiror ao momento atual, caso seja anterior ocorrerá a DataInvalidaException.
+     * Polimorfismo: Sobrescrita
      * @param cli
      * @param fun
      * @param data
      * @throws DataInvalidaException 
      */
+    @Override
     public void agendarServico(Cliente cli, Funcionario fun, Date data) throws DataInvalidaException {
         Date agora = new Date();
         if (data.after(agora)) {   // Se for depois de agora, então é um agendamento válido
@@ -55,7 +58,9 @@ public class Servico implements Comparable<Servico> {
     /**
      * Efetua o serviço que chamou este método apenas se seu estado for Agendado ou nulo (o que significa que
      * o serviço foi efetuado sem um agendamento prévio)
+     * Polimorfismo: Sobrescrita
      */
+    @Override
     public void efetuarServico() {
         try {
             if (this.getEstado().equals("Agendado")){
@@ -83,7 +88,9 @@ public class Servico implements Comparable<Servico> {
     
     /**
      * Modifica o estado do serviço que chamou este método para Cancelado.
+     * Polimorfismo: Sobrescrita
      */
+    @Override
     public void cancelarServico() {
         try {
             this.setEstado("Cancelado");
@@ -109,7 +116,7 @@ public class Servico implements Comparable<Servico> {
     /**
      * Método para ordenar com base na data
      * @param s
-     * @return 
+     * @return Comparação
      */
     @Override
     public int compareTo(Servico s) {

@@ -3,15 +3,15 @@
  */
 package salaovirtual;
 
-import exceptions.ObjetoNaoInseridoException;
-import exceptions.QuantidadeInvalidaException;
-import salaovirtual.interfaces.Adicionar;
+import salaovirtual.exceptions.ObjetoNaoInseridoException;
+import salaovirtual.exceptions.QuantidadeInvalidaException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import salaovirtual.interfaces.InterfaceVenda;
 
 /**
  * Classe referente à venda de produtos  e serviços
@@ -25,7 +25,7 @@ import java.util.Map;
  * 
  * @author Rafael Tavares
  */
-public class Venda implements Adicionar{
+public class Venda implements InterfaceVenda {
     private int codigo;
     private Date data;
     private Cliente cliente;
@@ -59,11 +59,12 @@ public class Venda implements Adicionar{
     
     /**
      * Adiciona produto à venda com base diretamente no código dele
-     * Polimorfismo: Sobrecarga
+     * Polimorfismo: Sobrescrita
      * @param codigo
      * @param valor
      * @param quantidade
      */
+    @Override
     public void addProduto(int codigo, float valor, int quantidade) {
         try {
             if (quantidade <= 0) {
@@ -78,7 +79,7 @@ public class Venda implements Adicionar{
     
     /**
      * Adiciona serviço à venda
-     * Polimorfismo: Sobrecarga, Sobrescrita
+     * Polimorfismo: Sobrescrita
      * @param s
      */
     @Override
@@ -92,9 +93,10 @@ public class Venda implements Adicionar{
     
     /**
      * Adiciona produto à venda com base diretamente no código dele
-     * Polimorfismo: Sobrecarga
+     * Polimorfismo: Sobrescrita
      * @param codigo
      */
+    @Override
     public void addServico(int codigo) {
         try {
             this.servicos.add(codigo);
@@ -226,7 +228,7 @@ public class Venda implements Adicionar{
 
     /**
      * Define a data da venda
-     * Polimorfismo: Sobrecarga
+     * Sobrecarga
      * @param data 
      */
     public void setData(Date data) {
@@ -251,7 +253,7 @@ public class Venda implements Adicionar{
 
     /**
      * Define a data da venda caso tenha sido no dia em que foi criada a classe
-     * Polimorfismo: Sobrecarga
+     * Sobrecarga
      */
     public void setData() {
         this.data = new Date();
@@ -307,7 +309,7 @@ public class Venda implements Adicionar{
 
     /**
      * Define a forma de pagamento da venda
-     * Polimorfismo: Sobrecarga
+     * Sobrecarga
      * @param d - dinheiro 
      */
     public void setFormaPagamento(Dinheiro d) {
@@ -316,7 +318,7 @@ public class Venda implements Adicionar{
 
     /**
      * Define a forma de pagamento da venda
-     * Polimorfismo: Sobrecarga
+     * Sobrecarga
      * @param c - cartão 
      */
     public void setFormaPagamento(Cartao c) {

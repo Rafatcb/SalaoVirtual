@@ -19,7 +19,7 @@ public class Criptografar {
      * @param senha
      * @return Senha criptografada (MD5)
      */
-    public static String criptografarMD5(String senha){
+    public static String criptografarMD5(String senha) {
         try {
             md = MessageDigest.getInstance("MD5");
             byte[] passBytes = senha.getBytes();

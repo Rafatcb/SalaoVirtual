@@ -3,6 +3,8 @@
  */
 package salaovirtual;
 
+import salaovirtual.interfaces.InterfacePagamentoDinheiro;
+
 /**
  * Classe referente à forma de pagamento em dinheiro
  * 
@@ -13,14 +15,16 @@ package salaovirtual;
  * @author Fábio Augusto
  * 
  */
-public class Dinheiro extends FormaDePagamento{
+public class Dinheiro extends FormaDePagamento implements InterfacePagamentoDinheiro {
     private float valorRecebido;
     
     /**
      * Cálculo do troco
+     * Polimorfismo: Sobrescrita
      * @return Troco
      */
-    public float calcularTroco(){
+    @Override
+    public float calcularTroco() {
         return (this.valorRecebido - this.getValorTotal());
     }
 

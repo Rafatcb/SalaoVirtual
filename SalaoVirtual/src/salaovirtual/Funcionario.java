@@ -3,14 +3,15 @@
  */
 package salaovirtual;
 
-import salaovirtual.interfaces.InformacaoPessoa;
+import salaovirtual.interfaces.InterfaceFuncionario;
 
 
 /**
  * Classe referente ao funcionário
+ * 
  * @author Rafael Tavares
  */
-public class Funcionario implements InformacaoPessoa{
+public class Funcionario implements InterfaceFuncionario {
     private String login;
     private String senha;
     private String cpf;
@@ -25,9 +26,11 @@ public class Funcionario implements InformacaoPessoa{
     
     /**
      * Método para validar a senha com a senha já definida no objeto
+     * Polimorfismo: Sobrescrita
      * @param tsenha
      * @return true - válido, false - inválido
      */
+    @Override
     public boolean validarLoginSenha(String tsenha) {
         tsenha = Criptografar.criptografarMD5(tsenha);
         return this.getSenha().equals(tsenha);
@@ -91,9 +94,8 @@ public class Funcionario implements InformacaoPessoa{
 
     /**
      * Retorna o CPF do funcionário
-     * @return 
+     * @return CPF
      */
-    @Override
     public String getCpf() {
         return cpf;
     }
@@ -126,7 +128,6 @@ public class Funcionario implements InformacaoPessoa{
      * Retorna o nome do funcionário
      * @return Nome
      */
-    @Override
     public String getNome() {
         return nome;
     }
@@ -143,7 +144,6 @@ public class Funcionario implements InformacaoPessoa{
      * Retorna o telefone do funcionário
      * @return Telefone
      */
-    @Override
     public String getTelefone() {
         return telefone;
     }
