@@ -131,7 +131,7 @@ public class Consulta {
             do {
                 Fornecedor f = new Fornecedor();
                 String[] valor = linha.split(";");
-                if (valor[2].equals(nome)) {
+                if (valor[2].contains(nome)) {
                     f.setCodigo(parseInt(valor[0]));
                     f.setCnpj(valor[1]);
                     f.setNome(valor[2]);
@@ -312,7 +312,7 @@ public class Consulta {
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             do {
                 String[] valor = linha.split(";");
-                if (valor[2].equals(nome)) {
+                if (valor[2].contains(nome)) {
                     Cliente c = new Cliente();
                     c.setCodigo(parseInt(valor[0]));
                     c.setCpf(valor[1]);
@@ -400,7 +400,7 @@ public class Consulta {
             linha = entrada.readLine();
             do {
                 String[] valor = linha.split(";");
-                if (valor[3].equals(nome)) {
+                if (valor[3].contains(nome)) {
                     Funcionario f = new Funcionario();
                     f.setLogin(valor[0]);
                     f.setSenhaCriptografada(valor[1]);
@@ -521,7 +521,7 @@ public class Consulta {
             linha = entrada.readLine();
             do {
                 String[] valor = linha.split(";");
-                if (valor[1].equals(nome)) {
+                if (valor[1].contains(nome)) {
                     Produto p = new Produto();
                     p.setCodigo(parseInt(valor[0]));
                     p.setNome(valor[1]);
@@ -561,7 +561,7 @@ public class Consulta {
             linha = entrada.readLine();
             do {
                 String[] valor = linha.split(";");
-                if (valor[2].equals(marca)) {
+                if (valor[2].contains(marca)) {
                     Produto p = new Produto();
                     p.setCodigo(parseInt(valor[0]));
                     p.setNome(valor[1]);
@@ -806,7 +806,7 @@ public class Consulta {
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             do {
                 String[] valor = linha.split(";");
-                if (valor[1].equals(nome)) {
+                if (valor[1].contains(nome)) {
                     Servico s = new Servico();
                     s.setCodigo(parseInt(valor[0]));
                     s.setNome(valor[1]);
@@ -911,7 +911,7 @@ public class Consulta {
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             do {
                 String[] valor = linha.split(";");
-                if (valor[4].equals(estado)) {
+                if (valor[4].contains(estado)) {
                     Servico s = new Servico();
                     s.setCodigo(parseInt(valor[0]));
                     s.setNome(valor[1]);

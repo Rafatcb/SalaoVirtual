@@ -492,6 +492,7 @@ public class MenuInicial extends javax.swing.JFrame {
         btnMenuFornecimento = new javax.swing.JButton();
         btnMenuProduto = new javax.swing.JButton();
         btnMenuCliente = new javax.swing.JButton();
+        btnMenuEstoque = new javax.swing.JButton();
         pnlServico = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblServico = new javax.swing.JTable();
@@ -944,7 +945,7 @@ public class MenuInicial extends javax.swing.JFrame {
             }
         });
         pnlSubMenu.add(btnMenuFornecedor);
-        btnMenuFornecedor.setBounds(830, 170, 240, 82);
+        btnMenuFornecedor.setBounds(840, 170, 240, 82);
 
         btnMenuFuncionario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu/botaoMenuFuncionario.png"))); // NOI18N
         btnMenuFuncionario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -992,7 +993,7 @@ public class MenuInicial extends javax.swing.JFrame {
             }
         });
         pnlSubMenu.add(btnMenuFornecimento);
-        btnMenuFornecimento.setBounds(700, 280, 240, 82);
+        btnMenuFornecimento.setBounds(560, 270, 240, 82);
 
         btnMenuProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu/botaoMenuProduto.png"))); // NOI18N
         btnMenuProduto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1016,7 +1017,7 @@ public class MenuInicial extends javax.swing.JFrame {
             }
         });
         pnlSubMenu.add(btnMenuProduto);
-        btnMenuProduto.setBounds(410, 280, 240, 82);
+        btnMenuProduto.setBounds(280, 270, 240, 82);
 
         btnMenuCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu/botaoMenuCliente.png"))); // NOI18N
         btnMenuCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1041,6 +1042,30 @@ public class MenuInicial extends javax.swing.JFrame {
         });
         pnlSubMenu.add(btnMenuCliente);
         btnMenuCliente.setBounds(280, 170, 240, 82);
+
+        btnMenuEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu/botaoMenuEstoque.png"))); // NOI18N
+        btnMenuEstoque.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMenuEstoque.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnMenuEstoqueMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnMenuEstoqueMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnMenuEstoqueMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnMenuEstoqueMouseReleased(evt);
+            }
+        });
+        btnMenuEstoque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuEstoqueActionPerformed(evt);
+            }
+        });
+        pnlSubMenu.add(btnMenuEstoque);
+        btnMenuEstoque.setBounds(840, 270, 240, 82);
 
         getContentPane().add(pnlSubMenu);
         pnlSubMenu.setBounds(0, 110, 1310, 590);
@@ -4686,6 +4711,37 @@ public class MenuInicial extends javax.swing.JFrame {
         tblServico.setModel(new ServicoTableModel());
         gerarTabelaServico();
     }//GEN-LAST:event_pnlServicoComponentShown
+
+    private void btnMenuEstoqueMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuEstoqueMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuEstoque_Hover.png"));
+        btnMenuEstoque.setIcon(i);
+    }//GEN-LAST:event_btnMenuEstoqueMouseEntered
+
+    private void btnMenuEstoqueMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuEstoqueMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuEstoque.png"));
+        btnMenuEstoque.setIcon(i);
+    }//GEN-LAST:event_btnMenuEstoqueMouseExited
+
+    private void btnMenuEstoqueMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuEstoqueMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuEstoque_Pressed.png"));
+        btnMenuEstoque.setIcon(i);
+    }//GEN-LAST:event_btnMenuEstoqueMousePressed
+
+    private void btnMenuEstoqueMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuEstoqueMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuEstoque_Hover.png"));
+        btnMenuEstoque.setIcon(i);
+    }//GEN-LAST:event_btnMenuEstoqueMouseReleased
+
+    private void btnMenuEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuEstoqueActionPerformed
+        if (this.isCadastro()) {
+            pnlSubMenu.setVisible(false);
+            //pnlCorrigirEstoque.setVisible(true);
+        }
+        else {
+            //ConsultaEstoqueModal consulta = new ConsultaEstoqueModal(this, true);
+            //consulta.setVisible(true);
+        }
+    }//GEN-LAST:event_btnMenuEstoqueActionPerformed
 
     /**
      * Método main do Menu Inicial
@@ -9854,6 +9910,7 @@ public class MenuInicial extends javax.swing.JFrame {
     private javax.swing.JButton btnMenuCadastro;
     private javax.swing.JButton btnMenuCliente;
     private javax.swing.JButton btnMenuConsulta;
+    private javax.swing.JButton btnMenuEstoque;
     private javax.swing.JButton btnMenuFornecedor;
     private javax.swing.JButton btnMenuFornecimento;
     private javax.swing.JButton btnMenuFuncionario;

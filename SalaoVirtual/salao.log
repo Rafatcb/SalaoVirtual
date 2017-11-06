@@ -18,3 +18,5 @@ out 31, 2017 12:57:21 PM gui.MenuInicial btnCancelarServicoActionPerformed
 ADVERTÊNCIA: Serviço de código 7 cancelado pelo funcionário de logado como login
 out 31, 2017 5:48:35 PM gui.MenuInicial btnRemoverServicoVendaActionPerformed
 INFORMAÇÕES: Remover serviço da venda - Nenhum serviço foi selecionado
+nov 06, 2017 10:38:41 AM salaovirtual.gui.MenuInicial btnConsultarServicoActionPerformed
+INFORMAÇÕES: Consultar serviço - Preencha todos os campos.
