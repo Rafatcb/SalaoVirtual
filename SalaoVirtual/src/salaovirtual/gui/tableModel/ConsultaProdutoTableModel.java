@@ -14,7 +14,7 @@ import salaovirtual.Produto;
  * @author Rafael Tavares
  */
 public class ConsultaProdutoTableModel extends AbstractTableModel {
-    private final String[] colunas = {"Código", "Nome", "Unidade", "Marca", "Valor", "Qtd. Estoque", "Qtd. Min. Estoque"};
+    private final String[] colunas = {"Código", "Nome", "Unidade", "Marca", "Valor", "Estoque", "Estoque Min."};
     private List<Produto> produtos; // quantidade de compra
     
     /**

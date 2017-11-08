@@ -1394,4 +1394,118 @@ public class Consulta {
             //
         }
     }
+    
+    /**
+     * Retorna uma lista dos produtos que estão em estoque
+     * @return Lista de Produto
+     */
+    public List<Produto> encontrarProdutoEstoque() {
+        try {
+            List<Produto> produtos = new ArrayList();
+            FileReader arq = new FileReader("Produto.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            
+            linha = entrada.readLine();
+            do {
+                String[] valor = linha.split(";");
+                if (parseInt(valor[6]) > 0) {
+                    Produto p = new Produto();
+                    p.setCodigo(parseInt(valor[0]));
+                    p.setNome(valor[1]);
+                    p.setMarca(valor[2]);
+                    p.setUnidade(valor[3]);
+                    p.setQtdUnitaria(parseFloat(valor[4]));
+                    p.setValor(parseFloat(valor[5]));
+                    p.setQtdEstoque(parseInt(valor[6]));
+                    p.setQtdEstoqueMin(parseInt(valor[7]));
+                    produtos.add(p);
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            arq.close();
+            entrada.close();
+            return produtos;
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        } 
+    }
+    
+    /**
+     * Retorna uma lista dos produtos que estão em estoque crítico
+     * @return Lista de Produto
+     */
+    public List<Produto> encontrarProdutoEstoqueCritico() {
+        try {
+            List<Produto> produtos = new ArrayList();
+            FileReader arq = new FileReader("Produto.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            
+            linha = entrada.readLine();
+            do {
+                String[] valor = linha.split(";");
+                if (parseInt(valor[6]) < parseInt(valor[7])) {
+                    Produto p = new Produto();
+                    p.setCodigo(parseInt(valor[0]));
+                    p.setNome(valor[1]);
+                    p.setMarca(valor[2]);
+                    p.setUnidade(valor[3]);
+                    p.setQtdUnitaria(parseFloat(valor[4]));
+                    p.setValor(parseFloat(valor[5]));
+                    p.setQtdEstoque(parseInt(valor[6]));
+                    p.setQtdEstoqueMin(parseInt(valor[7]));
+                    produtos.add(p);
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            arq.close();
+            entrada.close();
+            return produtos;
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        } 
+    }
+    
+    /**
+     * Retorna uma lista dos produtos que não estão em estoque
+     * @return Lista de Produto
+     */
+    public List<Produto> encontrarProdutoEstoqueZerado() {
+        try {
+            List<Produto> produtos = new ArrayList();
+            FileReader arq = new FileReader("Produto.csv");
+            BufferedReader entrada = new BufferedReader(arq);
+            String linha;
+            
+            linha = entrada.readLine();
+            do {
+                String[] valor = linha.split(";");
+                if ("0".equals(valor[6])) {
+                    Produto p = new Produto();
+                    p.setCodigo(parseInt(valor[0]));
+                    p.setNome(valor[1]);
+                    p.setMarca(valor[2]);
+                    p.setUnidade(valor[3]);
+                    p.setQtdUnitaria(parseFloat(valor[4]));
+                    p.setValor(parseFloat(valor[5]));
+                    p.setQtdEstoque(parseInt(valor[6]));
+                    p.setQtdEstoqueMin(parseInt(valor[7]));
+                    produtos.add(p);
+                }
+                linha = entrada.readLine();
+            } while (linha != null);
+            arq.close();
+            entrada.close();
+            return produtos;
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException ex2) {
+            return null;
+        } 
+    }
 }

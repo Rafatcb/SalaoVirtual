@@ -57,6 +57,7 @@ import salaovirtual.Venda;
 import salaovirtual.acesso.Alteracao;
 import salaovirtual.acesso.Cadastro;
 import salaovirtual.acesso.Consulta;
+import salaovirtual.gui.tableModel.ConsultaEstoqueTableModel;
 
 /**
  * Classe referente ao Menu Inicial
@@ -78,6 +79,7 @@ public class MenuInicial extends javax.swing.JFrame {
     private Servico servicoVenda;
     private Produto produtoVenda;
     private Produto produtoFornecimento;
+    private Produto produtoEstoque;
     private Fornecedor fornecedorFornecimento;
     private boolean cadastro = false;
     private String mensagemDialog;
@@ -117,6 +119,7 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlCadastroProduto.setVisible(false);
         pnlCadastroFornecedor.setVisible(false);
         pnlCadastroFornecimento.setVisible(false);
+        pnlCorrigirEstoque.setVisible(false);
         pnlAgenda.setVisible(true);
         ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuAgenda_Hover.png"));
         txtPadrao.setVisible(false);
@@ -171,7 +174,7 @@ public class MenuInicial extends javax.swing.JFrame {
      */
     private void gerarTabelaProdutoVenda(List<Produto> p, List<Integer> q) {
         tblProdutoVenda.setModel(new ProdutoVendaTableModel(p, q));
-        tblProdutoVenda.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+        tblProdutoVenda.getTableHeader().setFont(new Font("Courier New", Font.BOLD, 15));
         tblProdutoVenda.getColumnModel().getColumn(0).setMaxWidth(65);
         tblProdutoVenda.getColumnModel().getColumn(3).setMaxWidth(110);
         tblProdutoVenda.getColumnModel().getColumn(3).setPreferredWidth(110);
@@ -189,7 +192,7 @@ public class MenuInicial extends javax.swing.JFrame {
      */
     private void gerarTabelaServicoVenda(List<Servico> s) {
         tblServicoVenda.setModel(new ServicoTableModel(s));
-        tblServicoVenda.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+        tblServicoVenda.getTableHeader().setFont(new Font("Courier New", Font.BOLD, 15));
         tblServicoVenda.getColumnModel().getColumn(0).setMaxWidth(65);
         tblServicoVenda.getColumnModel().getColumn(1).setMaxWidth(130);
         tblServicoVenda.getColumnModel().getColumn(1).setPreferredWidth(130);
@@ -203,7 +206,7 @@ public class MenuInicial extends javax.swing.JFrame {
      * Método para facilitar a criação/formatação da tblServico
      */
     private void gerarTabelaServico() {
-        tblServico.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+        tblServico.getTableHeader().setFont(new Font("Courier New", Font.BOLD, 15));
         tblServico.getColumnModel().getColumn(0).setMaxWidth(65);
         tblServico.getColumnModel().getColumn(1).setMaxWidth(130);
         tblServico.getColumnModel().getColumn(1).setPreferredWidth(130);
@@ -217,7 +220,7 @@ public class MenuInicial extends javax.swing.JFrame {
      * Método para facilitar a criação/formatação da tblAgenda
      */
     private void gerarTabelaAgenda() {
-        tblAgenda.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+        tblAgenda.getTableHeader().setFont(new Font("Courier New", Font.BOLD, 15));
         tblAgenda.getColumnModel().getColumn(0).setMaxWidth(65);
         tblAgenda.getColumnModel().getColumn(1).setMaxWidth(170);
         tblAgenda.getColumnModel().getColumn(1).setPreferredWidth(170);
@@ -229,7 +232,7 @@ public class MenuInicial extends javax.swing.JFrame {
      * Método para facilitar a criação/formatação da tblAgenda
      */
     private void gerarTabelaCadastroFornecimentoProduto() {
-        tblCadastroFornecimentoProduto.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+        tblCadastroFornecimentoProduto.getTableHeader().setFont(new Font("Courier New", Font.BOLD, 15));
         tblCadastroFornecimentoProduto.getColumnModel().getColumn(0).setMaxWidth(105);
         tblCadastroFornecimentoProduto.getColumnModel().getColumn(0).setPreferredWidth(105);
         tblCadastroFornecimentoProduto.getColumnModel().getColumn(2).setMaxWidth(125);
@@ -369,6 +372,28 @@ public class MenuInicial extends javax.swing.JFrame {
         ftxtCadastrarProdutoQtdUnitaria.setSize(108, altura);
     }
     
+    /**
+     * Método para organizar a tela de corrigir estoque
+     */
+    private void limparTelaCorrigirEstoque() {
+        Border bordaPadrao = txtCorrigirEstoqueNome.getBorder();
+        int altura = txtCorrigirEstoqueNome.getHeight();
+        txtCorrigirEstoqueMarca.setText("");
+        txtCorrigirEstoqueNome.setText("");
+        txtCorrigirEstoqueQtdUnitaria.setText("");
+        txtCorrigirEstoqueUnidade.setText("");
+        txtCorrigirEstoqueValor.setText("");
+        ftxtCorrigirEstoqueCodigo.setBorder(bordaPadrao);
+        ftxtCorrigirEstoqueCodigo.setSize(60, altura);
+        ftxtCorrigirEstoqueEstoque.setText("");
+        ftxtCorrigirEstoqueEstoque.setBorder(bordaPadrao);
+        ftxtCorrigirEstoqueEstoque.setSize(60, altura);
+        ftxtCorrigirEstoqueMinimo.setText("");
+        ftxtCorrigirEstoqueMinimo.setBorder(bordaPadrao);
+        ftxtCorrigirEstoqueMinimo.setSize(60, altura);
+        ftxtCorrigirEstoqueCodigo.requestFocusInWindow();
+        ftxtCorrigirEstoqueCodigo.setText("");
+    }
     
     
     /**
@@ -686,6 +711,26 @@ public class MenuInicial extends javax.swing.JFrame {
         jLabel78 = new javax.swing.JLabel();
         lblCadastroFornecimentoValorTotal = new javax.swing.JLabel();
         btnCadastroFornecimentoRemoverProduto = new javax.swing.JButton();
+        pnlCorrigirEstoque = new javax.swing.JPanel();
+        btnCorrigirEstoque = new javax.swing.JButton();
+        jLabel79 = new javax.swing.JLabel();
+        txtCorrigirEstoqueUnidade = new javax.swing.JTextField();
+        jLabel80 = new javax.swing.JLabel();
+        jLabel81 = new javax.swing.JLabel();
+        jLabel82 = new javax.swing.JLabel();
+        jLabel83 = new javax.swing.JLabel();
+        jLabel84 = new javax.swing.JLabel();
+        jLabel85 = new javax.swing.JLabel();
+        jLabel86 = new javax.swing.JLabel();
+        jLabel87 = new javax.swing.JLabel();
+        jLabel88 = new javax.swing.JLabel();
+        ftxtCorrigirEstoqueEstoque = new javax.swing.JFormattedTextField();
+        txtCorrigirEstoqueNome = new javax.swing.JTextField();
+        txtCorrigirEstoqueMarca = new javax.swing.JTextField();
+        ftxtCorrigirEstoqueMinimo = new javax.swing.JFormattedTextField();
+        ftxtCorrigirEstoqueCodigo = new javax.swing.JFormattedTextField();
+        txtCorrigirEstoqueValor = new javax.swing.JTextField();
+        txtCorrigirEstoqueQtdUnitaria = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Salão Virtual");
@@ -993,7 +1038,7 @@ public class MenuInicial extends javax.swing.JFrame {
             }
         });
         pnlSubMenu.add(btnMenuFornecimento);
-        btnMenuFornecimento.setBounds(560, 270, 240, 82);
+        btnMenuFornecimento.setBounds(560, 280, 240, 82);
 
         btnMenuProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu/botaoMenuProduto.png"))); // NOI18N
         btnMenuProduto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1017,7 +1062,7 @@ public class MenuInicial extends javax.swing.JFrame {
             }
         });
         pnlSubMenu.add(btnMenuProduto);
-        btnMenuProduto.setBounds(280, 270, 240, 82);
+        btnMenuProduto.setBounds(280, 280, 240, 82);
 
         btnMenuCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu/botaoMenuCliente.png"))); // NOI18N
         btnMenuCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1065,7 +1110,7 @@ public class MenuInicial extends javax.swing.JFrame {
             }
         });
         pnlSubMenu.add(btnMenuEstoque);
-        btnMenuEstoque.setBounds(840, 270, 240, 82);
+        btnMenuEstoque.setBounds(840, 280, 240, 82);
 
         getContentPane().add(pnlSubMenu);
         pnlSubMenu.setBounds(0, 110, 1310, 590);
@@ -2568,6 +2613,148 @@ public class MenuInicial extends javax.swing.JFrame {
         getContentPane().add(pnlCadastroFornecimento);
         pnlCadastroFornecimento.setBounds(12, 110, 1293, 590);
 
+        pnlCorrigirEstoque.setAutoscrolls(true);
+        pnlCorrigirEstoque.setMinimumSize(new java.awt.Dimension(1290, 645));
+        pnlCorrigirEstoque.setOpaque(false);
+        pnlCorrigirEstoque.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                pnlCorrigirEstoqueComponentShown(evt);
+            }
+        });
+        pnlCorrigirEstoque.setLayout(null);
+
+        btnCorrigirEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cadastro/botaoCorrigirEstoque.png"))); // NOI18N
+        btnCorrigirEstoque.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCorrigirEstoque.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCorrigirEstoqueMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCorrigirEstoqueMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnCorrigirEstoqueMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCorrigirEstoqueMouseReleased(evt);
+            }
+        });
+        btnCorrigirEstoque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCorrigirEstoqueActionPerformed(evt);
+            }
+        });
+        pnlCorrigirEstoque.add(btnCorrigirEstoque);
+        btnCorrigirEstoque.setBounds(200, 430, 219, 80);
+
+        jLabel79.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel79.setText("Nome");
+        pnlCorrigirEstoque.add(jLabel79);
+        jLabel79.setBounds(170, 160, 100, 18);
+
+        txtCorrigirEstoqueUnidade.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        txtCorrigirEstoqueUnidade.setEnabled(false);
+        pnlCorrigirEstoque.add(txtCorrigirEstoqueUnidade);
+        txtCorrigirEstoqueUnidade.setBounds(270, 250, 80, 24);
+
+        jLabel80.setFont(new java.awt.Font("Courier New", 0, 20)); // NOI18N
+        jLabel80.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel80.setText("Correção do Estoque");
+        pnlCorrigirEstoque.add(jLabel80);
+        jLabel80.setBounds(90, 80, 440, 50);
+
+        jLabel81.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel81.setText("Valor");
+        pnlCorrigirEstoque.add(jLabel81);
+        jLabel81.setBounds(380, 230, 45, 18);
+
+        jLabel82.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel82.setText("Estoque");
+        pnlCorrigirEstoque.add(jLabel82);
+        jLabel82.setBounds(200, 290, 70, 18);
+
+        jLabel83.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel83.setText("Unidade");
+        pnlCorrigirEstoque.add(jLabel83);
+        jLabel83.setBounds(270, 230, 71, 20);
+
+        jLabel84.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background/bgEstoque.png"))); // NOI18N
+        pnlCorrigirEstoque.add(jLabel84);
+        jLabel84.setBounds(590, 90, 672, 400);
+
+        jLabel85.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel85.setText("Marca");
+        pnlCorrigirEstoque.add(jLabel85);
+        jLabel85.setBounds(390, 150, 45, 18);
+
+        jLabel86.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel86.setText("Qtd Unitária");
+        pnlCorrigirEstoque.add(jLabel86);
+        jLabel86.setBounds(130, 230, 108, 18);
+
+        jLabel87.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel87.setText("Código");
+        pnlCorrigirEstoque.add(jLabel87);
+        jLabel87.setBounds(80, 163, 80, 18);
+
+        jLabel88.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        jLabel88.setText("Estoque mín");
+        pnlCorrigirEstoque.add(jLabel88);
+        jLabel88.setBounds(320, 290, 120, 18);
+
+        ftxtCorrigirEstoqueEstoque.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        ftxtCorrigirEstoqueEstoque.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ftxtCorrigirEstoqueEstoqueFocusGained(evt);
+            }
+        });
+        pnlCorrigirEstoque.add(ftxtCorrigirEstoqueEstoque);
+        ftxtCorrigirEstoqueEstoque.setBounds(200, 310, 60, 24);
+
+        txtCorrigirEstoqueNome.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        txtCorrigirEstoqueNome.setEnabled(false);
+        pnlCorrigirEstoque.add(txtCorrigirEstoqueNome);
+        txtCorrigirEstoqueNome.setBounds(170, 180, 186, 24);
+
+        txtCorrigirEstoqueMarca.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        txtCorrigirEstoqueMarca.setEnabled(false);
+        pnlCorrigirEstoque.add(txtCorrigirEstoqueMarca);
+        txtCorrigirEstoqueMarca.setBounds(390, 183, 160, 24);
+
+        ftxtCorrigirEstoqueMinimo.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        ftxtCorrigirEstoqueMinimo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ftxtCorrigirEstoqueMinimoFocusGained(evt);
+            }
+        });
+        pnlCorrigirEstoque.add(ftxtCorrigirEstoqueMinimo);
+        ftxtCorrigirEstoqueMinimo.setBounds(330, 310, 60, 24);
+
+        ftxtCorrigirEstoqueCodigo.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        ftxtCorrigirEstoqueCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ftxtCorrigirEstoqueCodigoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                ftxtCorrigirEstoqueCodigoFocusLost(evt);
+            }
+        });
+        pnlCorrigirEstoque.add(ftxtCorrigirEstoqueCodigo);
+        ftxtCorrigirEstoqueCodigo.setBounds(80, 180, 60, 24);
+
+        txtCorrigirEstoqueValor.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        txtCorrigirEstoqueValor.setEnabled(false);
+        pnlCorrigirEstoque.add(txtCorrigirEstoqueValor);
+        txtCorrigirEstoqueValor.setBounds(380, 250, 110, 24);
+
+        txtCorrigirEstoqueQtdUnitaria.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+        txtCorrigirEstoqueQtdUnitaria.setEnabled(false);
+        pnlCorrigirEstoque.add(txtCorrigirEstoqueQtdUnitaria);
+        txtCorrigirEstoqueQtdUnitaria.setBounds(130, 250, 110, 24);
+
+        getContentPane().add(pnlCorrigirEstoque);
+        pnlCorrigirEstoque.setBounds(12, 113, 1293, 645);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -2621,8 +2808,10 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuVendaMouseEntered
 
     private void btnMenuVendaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuVendaMouseExited
-        ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuVenda.png"));
-        btnMenuVenda.setIcon(i);
+        if (!pnlVenda.isVisible()) {
+            ImageIcon i = new ImageIcon(getClass().getResource("/images/menu/botaoMenuVenda.png"));
+            btnMenuVenda.setIcon(i);
+        }
     }//GEN-LAST:event_btnMenuVendaMouseExited
 
     private void btnMenuVendaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuVendaMousePressed
@@ -2800,6 +2989,7 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlCadastroProduto.setVisible(false);
         pnlCadastroFornecedor.setVisible(false);
         pnlCadastroFornecimento.setVisible(false);
+        pnlCorrigirEstoque.setVisible(false);
         pnlSubMenu.setVisible(true);
         this.setCadastro(true);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
@@ -2819,6 +3009,7 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlCadastroProduto.setVisible(false);
         pnlCadastroFornecedor.setVisible(false);
         pnlCadastroFornecimento.setVisible(false);
+        pnlCorrigirEstoque.setVisible(false);
         pnlSubMenu.setVisible(true);    
         this.setCadastro(false);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
@@ -2837,6 +3028,7 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlCadastroProduto.setVisible(false);
         pnlCadastroFornecedor.setVisible(false);
         pnlCadastroFornecimento.setVisible(false);
+        pnlCorrigirEstoque.setVisible(false);
         pnlVenda.setVisible(true);
         this.setCadastro(false);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
@@ -2855,6 +3047,7 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlCadastroProduto.setVisible(false);
         pnlCadastroFornecedor.setVisible(false);
         pnlCadastroFornecimento.setVisible(false);
+        pnlCorrigirEstoque.setVisible(false);
         pnlServico.setVisible(true);
         this.setCadastro(false);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
@@ -2872,6 +3065,7 @@ public class MenuInicial extends javax.swing.JFrame {
         pnlCadastroFuncionario.setVisible(false);
         pnlCadastroFornecimento.setVisible(false);
         pnlCadastroProduto.setVisible(false);
+        pnlCorrigirEstoque.setVisible(false);
         pnlAgenda.setVisible(true);
         this.setCadastro(false);
         java.awt.event.MouseEvent me = new java.awt.event.MouseEvent(this, 1, 1, 1, 1, 1, 1, cadastro);
@@ -4735,13 +4929,157 @@ public class MenuInicial extends javax.swing.JFrame {
     private void btnMenuEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuEstoqueActionPerformed
         if (this.isCadastro()) {
             pnlSubMenu.setVisible(false);
-            //pnlCorrigirEstoque.setVisible(true);
+            pnlCorrigirEstoque.setVisible(true);
         }
         else {
-            //ConsultaEstoqueModal consulta = new ConsultaEstoqueModal(this, true);
-            //consulta.setVisible(true);
+            ConsultaEstoqueModal consulta = new ConsultaEstoqueModal(this, true);
+            consulta.setVisible(true);
         }
     }//GEN-LAST:event_btnMenuEstoqueActionPerformed
+
+    private void btnCorrigirEstoqueMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCorrigirEstoqueMouseEntered
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCorrigirEstoque_Hover.png"));
+        btnCorrigirEstoque.setIcon(i);
+    }//GEN-LAST:event_btnCorrigirEstoqueMouseEntered
+
+    private void btnCorrigirEstoqueMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCorrigirEstoqueMouseExited
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCorrigirEstoque.png"));
+        btnCorrigirEstoque.setIcon(i);
+    }//GEN-LAST:event_btnCorrigirEstoqueMouseExited
+
+    private void btnCorrigirEstoqueMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCorrigirEstoqueMousePressed
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCorrigirEstoque_Pressed.png"));
+        btnCorrigirEstoque.setIcon(i);
+    }//GEN-LAST:event_btnCorrigirEstoqueMousePressed
+
+    private void btnCorrigirEstoqueMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCorrigirEstoqueMouseReleased
+        ImageIcon i = new ImageIcon(getClass().getResource("/images/cadastro/botaoCorrigirEstoque_Hover.png"));
+        btnCorrigirEstoque.setIcon(i);
+    }//GEN-LAST:event_btnCorrigirEstoqueMouseReleased
+
+    private void btnCorrigirEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorrigirEstoqueActionPerformed
+        int aux = 0;
+        Border bordaVermelha = BorderFactory.createLineBorder(Color.red);
+        Border bordaPadrao = txtCorrigirEstoqueMarca.getBorder();
+        if ((ftxtCorrigirEstoqueCodigo.getText().isEmpty()) || (ftxtCorrigirEstoqueCodigo.getText().equals("   "))) {
+            aux = 1;
+            ftxtCorrigirEstoqueCodigo.setBorder(bordaVermelha);
+        }
+        if (ftxtCorrigirEstoqueEstoque.getText().isEmpty()) {
+            aux = 1;
+            ftxtCorrigirEstoqueEstoque.setBorder(bordaVermelha);
+        }
+        if (ftxtCorrigirEstoqueMinimo.getText().isEmpty()) {
+            aux = 1;
+            ftxtCorrigirEstoqueMinimo.setBorder(bordaVermelha);
+        }
+        if (aux == 1) {
+            LOG.info("Corrigir estoque - Preencha todos os campos.");
+            this.setMensagemDialog("Preencha todos os campos");
+            MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Preencha todos os campos");
+            dialog.setVisible(true);
+        }
+        else {
+            ftxtCorrigirEstoqueCodigo.setBorder(bordaPadrao);
+            ftxtCorrigirEstoqueMinimo.setBorder(bordaPadrao);
+            ftxtCorrigirEstoqueEstoque.setBorder(bordaPadrao);
+            if (txtCorrigirEstoqueMarca.getText().isEmpty()) {
+                ftxtCorrigirEstoqueCodigo.setBorder(bordaVermelha);
+                LOG.info("Corrigir estoque - Código inválido.");
+                this.setMensagemDialog("Insira um código válido");
+                MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Código inválido");
+                dialog.setVisible(true);
+            }
+            else {
+                try {
+                    String[] estoqueString = ftxtCorrigirEstoqueEstoque.getText().split(" ");
+                    int estoque = Integer.parseInt(estoqueString[0]);
+                    try {
+                        String[] estoqueMinString = ftxtCorrigirEstoqueMinimo.getText().split(" ");
+                        int estoqueMin = Integer.parseInt(estoqueMinString[0]);
+                        LOG.log(Level.WARNING, "Corrigir estoque - O produto de c\u00f3digo {0} teve seu estoque mudado de {1} para {2} e a quantidade m\u00ednima em estoque de {3} para {4}. O funcion\u00e1rio que acessou o sistema possui como login {5}.", new Object[]{produtoEstoque.getCodigo(), produtoEstoque.getQtdEstoque(), estoque, produtoEstoque.getQtdEstoqueMin(), estoqueMin, funcionario.getLogin()});
+                        produtoEstoque.setQtdEstoque(estoque);
+                        produtoEstoque.setQtdEstoqueMin(estoqueMin);
+                        Alteracao alt = new Alteracao();
+                        alt.alterarProduto(produtoEstoque);
+                        this.setMensagemDialog("O estoque foi alterado com sucesso");
+                        MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Sucesso - Estoque alterado");
+                        dialog.setVisible(true);
+                        limparTelaCorrigirEstoque();
+                    } catch (NumberFormatException ex) {
+                        ftxtCorrigirEstoqueMinimo.setBorder(bordaVermelha);
+                        LOG.info("Corrigir estoque mínimo - Estoque inválido.");
+                        this.setMensagemDialog("Insira um estoque mínimo válido");
+                        MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Estoque mínimo inválido");
+                        dialog.setVisible(true);
+                    }
+                } catch (NumberFormatException e) {
+                    ftxtCorrigirEstoqueEstoque.setBorder(bordaVermelha);
+                    LOG.info("Corrigir estoque - Estoque inválido.");
+                    this.setMensagemDialog("Insira um estoque válido");
+                    MensagemOkModal dialog = new MensagemOkModal(this, true, this.getMensagemDialog(), "Erro - Estoque inválido");
+                    dialog.setVisible(true);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnCorrigirEstoqueActionPerformed
+
+    private void ftxtCorrigirEstoqueEstoqueFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtCorrigirEstoqueEstoqueFocusGained
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("####");
+            mask.install(ftxtCorrigirEstoqueCodigo);
+        } catch (ParseException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtCorrigirEstoqueEstoqueFocusGained
+
+    private void ftxtCorrigirEstoqueMinimoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtCorrigirEstoqueMinimoFocusGained
+       MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("####");
+            mask.install(ftxtCorrigirEstoqueCodigo);
+        } catch (ParseException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtCorrigirEstoqueMinimoFocusGained
+
+    private void pnlCorrigirEstoqueComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlCorrigirEstoqueComponentShown
+        limparTelaCorrigirEstoque();
+    }//GEN-LAST:event_pnlCorrigirEstoqueComponentShown
+
+    private void ftxtCorrigirEstoqueCodigoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtCorrigirEstoqueCodigoFocusGained
+       MaskFormatter mask;
+        try {
+            mask = new MaskFormatter("###");
+            mask.install(ftxtCorrigirEstoqueCodigo);
+        } catch (ParseException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ftxtCorrigirEstoqueCodigoFocusGained
+
+    private void ftxtCorrigirEstoqueCodigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftxtCorrigirEstoqueCodigoFocusLost
+        Consulta con = new Consulta();
+        try {
+            String[] codigo = ftxtCorrigirEstoqueCodigo.getText().split(" ");
+            produtoEstoque = con.encontrarProduto(Integer.parseInt(codigo[0]));
+            txtCorrigirEstoqueMarca.setText(produtoEstoque.getMarca());
+            txtCorrigirEstoqueNome.setText(produtoEstoque.getNome());
+            txtCorrigirEstoqueQtdUnitaria.setText(Float.toString(produtoEstoque.getQtdUnitaria()));
+            txtCorrigirEstoqueUnidade.setText(produtoEstoque.getUnidade());
+            txtCorrigirEstoqueValor.setText(Float.toString(produtoEstoque.getValor()));
+            ftxtCorrigirEstoqueEstoque.setText(Integer.toString(produtoEstoque.getQtdEstoque()));
+            ftxtCorrigirEstoqueMinimo.setText(Integer.toString(produtoEstoque.getQtdEstoqueMin()));
+        } catch (NumberFormatException | NullPointerException | ArrayIndexOutOfBoundsException e) {
+            txtCorrigirEstoqueMarca.setText("");
+            txtCorrigirEstoqueNome.setText("");
+            txtCorrigirEstoqueQtdUnitaria.setText("");
+            txtCorrigirEstoqueUnidade.setText("");
+            txtCorrigirEstoqueValor.setText("");
+            ftxtCorrigirEstoqueEstoque.setText("");
+            ftxtCorrigirEstoqueMinimo.setText("");
+        }
+    }//GEN-LAST:event_ftxtCorrigirEstoqueCodigoFocusLost
 
     /**
      * Método main do Menu Inicial
@@ -7046,7 +7384,7 @@ public class MenuInicial extends javax.swing.JFrame {
         * Método para auxiliar a gerar uma nova tabela
         */
        private void gerarTabela() {
-           tblConsultaCliente.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+           tblConsultaCliente.getTableHeader().setFont(new Font("Courier New", Font.BOLD, 15));
            tblConsultaCliente.getColumnModel().getColumn(0).setMaxWidth(65);
            tblConsultaCliente.getColumnModel().getColumn(3).setMaxWidth(160);
            tblConsultaCliente.getColumnModel().getColumn(3).setPreferredWidth(160);
@@ -7496,7 +7834,7 @@ public class MenuInicial extends javax.swing.JFrame {
         * Método para auxiliar a gerar uma nova tabela
         */
        private void gerarTabela() {
-           tblConsultaFuncionario.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+           tblConsultaFuncionario.getTableHeader().setFont(new Font("Courier New", Font.BOLD, 15));
            tblConsultaFuncionario.getColumnModel().getColumn(0).setMaxWidth(100);
            tblConsultaFuncionario.getColumnModel().getColumn(0).setMaxWidth(100);
            tblConsultaFuncionario.getColumnModel().getColumn(1).setMaxWidth(150);
@@ -7907,7 +8245,7 @@ public class MenuInicial extends javax.swing.JFrame {
         * Método para auxiliar a gerar uma nova tabela
         */
        private void gerarTabela() {
-           tblConsultaProduto.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+           tblConsultaProduto.getTableHeader().setFont(new Font("Courier New", Font.BOLD, 15));
            tblConsultaProduto.getColumnModel().getColumn(0).setMaxWidth(65);
            tblConsultaProduto.getColumnModel().getColumn(4).setMaxWidth(100);
            tblConsultaProduto.getColumnModel().getColumn(4).setPreferredWidth(100);
@@ -8336,7 +8674,7 @@ public class MenuInicial extends javax.swing.JFrame {
         * Método para auxiliar a gerar uma nova tabela
         */
        private void gerarTabela() {
-           tblConsultaFornecedor.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+           tblConsultaFornecedor.getTableHeader().setFont(new Font("Courier New", Font.BOLD, 15));
            tblConsultaFornecedor.getColumnModel().getColumn(0).setMaxWidth(65);
            tblConsultaFornecedor.getColumnModel().getColumn(3).setMaxWidth(160);
            tblConsultaFornecedor.getColumnModel().getColumn(3).setPreferredWidth(160);
@@ -8755,7 +9093,7 @@ public class MenuInicial extends javax.swing.JFrame {
         * Método para auxiliar a gerar uma nova tabela
         */
        private void gerarTabela() {
-           tblConsultaFornecimento.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+           tblConsultaFornecimento.getTableHeader().setFont(new Font("Courier New", Font.BOLD, 15));
            tblConsultaFornecimento.getColumnModel().getColumn(0).setMaxWidth(65);
            tblConsultaFornecimento.getColumnModel().getColumn(5).setMaxWidth(130);
            tblConsultaFornecimento.getColumnModel().getColumn(5).setPreferredWidth(130);
@@ -9653,7 +9991,7 @@ public class MenuInicial extends javax.swing.JFrame {
         * Método para auxiliar a gerar uma nova tabela
         */
        private void gerarTabelaProduto() {
-           tblFornecimentoProduto.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+           tblFornecimentoProduto.getTableHeader().setFont(new Font("Courier New", Font.BOLD, 15));
            tblFornecimentoProduto.getColumnModel().getColumn(0).setMaxWidth(65);
            tblFornecimentoProduto.getColumnModel().getColumn(2).setMaxWidth(130);
            tblFornecimentoProduto.getColumnModel().getColumn(2).setPreferredWidth(120);
@@ -9671,7 +10009,7 @@ public class MenuInicial extends javax.swing.JFrame {
         * Método para auxiliar a gerar uma nova tabela
         */
        private void gerarTabelaFornecimento() {
-           tblFornecimento.getTableHeader().setFont(new Font("Courie", Font.BOLD, 15));
+           tblFornecimento.getTableHeader().setFont(new Font("Courier New", Font.BOLD, 15));
        }
 
        /**
@@ -9885,6 +10223,240 @@ public class MenuInicial extends javax.swing.JFrame {
        // End of variables declaration                   
    }
    
+   /**
+    * Classe interna para um JDialog para consulta de estoque
+    * 
+    * @author Rafael Tavares
+    */ 
+   public class ConsultaEstoqueModal extends javax.swing.JDialog {
+
+       /**
+       * Construtor da classe
+       * @param parent
+       * @param modal 
+       */   
+       public ConsultaEstoqueModal(java.awt.Frame parent, boolean modal) {
+           super(parent, modal);
+           initComponents();
+           ImageIcon img = new ImageIcon(MenuInicial.class.getResource("/images/background/mini-icon.png"));
+           this.setIconImage(img.getImage());
+           this.setLocationRelativeTo(null);
+           this.getContentPane().setBackground(Color.PINK);
+           rdbEstoque.setEnabled(true);
+           tblConsultaEstoque.setSelectionModel(new ForcedListSelectionModel());
+           tblConsultaEstoque.setModel(new ConsultaEstoqueTableModel(1));
+           gerarTabela();
+
+       }
+
+       /**
+        * Método para auxiliar a gerar uma nova tabela
+        */
+       private void gerarTabela() {
+           tblConsultaEstoque.getTableHeader().setFont(new Font("Courier New", Font.BOLD, 15));
+           tblConsultaEstoque.getColumnModel().getColumn(0).setMaxWidth(65);
+           tblConsultaEstoque.getColumnModel().getColumn(4).setMaxWidth(100);
+           tblConsultaEstoque.getColumnModel().getColumn(4).setPreferredWidth(100);
+           tblConsultaEstoque.getColumnModel().getColumn(5).setMaxWidth(110);
+           tblConsultaEstoque.getColumnModel().getColumn(5).setPreferredWidth(110);
+           tblConsultaEstoque.getColumnModel().getColumn(6).setMaxWidth(140);
+           tblConsultaEstoque.getColumnModel().getColumn(6).setPreferredWidth(140);
+       }
+
+       /**
+        * This method is called from within the constructor to initialize the form.
+        * WARNING: Do NOT modify this code. The content of this method is always
+        * regenerated by the Form Editor.
+        */
+       @SuppressWarnings("unchecked")
+       // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+       private void initComponents() {
+
+           buttonGroup1 = new javax.swing.ButtonGroup();
+           btnOk = new javax.swing.JButton();
+           jLabel1 = new javax.swing.JLabel();
+           jScrollPane1 = new javax.swing.JScrollPane();
+           tblConsultaEstoque = new javax.swing.JTable();
+           rdbEstoque = new javax.swing.JRadioButton();
+           rdbCritico = new javax.swing.JRadioButton();
+           rdbZerado = new javax.swing.JRadioButton();
+
+           setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+           setTitle("Consulta de Cliente");
+           setResizable(false);
+
+           btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"))); // NOI18N
+           btnOk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+           btnOk.addMouseListener(new java.awt.event.MouseAdapter() {
+               public void mouseEntered(java.awt.event.MouseEvent evt) {
+                   btnOkMouseEntered(evt);
+               }
+               public void mouseExited(java.awt.event.MouseEvent evt) {
+                   btnOkMouseExited(evt);
+               }
+               public void mousePressed(java.awt.event.MouseEvent evt) {
+                   btnOkMousePressed(evt);
+               }
+               public void mouseReleased(java.awt.event.MouseEvent evt) {
+                   btnOkMouseReleased(evt);
+               }
+           });
+           btnOk.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   btnOkActionPerformed(evt);
+               }
+           });
+
+           jLabel1.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
+           jLabel1.setText("Estoque");
+
+           tblConsultaEstoque.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           tblConsultaEstoque.setModel(new javax.swing.table.DefaultTableModel(
+               new Object [][] {
+                   {null, null, null, null},
+                   {null, null, null, null},
+                   {null, null, null, null},
+                   {null, null, null, null}
+               },
+               new String [] {
+                   "Title 1", "Title 2", "Title 3", "Title 4"
+               }
+           ));
+           jScrollPane1.setViewportView(tblConsultaEstoque);
+
+           buttonGroup1.add(rdbEstoque);
+           rdbEstoque.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           rdbEstoque.setSelected(true);
+           rdbEstoque.setText("Em Estoque");
+           rdbEstoque.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   rdbEstoqueActionPerformed(evt);
+               }
+           });
+
+           buttonGroup1.add(rdbCritico);
+           rdbCritico.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           rdbCritico.setText("Estoque Crítico");
+           rdbCritico.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   rdbCriticoActionPerformed(evt);
+               }
+           });
+
+           buttonGroup1.add(rdbZerado);
+           rdbZerado.setFont(new java.awt.Font("Courier New", 0, 15)); // NOI18N
+           rdbZerado.setText("Estoque Zerado");
+           rdbZerado.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   rdbZeradoActionPerformed(evt);
+               }
+           });
+
+           javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+           getContentPane().setLayout(layout);
+           layout.setHorizontalGroup(
+               layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(layout.createSequentialGroup()
+                   .addContainerGap()
+                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                       .addGroup(layout.createSequentialGroup()
+                           .addComponent(jScrollPane1)
+                           .addContainerGap())
+                       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                           .addGap(0, 435, Short.MAX_VALUE)
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                   .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                   .addGap(422, 422, 422))
+                               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                   .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                   .addGap(456, 456, 456))))))
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                   .addContainerGap(266, Short.MAX_VALUE)
+                   .addComponent(rdbEstoque)
+                   .addGap(41, 41, 41)
+                   .addComponent(rdbCritico)
+                   .addGap(29, 29, 29)
+                   .addComponent(rdbZerado)
+                   .addGap(242, 242, 242))
+           );
+           layout.setVerticalGroup(
+               layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                   .addContainerGap()
+                   .addComponent(jLabel1)
+                   .addGap(30, 30, 30)
+                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                       .addComponent(rdbEstoque)
+                       .addComponent(rdbCritico)
+                       .addComponent(rdbZerado))
+                   .addGap(18, 18, 18)
+                   .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addGap(18, 18, 18)
+                   .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                   .addContainerGap(23, Short.MAX_VALUE))
+           );
+
+           pack();
+       }// </editor-fold>                        
+
+       private void btnOkMouseEntered(java.awt.event.MouseEvent evt) {                                   
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+           btnOk.setIcon(i);
+       }                                  
+
+       private void btnOkMouseExited(java.awt.event.MouseEvent evt) {                                  
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK.png"));
+           btnOk.setIcon(i);
+       }                                 
+
+       private void btnOkMousePressed(java.awt.event.MouseEvent evt) {                                   
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Pressed.png"));
+           btnOk.setIcon(i);
+       }                                  
+
+       private void btnOkMouseReleased(java.awt.event.MouseEvent evt) {                                    
+           ImageIcon i = new ImageIcon(getClass().getResource("/images/okcancel/botaoOK_Hover.png"));
+           btnOk.setIcon(i);
+       }                                   
+
+       private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {                                      
+           this.dispose();
+       }                                     
+
+       private void rdbEstoqueActionPerformed(java.awt.event.ActionEvent evt) {                                           
+           if (rdbEstoque.isSelected()) {
+               tblConsultaEstoque.setModel(new ConsultaEstoqueTableModel(1));
+               gerarTabela();
+           }
+       }                                          
+
+       private void rdbCriticoActionPerformed(java.awt.event.ActionEvent evt) {                                           
+           if (rdbCritico.isSelected()) {
+               tblConsultaEstoque.setModel(new ConsultaEstoqueTableModel(2));
+               gerarTabela();
+           }
+       }                                          
+
+       private void rdbZeradoActionPerformed(java.awt.event.ActionEvent evt) {                                          
+           if (rdbZerado.isSelected()) {
+               tblConsultaEstoque.setModel(new ConsultaEstoqueTableModel(3));
+               gerarTabela();
+           }
+       }                            
+    
+    // Variables declaration - do not modify                     
+    private javax.swing.JButton btnOk;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton rdbCritico;
+    private javax.swing.JRadioButton rdbEstoque;
+    private javax.swing.JRadioButton rdbZerado;
+    private javax.swing.JTable tblConsultaEstoque;
+    // End of variables declaration                        
+   }
+   
    
     
     
@@ -9904,6 +10476,7 @@ public class MenuInicial extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastroFornecimentoRemoverProduto;
     private javax.swing.JButton btnCancelarServico;
     private javax.swing.JButton btnConsultarServico;
+    private javax.swing.JButton btnCorrigirEstoque;
     private javax.swing.JButton btnFinalizarFornecimento;
     private javax.swing.JButton btnFinalizarVenda;
     private javax.swing.JButton btnMenuAgenda;
@@ -9942,6 +10515,9 @@ public class MenuInicial extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField ftxtCadastroFuncionarioCpf;
     private javax.swing.JFormattedTextField ftxtCadastroFuncionarioNumero;
     private javax.swing.JFormattedTextField ftxtCadastroFuncionarioTelefone;
+    private javax.swing.JFormattedTextField ftxtCorrigirEstoqueCodigo;
+    private javax.swing.JFormattedTextField ftxtCorrigirEstoqueEstoque;
+    private javax.swing.JFormattedTextField ftxtCorrigirEstoqueMinimo;
     private javax.swing.JFormattedTextField ftxtDataFim;
     private javax.swing.JFormattedTextField ftxtDataInicio;
     private javax.swing.JFormattedTextField ftxtValorFim;
@@ -10022,7 +10598,17 @@ public class MenuInicial extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel76;
     private javax.swing.JLabel jLabel77;
     private javax.swing.JLabel jLabel78;
+    private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel80;
+    private javax.swing.JLabel jLabel81;
+    private javax.swing.JLabel jLabel82;
+    private javax.swing.JLabel jLabel83;
+    private javax.swing.JLabel jLabel84;
+    private javax.swing.JLabel jLabel85;
+    private javax.swing.JLabel jLabel86;
+    private javax.swing.JLabel jLabel87;
+    private javax.swing.JLabel jLabel88;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -10040,6 +10626,7 @@ public class MenuInicial extends javax.swing.JFrame {
     private javax.swing.JPanel pnlCadastroFornecimento;
     private javax.swing.JPanel pnlCadastroFuncionario;
     private javax.swing.JPanel pnlCadastroProduto;
+    private javax.swing.JPanel pnlCorrigirEstoque;
     private javax.swing.JPanel pnlServico;
     private javax.swing.JPanel pnlSubMenu;
     private javax.swing.JPanel pnlVenda;
@@ -10084,6 +10671,11 @@ public class MenuInicial extends javax.swing.JFrame {
     private javax.swing.JTextField txtCadastroFuncionarioRua;
     private javax.swing.JTextField txtCodigoCliente;
     private javax.swing.JTextField txtCodigoServico;
+    private javax.swing.JTextField txtCorrigirEstoqueMarca;
+    private javax.swing.JTextField txtCorrigirEstoqueNome;
+    private javax.swing.JTextField txtCorrigirEstoqueQtdUnitaria;
+    private javax.swing.JTextField txtCorrigirEstoqueUnidade;
+    private javax.swing.JTextField txtCorrigirEstoqueValor;
     private javax.swing.JTextField txtLoginFuncionario;
     private javax.swing.JTextField txtNomeServico;
     private javax.swing.JTextField txtPadrao;

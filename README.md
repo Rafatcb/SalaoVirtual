@@ -9,7 +9,7 @@
 ### Objetivos
 O projeto visa facilitar o gerenciamento de um salão de beleza ainda não automatizado, já que todas as informações são armazenadas em uma agenda, o que torna o processo de atendimento mais lento. 
 
-O sistema conta com funções como: agendamento, visualização de fornecedores e seus fornecimentos, visualização de estoque através da consulta pelo produto etc.
+O sistema conta com funções como: agendamento de serviços, visualização de fornecedores e seus fornecimentos, visualização de estoque etc.
 ***
 ### Requisitos Essenciais
 * Agendamento de Serviços

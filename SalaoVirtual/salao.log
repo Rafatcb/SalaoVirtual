@@ -20,3 +20,41 @@ out 31, 2017 5:48:35 PM gui.MenuInicial btnRemoverServicoVendaActionPerformed
 INFORMAÇÕES: Remover serviço da venda - Nenhum serviço foi selecionado
 nov 06, 2017 10:38:41 AM salaovirtual.gui.MenuInicial btnConsultarServicoActionPerformed
 INFORMAÇÕES: Consultar serviço - Preencha todos os campos.
+nov 08, 2017 12:11:21 PM salaovirtual.gui.MenuInicial$LoginModal btnOkActionPerformed
+GRAVE: Login Modal - Login login e/ou senha inválidos.
+nov 08, 2017 12:55:39 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+INFORMAÇÕES: Corrigir estoque - Preencha todos os campos.
+nov 08, 2017 12:56:28 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+INFORMAÇÕES: Corrigir estoque - Estoque inválido.
+nov 08, 2017 1:03:12 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+INFORMAÇÕES: Corrigir estoque - Preencha todos os campos.
+nov 08, 2017 1:03:16 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+INFORMAÇÕES: Corrigir estoque - Código inválido.
+nov 08, 2017 1:04:38 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+INFORMAÇÕES: Corrigir estoque - Preencha todos os campos.
+nov 08, 2017 1:04:41 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+INFORMAÇÕES: Corrigir estoque - Preencha todos os campos.
+nov 08, 2017 1:04:44 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+INFORMAÇÕES: Corrigir estoque - Código inválido.
+nov 08, 2017 1:04:49 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+ADVERTÊNCIA: Corrigir estoque - O produto de código 3 teve seu estoque mudado de 20 para 20 e a quantidade mínima em estoque de 8 para 8. O funcionário que acessou o sistema possui como login login.
+nov 08, 2017 1:04:51 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+ADVERTÊNCIA: Corrigir estoque - O produto de código 3 teve seu estoque mudado de 20 para 20 e a quantidade mínima em estoque de 8 para 8. O funcionário que acessou o sistema possui como login login.
+nov 08, 2017 1:04:56 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+ADVERTÊNCIA: Corrigir estoque - O produto de código 3 teve seu estoque mudado de 20 para 25 e a quantidade mínima em estoque de 8 para 8. O funcionário que acessou o sistema possui como login login.
+nov 08, 2017 1:05:10 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+ADVERTÊNCIA: Corrigir estoque - O produto de código 3 teve seu estoque mudado de 25 para 25 e a quantidade mínima em estoque de 8 para 5. O funcionário que acessou o sistema possui como login login.
+nov 08, 2017 1:06:45 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+ADVERTÊNCIA: Corrigir estoque - O produto de código 5 teve seu estoque mudado de 174 para 174 e a quantidade mínima em estoque de 10 para 10. O funcionário que acessou o sistema possui como login login.
+nov 08, 2017 1:08:12 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+ADVERTÊNCIA: Corrigir estoque - O produto de código 5 teve seu estoque mudado de 174 para 174 e a quantidade mínima em estoque de 10 para 10. O funcionário que acessou o sistema possui como login login.
+nov 08, 2017 1:38:05 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+ADVERTÊNCIA: Corrigir estoque - O produto de código 2 teve seu estoque mudado de 7 para 3 e a quantidade mínima em estoque de 4 para 4. O funcionário que acessou o sistema possui como login login.
+nov 08, 2017 1:38:09 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+ADVERTÊNCIA: Corrigir estoque - O produto de código 1 teve seu estoque mudado de 19 para 0 e a quantidade mínima em estoque de 10 para 10. O funcionário que acessou o sistema possui como login login.
+nov 08, 2017 1:52:09 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+INFORMAÇÕES: Corrigir estoque - Preencha todos os campos.
+nov 08, 2017 1:52:58 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+INFORMAÇÕES: Corrigir estoque - Preencha todos os campos.
+nov 08, 2017 1:53:01 PM salaovirtual.gui.MenuInicial btnCorrigirEstoqueActionPerformed
+ADVERTÊNCIA: Corrigir estoque - O produto de código 2 teve seu estoque mudado de 3 para 3 e a quantidade mínima em estoque de 4 para 4. O funcionário que acessou o sistema possui como login login.
