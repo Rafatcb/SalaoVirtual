@@ -17,7 +17,8 @@ O sistema conta com funções como: agendamento de serviços, visualização de 
 * Controle de Produtos e Estoque
 ***
 ### Acesso ao Sistema
-O acesso ao sistema se dá através de algum funcionário já cadastrado. Apesar das informações ficarem no arquivo correspondente, não é possível visualizar a senha através do mesmo, já que está criptografada. Portanto, para acessar o sistema, é recomendada a utilização do seguinte usuário:
+Para iniciar o programa basta acessar a pasta **JAR (com arquivos base)** e, tendo o Java instalado em sua máquina, executar o **SalaoVirtual**. Então será exibida a tela de login para acessar o sistema.
+O acesso é realizado através de algum funcionário já cadastrado. Apesar das informações ficarem no arquivo correspondente, não é possível visualizar a senha através do mesmo, já que está criptografada. Portanto, para acessar o sistema, é recomendada a utilização do seguinte usuário:
 * **Login:** login
 * **Senha:** senha
 ***
