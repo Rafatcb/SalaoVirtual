@@ -14,4 +14,4 @@ Desenvolver um sistema em Java com o fim de transferir processos para o meio dig
 
 ***
 ### Conhecimentos Aplicados
-Conceitos de orientação a objetos (classes, herança, polimorfismo, ), desenvolvimento em Java, Javadoc, arquivos .log, manipulação de arquivos de dados, tratamento de erros, interface gráfica e utilização do Git.
+Conceitos de orientação a objetos (classes, herança, polimorfismo), desenvolvimento em Java, Javadoc, arquivos .log, manipulação de arquivos de dados, tratamento de erros, interface gráfica e utilização do Git.
